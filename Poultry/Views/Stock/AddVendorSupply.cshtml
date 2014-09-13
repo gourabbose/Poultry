@@ -1,0 +1,80 @@
+﻿@using Poultry.Models;
+@model Stock
+
+@{
+    ViewBag.Title = "Add Vendor Supply";
+    var _itemList = (SelectList)ViewBag.ItemList;
+    var _vendorList = (SelectList)ViewBag.VendorList;
+}
+
+<h2>Add Vendor Supply</h2>
+<p>
+    <input type="button" id="AddItemInput" value="Add More Item" />
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "VendorSupplyForm" }))
+{
+    <strong>Select Vendor : </strong>
+    @Html.DropDownList("VendorId", _vendorList, "Select vendor", new { data_val_required = "Please Select a Vendor first.", data_val = "true" })
+    <br />
+    <br />
+    <div data-valmsg-summary="true" class="validation-summary-valid">
+        <ul>
+            <li style="display: none"></li>
+        </ul>
+    </div>
+    <div>
+        <div id="container" style="padding:10px;padding-left:15px;">
+            <div>
+                <strong>Item : </strong>
+                @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+                <strong style="padding-left:5px;">Quantity : </strong>
+                @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
+                @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
+                <a href="javascript:void(0)" class="remove">Remove</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>
+            <input type="submit" value="Add Supply" />
+        </p>
+    </div>
+}
+<div style="display: none" id="temp">
+    <div>
+        <strong>Item : </strong>
+        @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+        <strong style="padding-left:5px;">Quantity : </strong>
+        @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
+        @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
+        <a href="javascript:void(0)" class="remove">Remove</a>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    var CurrentItemNo = 0;
+    $(document).ready(function () {
+        $('#AddItemInput').click(function () {
+            CurrentItemNo++;
+            //var template = $('#template').html();
+            //$('#temp').html(template);
+            $('#temp').find('select').attr('name', '[' + CurrentItemNo + '].Item.Id');
+            $('#temp').find('input').attr('name', '[' + CurrentItemNo + '].Quantity');
+            $('#container').append($('#temp').html());
+            debugger;
+            var form = $('form#VendorSupplyForm')
+            .removeData("validator") /* added by the raw jquery.validate plugin */
+            .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin */
+
+            $.validator.unobtrusive.parse('form#VendorSupplyForm');
+        });
+        $(document).on('click', '.remove', function () {
+            $(this).parent().remove();
+        });
+    });
+</script>
+
+

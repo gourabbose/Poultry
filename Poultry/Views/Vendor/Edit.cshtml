@@ -1,0 +1,79 @@
+﻿@model Poultry.Models.Vendor
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Vendor</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Address)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContactNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContactNo)
+            @Html.ValidationMessageFor(model => model.ContactNo)
+        </div>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div style="display:none">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CreatedOn)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CreatedOn)
+                @Html.ValidationMessageFor(model => model.CreatedOn)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.LastModifiedOn)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.LastModifiedOn)
+                @Html.ValidationMessageFor(model => model.LastModifiedOn)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IsDeleted)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.IsDeleted)
+                @Html.ValidationMessageFor(model => model.IsDeleted)
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
