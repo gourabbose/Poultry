@@ -20,5 +20,7 @@ namespace Poultry.Models
         public string Address { get; set; }
         [Required]
         public string ContactNo { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

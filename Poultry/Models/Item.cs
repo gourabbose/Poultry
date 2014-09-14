@@ -17,6 +17,7 @@ namespace Poultry.Models
         [Required][DisplayName("Item Name")]
         public string Name { get; set; }
         public StockType Type { get; set; }
+        public bool IsDeleted { get; set; }
     }
     public enum StockType
     {
