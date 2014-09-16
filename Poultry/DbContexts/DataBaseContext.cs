@@ -20,6 +20,7 @@ namespace Poultry.DbContexts
         public DbSet<FoodItems> FoodItems { get; set; }
         public DbSet<VendorItems> VendorItems { get; set; }
         public DbSet<VendorLog> VendorLog { get; set; }
+        public DbSet<FarmerLog> FarmerLog { get; set; }
         #endregion
     }
 }

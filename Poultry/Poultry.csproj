@@ -197,9 +197,18 @@
     <Compile Include="Migrations\201409131904183_w11.Designer.cs">
       <DependentUpon>201409131904183_w11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409141003393_w111.cs" />
+    <Compile Include="Migrations\201409141003393_w111.Designer.cs">
+      <DependentUpon>201409141003393_w111.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409161900016_w1111.cs" />
+    <Compile Include="Migrations\201409161900016_w1111.Designer.cs">
+      <DependentUpon>201409161900016_w1111.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Farmer.cs" />
+    <Compile Include="Models\FarmerLog.cs" />
     <Compile Include="Models\FoodItems.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Stock.cs" />
@@ -335,7 +344,7 @@
     <Content Include="Views\Farmer\Edit.cshtml" />
     <Content Include="Views\Farmer\Delete.cshtml" />
     <Content Include="Views\Stock\Chicken.cshtml" />
-    <Content Include="Views\Stock\AddVendorSupply.cshtml" />
+    <Content Include="Views\Vendor\AddVendorSupply.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Details.cshtml" />
     <Content Include="Views\Test\Create.cshtml" />
@@ -348,6 +357,7 @@
     <Content Include="Views\Stock\FoodItemTypes.cshtml" />
     <Content Include="Views\Stock\CreateItem.cshtml" />
     <Content Include="Views\Stock\EditItem.cshtml" />
+    <Content Include="Views\Farmer\Delivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -373,6 +383,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409131904183_w11.resx">
       <DependentUpon>201409131904183_w11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409141003393_w111.resx">
+      <DependentUpon>201409141003393_w111.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409161900016_w1111.resx">
+      <DependentUpon>201409161900016_w1111.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
