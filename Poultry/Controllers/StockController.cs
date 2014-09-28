@@ -21,7 +21,7 @@ namespace Poultry.Controllers
         #region Current Stock Info
         public ActionResult InStockVendorItems()
         {
-            var stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.VendorItem).ToList();
+            var stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.VendorItem && t.Item.IsDeleted != true).ToList();
             return View(stock);
         }
         public ActionResult InStockFoodItems()
@@ -39,11 +39,11 @@ namespace Poultry.Controllers
         #region Item Types
         public ActionResult VendorItemTypes()
         {
-            return View(_dbContext.Item.Where(t => t.Type == StockType.VendorItem));
+            return View(_dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true));
         }
         public ActionResult FoodItemTypes()
         {
-            return View(_dbContext.Item.Where(t => t.Type == StockType.FoodItem));
+            return View(_dbContext.Item.Where(t => t.Type == StockType.FoodItem && t.IsDeleted != true));
         }
         public ActionResult CreateItem()
         {
@@ -85,6 +85,15 @@ namespace Poultry.Controllers
             {
                 return View(item);
             }
+        }
+        public ActionResult DeleteItem(int Id)
+        {
+            var item = _dbContext.Item.Find(Id);
+            item.IsDeleted = true;
+            _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            TempData["Messege"] = "Deleted Successfully";
+            return RedirectToAction(item.Type == StockType.VendorItem ? "VendorItemTypes" : "FoodItemTypes");
         }
         #endregion
 

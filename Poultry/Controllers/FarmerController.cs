@@ -17,7 +17,7 @@ namespace Poultry.Controllers
         #region CRUD
         public ActionResult Index()
         {
-            return View(_dbContext.Farmer.ToList());
+            return View(_dbContext.Farmer.Where(t => t.IsDeleted != true).ToList());
         }
         public ActionResult Details(int id = 0)
         {
@@ -60,6 +60,7 @@ namespace Poultry.Controllers
             {
                 _dbContext.Entry(farmer).State = EntityState.Modified;
                 _dbContext.SaveChanges();
+                TempData["Messege"] = "Updated Successfully";
                 return RedirectToAction("Index");
             }
             return View(farmer);
@@ -77,8 +78,10 @@ namespace Poultry.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Farmer farmer = _dbContext.Farmer.Find(id);
-            _dbContext.Farmer.Remove(farmer);
+            farmer.IsDeleted = true;
+            _dbContext.Entry(farmer).State = EntityState.Modified;
             _dbContext.SaveChanges();
+            TempData["Messege"] = "Deleted Successfully";
             return RedirectToAction("Index");
         }
         #endregion

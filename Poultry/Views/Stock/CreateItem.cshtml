@@ -28,7 +28,13 @@
             @Html.DropDownList("Type", _typeList, "Select Type",new { data_val_required = "Please select a type for this item.", data_val = "true" })
             @Html.ValidationMessageFor(model => model.Type)
         </div>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Unit)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Unit)
+            @Html.ValidationMessageFor(model => model.Unit)
+        </div>
         <p>
             <input type="submit" value="Create" />
         </p>

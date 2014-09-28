@@ -22,7 +22,33 @@
                 }
             });
         });
+
+
+        function Alert(messege, type) {
+            debugger;
+            if (type == undefined)
+                type = 'success';
+            noty({
+                layout: 'top',
+                theme: 'defaultTheme',
+                type: type,
+                text: messege,
+                dismissQueue: true, // If you want to use queue feature set this true
+                template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
+                animation: {
+                    open: { height: 'toggle' },
+                    close: { height: 'toggle' },
+                    easing: 'swing',
+                    speed: 500 // opening & closing animation speed
+                },
+                timeout: 3000, // delay for closing event. Set false for sticky notifications
+                force: false, // adds notification to the beginning of queue when set to true
+                modal: false
+            });
+        }
     </script>
+
+
 </head>
 <body>
     <header>
@@ -48,18 +74,18 @@
                                 @if (User.IsInRole("Admin"))
                                 {
 
-                                    <li class="active has-sub"><a href="#"><span>Administration</span></a>
+                                    <li class="active has-sub"><a href="javascript:void(0)"><span>Administration</span></a>
                                         <ul>
-                                            <li class="has-sub"><a href="#"><span>Product 1</span></a>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Users</span></a>
                                                 <ul>
-                                                    <li><a href="#"><span>Sub Product</span></a></li>
-                                                    <li class="last"><a href="#"><span>Sub Product</span></a></li>
+                                                    <li><a href="@Url.Action("Supervisors", new { Controller = "Admin" })"><span>Supervisors</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("DEOs", new { Controller = "Admin" })"><span>Data Entry Operators</span></a></li>
                                                 </ul>
                                             </li>
-                                            <li class="has-sub"><a href="#"><span>Product 2</span></a>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Logs</span></a>
                                                 <ul>
-                                                    <li><a href="#"><span>Sub Product</span></a></li>
-                                                    <li class="last"><a href="#"><span>Sub Product</span></a></li>
+                                                    <li><a href="@Url.Action("VendorLogs", new { Controller = "Admin" })"><span>Vendor Logs</span></a></li>
+                                                    <li class="last"><a href="#"><span>Farmer Logs</span></a></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -68,7 +94,7 @@
                                 @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
                                 {
 
-                                    <li class="active has-sub"><a href="#"><span>Supervision</span></a>
+                                    <li class="active has-sub"><a href="javascript:void(0)"><span>Supervision</span></a>
                                         <ul>
                                             <li class="has-sub"><a href="#"><span>Product 1</span></a>
                                                 <ul>
@@ -84,11 +110,55 @@
                                             </li>
                                         </ul>
                                     </li>
+                                    <li class="active has-sub"><a href="javascript:void(0)"><span>Master</span></a>
+                                        <ul>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Item</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("VendorItemTypes", new { Controller = "Stock" })"><span>Vendor Items</span></a></li>
+                                                    <li><a href="@Url.Action("FoodItemTypes", new { Controller = "Stock" })"><span>Food Items</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("CreateItem", new { Controller = "Stock" })"><span>Add New Item</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Vendor</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("Index", new { Controller = "Vendor" })"><span>List of Vendors</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("Create", new { Controller = "Vendor" })"><span>Add New Vendor</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Farmer</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("Index", new { Controller = "Farmer" })"><span>List of Farmers</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("Create", new { Controller = "Farmer" })"><span>Add New Farmer</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Trader</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("Index", new { Controller = "Trader" })"><span>List of Traders</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("Create", new { Controller = "Trader" })"><span>Add New Trader</span></a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="active has-sub"><a href="javascript:void(0)"><span>Stocks</span></a>
+                                        <ul>
+                                            <li class="has-sub"><a href="javascript:void(0)"><span>Current Stock</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("InStockVendorItems", new { Controller = "Stock" })"><span>Vendor Items</span></a></li>
+                                                    <li class="last"><a href="@Url.Action("InStockFoodItems", new { Controller = "Stock" })"><span>Food Items</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="@Url.Action("AddVendorSupply", new { Controller = "Vendor" })"><span>Add Stock (Vendor)</span></a></li>
+                                            <li><a href="#"><span>Withdraw
+                                                <br />
+                                                (Daily Consumption)</span></a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 }
                                 @if (User.IsInRole("Admin") || User.IsInRole("DEO"))
                                 {
 
-                                    <li class="active has-sub"><a href="#"><span>Data Entry</span></a>
+@*<li class="active has-sub"><a href="#"><span>Data Entry</span></a>
                                         <ul>
                                             <li class="has-sub"><a href="javascript:void(0)"><span>Vendors</span></a>
                                                 <ul>
@@ -121,7 +191,7 @@
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li>*@
                                 }
                                 <li><a href="#"><span>About</span></a></li>
                                 <li class="last"><a href="#"><span>Contact</span></a></li>
@@ -150,3 +220,11 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script src="~/Scripts/noty/jquery.noty.packaged.js"></script>
+@if (ViewBag.Messege != null)
+{
+    <script type="text/javascript">
+        Alert('@ViewBag.Messege');
+    </script>
+}

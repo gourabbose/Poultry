@@ -19,7 +19,7 @@
     @Html.DropDownList("VendorId", _vendorList, "Select vendor", new { data_val_required = "Please Select a Vendor first.", data_val = "true" })
     <br />
     <br />
-    <div data-valmsg-summary="true" class="validation-summary-valid">
+    <div data-valmsg-summary="true" class="validation-summary-valid" id="validationSummary">
         <ul>
             <li style="display: none"></li>
         </ul>
@@ -83,7 +83,22 @@
             }
         });
     });
-
+    //$('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    function getUniqueValidations() {
+        var list = $('#validationSummary').find('li');
+        var html = '';
+        list.each(function () {
+            var count = 0;
+            var currentVal = $(this).text();
+            if (html.indexOf(currentVal)<0) {
+                html += '<li>' + currentVal + '</li>';
+            }
+        });
+        $('#validationSummary').unbind('DOMSubtreeModified');
+        Alert(html);
+        $('#validationSummary').html(html);
+        $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    }
     function ReOrder() {
         var InputItems = $('#container').find('.inputItems');
         var i = 0;

@@ -162,48 +162,32 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\FarmerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TraderController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="DbContexts\DataBaseContext.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\MessengerAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
-    <Compile Include="Migrations\201409091755179_AddedVendorFarmer.cs" />
-    <Compile Include="Migrations\201409091755179_AddedVendorFarmer.Designer.cs">
-      <DependentUpon>201409091755179_AddedVendorFarmer.cs</DependentUpon>
+    <Compile Include="Migrations\201409281644203_a.cs" />
+    <Compile Include="Migrations\201409281644203_a.Designer.cs">
+      <DependentUpon>201409281644203_a.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409131325305_addedStockItem.cs" />
-    <Compile Include="Migrations\201409131325305_addedStockItem.Designer.cs">
-      <DependentUpon>201409131325305_addedStockItem.cs</DependentUpon>
+    <Compile Include="Migrations\201409281656260_b.cs" />
+    <Compile Include="Migrations\201409281656260_b.Designer.cs">
+      <DependentUpon>201409281656260_b.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409131431551_m.cs" />
-    <Compile Include="Migrations\201409131431551_m.Designer.cs">
-      <DependentUpon>201409131431551_m.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409131514048_removeModelBase.cs" />
-    <Compile Include="Migrations\201409131514048_removeModelBase.Designer.cs">
-      <DependentUpon>201409131514048_removeModelBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409131832060_w1.cs" />
-    <Compile Include="Migrations\201409131832060_w1.Designer.cs">
-      <DependentUpon>201409131832060_w1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409131904183_w11.cs" />
-    <Compile Include="Migrations\201409131904183_w11.Designer.cs">
-      <DependentUpon>201409131904183_w11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409141003393_w111.cs" />
-    <Compile Include="Migrations\201409141003393_w111.Designer.cs">
-      <DependentUpon>201409141003393_w111.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409161900016_w1111.cs" />
-    <Compile Include="Migrations\201409161900016_w1111.Designer.cs">
-      <DependentUpon>201409161900016_w1111.cs</DependentUpon>
+    <Compile Include="Migrations\201409281704470_c.cs" />
+    <Compile Include="Migrations\201409281704470_c.Designer.cs">
+      <DependentUpon>201409281704470_c.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -212,10 +196,12 @@
     <Compile Include="Models\FoodItems.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\Trader.cs" />
     <Compile Include="Models\Vendor.cs" />
     <Compile Include="Models\VendorItems.cs" />
     <Compile Include="Models\VendorLog.cs" />
     <Compile Include="Models\ViewModels\AddVenderSupply.cs" />
+    <Compile Include="Models\ViewModels\UserList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +279,8 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\noty\jquery.noty.packaged.js" />
+    <Content Include="Scripts\noty\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\validate.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -358,6 +346,14 @@
     <Content Include="Views\Stock\CreateItem.cshtml" />
     <Content Include="Views\Stock\EditItem.cshtml" />
     <Content Include="Views\Farmer\Delivery.cshtml" />
+    <Content Include="Views\Admin\Supervisors.cshtml" />
+    <Content Include="Views\Admin\DEOs.cshtml" />
+    <Content Include="Views\Admin\VendorLogs.cshtml" />
+    <Content Include="Views\Trader\Index.cshtml" />
+    <Content Include="Views\Trader\Details.cshtml" />
+    <Content Include="Views\Trader\Create.cshtml" />
+    <Content Include="Views\Trader\Edit.cshtml" />
+    <Content Include="Views\Trader\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -366,29 +362,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409091755179_AddedVendorFarmer.resx">
-      <DependentUpon>201409091755179_AddedVendorFarmer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201409281644203_a.resx">
+      <DependentUpon>201409281644203_a.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409131325305_addedStockItem.resx">
-      <DependentUpon>201409131325305_addedStockItem.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201409281656260_b.resx">
+      <DependentUpon>201409281656260_b.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409131431551_m.resx">
-      <DependentUpon>201409131431551_m.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409131514048_removeModelBase.resx">
-      <DependentUpon>201409131514048_removeModelBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409131832060_w1.resx">
-      <DependentUpon>201409131832060_w1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409131904183_w11.resx">
-      <DependentUpon>201409131904183_w11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409141003393_w111.resx">
-      <DependentUpon>201409141003393_w111.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409161900016_w1111.resx">
-      <DependentUpon>201409161900016_w1111.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201409281704470_c.resx">
+      <DependentUpon>201409281704470_c.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

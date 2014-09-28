@@ -14,7 +14,6 @@ using Poultry.DbContexts;
 
 namespace Poultry.Controllers
 {
-    [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {

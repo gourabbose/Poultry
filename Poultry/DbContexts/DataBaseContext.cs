@@ -22,5 +22,7 @@ namespace Poultry.DbContexts
         public DbSet<VendorLog> VendorLog { get; set; }
         public DbSet<FarmerLog> FarmerLog { get; set; }
         #endregion
+
+        public DbSet<Trader> Traders { get; set; }
     }
 }

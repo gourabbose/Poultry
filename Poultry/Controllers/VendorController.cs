@@ -19,7 +19,7 @@ namespace Poultry.Controllers
         #region CRUD
         public ActionResult Index()
         {
-            return View(_dbContext.Vendor.ToList());
+            return View(_dbContext.Vendor.Where(t => t.IsDeleted != true).ToList());
         }
         public ActionResult Details(int id = 0)
         {
@@ -62,6 +62,7 @@ namespace Poultry.Controllers
             {
                 _dbContext.Entry(vendor).State = EntityState.Modified;
                 _dbContext.SaveChanges();
+                TempData["Messege"] = "Updated Successfully";
                 return RedirectToAction("Index");
             }
             return View(vendor);
@@ -79,8 +80,10 @@ namespace Poultry.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Vendor vendor = _dbContext.Vendor.Find(id);
-            _dbContext.Vendor.Remove(vendor);
+            vendor.IsDeleted = true;
+            _dbContext.Entry(vendor).State = EntityState.Modified;
             _dbContext.SaveChanges();
+            TempData["Messege"] = "Deleted Successfully";
             return RedirectToAction("Index");
         }
         #endregion
@@ -121,7 +124,8 @@ namespace Poultry.Controllers
                 }
             }
             _dbContext.SaveChanges();
-            return null;
+            TempData["Messege"] = "Supply Added to Stock";
+            return RedirectToAction("AddVendorSupply");
         }
         #endregion
     }

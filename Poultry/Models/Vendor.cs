@@ -21,5 +21,6 @@ namespace Poultry.Models
         [Required]
         [DisplayName("Contact No")]
         public string ContactNo { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

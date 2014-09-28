@@ -19,11 +19,11 @@ namespace Poultry
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "Tabin/{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            //);
+            routes.MapRoute(
+                name: "API",
+                url: "api/Service/{action}/{id}",
+                defaults: new { controller = "API", action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }
