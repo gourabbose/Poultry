@@ -177,30 +177,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
-    <Compile Include="Migrations\201409281644203_a.cs" />
-    <Compile Include="Migrations\201409281644203_a.Designer.cs">
-      <DependentUpon>201409281644203_a.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409281656260_b.cs" />
-    <Compile Include="Migrations\201409281656260_b.Designer.cs">
-      <DependentUpon>201409281656260_b.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409281704470_c.cs" />
-    <Compile Include="Migrations\201409281704470_c.Designer.cs">
-      <DependentUpon>201409281704470_c.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ConsumptionLog.cs" />
     <Compile Include="Models\Farmer.cs" />
     <Compile Include="Models\FarmerLog.cs" />
-    <Compile Include="Models\FoodItems.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Trader.cs" />
     <Compile Include="Models\Vendor.cs" />
-    <Compile Include="Models\VendorItems.cs" />
     <Compile Include="Models\VendorLog.cs" />
     <Compile Include="Models\ViewModels\AddVenderSupply.cs" />
+    <Compile Include="Models\ViewModels\DailyConsumption.cs" />
     <Compile Include="Models\ViewModels\UserList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -354,23 +342,14 @@
     <Content Include="Views\Trader\Create.cshtml" />
     <Content Include="Views\Trader\Edit.cshtml" />
     <Content Include="Views\Trader\Delete.cshtml" />
+    <Content Include="Views\Stock\Withdraw.cshtml" />
+    <Content Include="Views\Admin\DailyConsumptionLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409281644203_a.resx">
-      <DependentUpon>201409281644203_a.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409281656260_b.resx">
-      <DependentUpon>201409281656260_b.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409281704470_c.resx">
-      <DependentUpon>201409281704470_c.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

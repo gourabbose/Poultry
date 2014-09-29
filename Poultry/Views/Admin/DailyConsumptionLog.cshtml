@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Poultry.Models.ConsumptionLog>
+
+@{
+    ViewBag.Title = "DailyConsumptionLog";
+}
+
+<h2>Consumption Log</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            Item
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            For
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Date.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @item.Item.Name
+        </td>
+        <td>
+            @item.Quantity @item.For.Unit
+        </td>
+        <td>
+            @item.For.Name
+        </td>
+    </tr>
+}
+
+</table>

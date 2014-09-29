@@ -17,12 +17,13 @@ namespace Poultry.DbContexts
         public DbSet<Farmer> Farmer { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<Stock> Stock { get; set; }
-        public DbSet<FoodItems> FoodItems { get; set; }
-        public DbSet<VendorItems> VendorItems { get; set; }
+        //public DbSet<FoodItems> FoodItems { get; set; }
+        //public DbSet<VendorItems> VendorItems { get; set; }
         public DbSet<VendorLog> VendorLog { get; set; }
         public DbSet<FarmerLog> FarmerLog { get; set; }
         #endregion
 
         public DbSet<Trader> Traders { get; set; }
+        public DbSet<ConsumptionLog> ConsumptionLogs { get; set; }
     }
 }

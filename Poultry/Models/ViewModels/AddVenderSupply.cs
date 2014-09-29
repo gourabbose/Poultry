@@ -8,7 +8,7 @@ namespace Poultry.Models.ViewModels
 {
     public class AddVendorSupply
     {
-        public IEnumerable<VendorItems> Items { get; set; }
-        public IEnumerable<Stock> Supply { get; set; }
+        //public IEnumerable<VendorItems> Items { get; set; }
+        //public IEnumerable<Stock> Supply { get; set; }
     }
 }

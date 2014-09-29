@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Poultry.Models.VendorLog>
+
+@{
+    ViewBag.Title = "VendorLogs";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <style>
+        .datepicker {
+            width: 15%;
+        }
+        .searchCriteria {
+            padding-top:10px;
+            padding-bottom:10px;
+            display:none;
+        }
+    </style>
+}
+<h2>Vendor Logs</h2>
+<br />
+<div style="display:none">
+    <strong>Search By : </strong>
+    <select id="SearchSelecter">
+        <option value="">--- select ---</option>
+        <option value="Date">Date</option>
+        <option value="Vendor">Vendor</option>
+        <option value="Item">Item</option>
+    </select>
+</div>
+<div id="DateSelecter" class="searchCriteria">
+    <strong>From :</strong>
+    <input type="text" id="fromDate" class="datepicker" />
+    <strong>To :</strong>
+    <input type="text" id="toDate" class="datepicker" />
+    <input type="button" id="search" value="Search"/>
+</div>
+<div id="VendorSelecter" class="searchCriteria">
+    <strong>Select Vendor :</strong>
+    <select id="selectVendor">
+
+    </select>
+</div>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayName("Vendor")
+        </th>
+        <th>
+            @Html.DisplayName("Item")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Date.ToString("dd-MMM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vendor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity) @Html.DisplayFor(modelItem=>item.Item.Unit)
+            </td>
+            @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>*@
+        </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy"
+        });
+        $('#SearchSelecter').change(function () {
+            $('.searchCriteria').hide();
+            var selectedValue = $(this).val();
+            switch (selectedValue) {
+                case "Date":
+                    $('#DateSelecter').show();
+                    break;
+                case "Vendor":
+                    $('#selectVendor').empty().append($('<option>').html('--- select ---'));
+                    $.get("/api/Service/VendorList", "", function (data) {
+                        $(data).each(function () {
+                            $('<option>').attr('value', this.Id).html(this.Name).appendTo('#selectVendor');
+                        });
+                    });
+                    $('#VendorSelecter').show();
+                    break;
+                case "Item": break;
+            }
+        });
+        $('#selectVendor').change(function () {
+
+        });
+    });
+</script>

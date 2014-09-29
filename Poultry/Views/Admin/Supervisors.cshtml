@@ -1,0 +1,42 @@
+﻿@model List<Poultry.Models.ViewModels.UserList>
+@{
+    ViewBag.Title = "Supervisors";
+}
+
+<h2>Supervisors</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateUser")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayName("Username")
+        </th>
+        <th>
+            @Html.DisplayName("Last login")
+        </th>
+        <th>
+            @Html.DisplayName("Last Pass Reset")
+        </th>
+        <th>Operations</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+            <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Membership.LastLoginDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Membership.LastPasswordChangedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Reset Password", "ResetPass", new { UserName=item.UserId }) |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.UserId })*@
+        </td>
+    </tr>
+    }
+    </table>

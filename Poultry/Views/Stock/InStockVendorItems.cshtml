@@ -1,14 +1,16 @@
-﻿@model IEnumerable<Poultry.Models.Stock>
+﻿@model Tuple<IEnumerable<Poultry.Models.Stock>,IEnumerable<Poultry.Models.Stock>>
 
 @{
     ViewBag.Title = "In Stock (Vendor Items)";
 }
 
+@{Html.RenderPartial("InStockChicken", Model.Item2);}
+
 <h2>In Stock (Vendor Items)</h2>
 
 <fieldset style="padding-top:20px;">
     <legend>Stock</legend>
-    @if(Model.Count()>0)
+    @if (Model.Item1.Count() > 0)
     {
     <table>
         <tr>
@@ -17,7 +19,7 @@
             <th>Quantity
             </th>
         </tr>
-        @foreach (var m in Model)
+        @foreach (var m in Model.Item1)
         {
             <tr>
                 <td class="display-label">

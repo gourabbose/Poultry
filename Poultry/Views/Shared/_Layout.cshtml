@@ -82,6 +82,8 @@
                                                     <li class="last"><a href="@Url.Action("DEOs", new { Controller = "Admin" })"><span>Data Entry Operators</span></a></li>
                                                 </ul>
                                             </li>
+                                            <li><a href="@Url.Action("DailyConsumptionLog", new { Controller = "Admin" })"><span>Daily Consumption</span></a>
+                                            </li>
                                             <li class="has-sub"><a href="javascript:void(0)"><span>Logs</span></a>
                                                 <ul>
                                                     <li><a href="@Url.Action("VendorLogs", new { Controller = "Admin" })"><span>Vendor Logs</span></a></li>
@@ -148,7 +150,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="@Url.Action("AddVendorSupply", new { Controller = "Vendor" })"><span>Add Stock (Vendor)</span></a></li>
-                                            <li><a href="#"><span>Withdraw
+                                            <li><a href="@Url.Action("Withdraw", new { Controller = "Stock" })"><span>Withdraw
                                                 <br />
                                                 (Daily Consumption)</span></a>
                                             </li>

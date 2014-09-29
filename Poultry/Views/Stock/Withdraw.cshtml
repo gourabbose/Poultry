@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Poultry.Models.ViewModels.Consumption>
+@{
+    ViewBag.Title = "Withdraw for Daily Consumptions";
+    var _itemList = (SelectList)ViewBag.ItemList;
+    var _vendorList = (SelectList)ViewBag.VendorList;
+    var _foodList = (SelectList)ViewBag.FoodList;
+}
+
+<h2>Withdraw for Daily Consumptions</h2>
+
+<p>
+    <input type="button" id="AddItemInput" value="Add More Item" />
+</p>
+
+@using (Html.BeginForm("Withdraw", "Stock", FormMethod.Post, new { id = "WithdrawForm" }))
+{
+    <div data-valmsg-summary="true" class="validation-summary-valid" id="validationSummary">
+        <ul>
+            <li style="display: none"></li>
+        </ul>
+    </div>
+    <div>
+        <div id="container" style="padding: 10px; padding-left: 15px;">
+            <div class="inputItems">
+                <strong>Item : </strong>
+                @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+                <strong style="padding-left: 5px;">Quantity : </strong>
+                @Html.TextBox("[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
+                @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
+                <strong style="padding-left: 5px;">For Food Type : </strong>
+                @Html.DropDownList("[0].FoodItems.Id", _foodList, "Select Food type", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+                <a href="javascript:void(0)" class="remove">Remove</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>
+            <input type="submit" value="Withdraw Stock" />
+        </p>
+    </div>
+}
+<div style="display: none" id="temp">
+    <div class="inputItems">
+        <strong>Item : </strong>
+        @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true",@class="items" })
+        <strong style="padding-left: 5px;">Quantity : </strong>
+        @Html.TextBox("[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
+        <strong style="padding-left: 5px;">For Food Type : </strong>
+        @Html.DropDownList("[0].FoodItems.Id", _foodList, "Select Food type", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true",@class="foods" })
+        <a href="javascript:void(0)" class="remove">Remove</a>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddItemInput').click(function () {
+            $('#container').append($('#temp').html());
+            ReOrder();
+        });
+        $(document).on('click', '.remove', function () {
+            $(this).parent().remove();
+            if (!$(this).hasClass('Chicken')) {
+                CurrentItemNo--;
+                ReOrder();
+            }
+        });
+    });
+    //$('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    function getUniqueValidations() {
+        var list = $('#validationSummary').find('li');
+        var html = '';
+        list.each(function () {
+            var count = 0;
+            var currentVal = $(this).text();
+            if (html.indexOf(currentVal)<0) {
+                html += '<li>' + currentVal + '</li>';
+            }
+        });
+        $('#validationSummary').unbind('DOMSubtreeModified');
+        Alert(html);
+        $('#validationSummary').html(html);
+        $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    }
+    function ReOrder() {
+        var InputItems = $('#container').find('.inputItems');
+        var i = 0;
+        $(InputItems).each(function () {
+            $(this).find('items').attr('name', '[' + i + '].Items.Id');
+            $(this).find('input').attr('name', '[' + i + '].Qty');
+            $(this).find('input').attr('name', '[' + i + '].FoodItems.Id');
+            i++;
+        });
+        var form = $('form#WithdrawForm')
+                    .removeData("validator") /* added by the raw jquery.validate plugin */
+                    .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin */
+
+        $.validator.unobtrusive.parse('form#WithdrawForm');
+    }
+</script>

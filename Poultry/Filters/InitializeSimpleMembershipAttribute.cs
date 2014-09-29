@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebMatrix.WebData;
 using Poultry.Models;
 using Poultry.DbContexts;
+using System.Web.Security;
 
 namespace Poultry.Filters
 {
@@ -36,10 +37,20 @@ namespace Poultry.Filters
                         {
                             // Create the SimpleMembership database without Entity Framework migration schema
                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                            WebSecurity.InitializeDatabaseConnection("DbConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                            Roles.CreateRole("Admin");
+                            Roles.CreateRole("Supervisor");
+                            Roles.CreateRole("DEO");
+                            WebSecurity.CreateUserAndAccount("admin", "password");
+                            Roles.AddUserToRole("admin", "Admin");
+                        }
+                        else
+                        {
+                            WebSecurity.InitializeDatabaseConnection("DbConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("DbConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    
                 }
                 catch (Exception ex)
                 {
