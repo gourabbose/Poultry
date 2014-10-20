@@ -1,0 +1,240 @@
+﻿@model IEnumerable<Poultry.Models.ViewModels.CostSheetViewModel>
+@{
+    ViewBag.Title = "CostSheet";
+    ViewBag.Title = "Withdraw for Daily Consumptions";
+    var _itemList = (SelectList)ViewBag.ItemList;
+    var _vendorList = (SelectList)ViewBag.VendorList;
+    var _foodList = (SelectList)ViewBag.FoodList;
+}
+<style>
+    input, textarea {
+        background: none repeat scroll 0 0 #fff;
+        border: 1px solid #e2e2e2;
+        color: #333;
+        font-size: 1.2em;
+        margin: 5px 0 6px;
+        padding: 5px;
+        width: 50px;
+    }
+
+    td {
+        min-width: 12%;
+    }
+
+    .qty {
+        width: 50%;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <h2 style="float: left">Cost Sheet for :</h2>
+
+    <input type="text" style="margin-top: 23px; margin-left: 5px; width:20%" name="Date" class="datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+
+    <div>
+        <table>
+            <tbody id="container">
+                <tr>
+                    <th></th>
+                    <th>Rate</th>
+                    <th colspan="2">B/PS</th>
+                    <th colspan="2">B/S</th>
+                    <th colspan="2">B/F</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td><strong>Items</strong></td>
+                    <td><strong>Per Kg.</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Amount</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Amount</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Amount</strong></td>
+                    <td><strong>Remarks</strong></td>
+                    <td></td>
+                </tr>
+                <tr class="inputItems">
+                    <td>
+                        @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { @class = "itemSelect" })
+                        @*Available : <strong class="availableStock">- -</strong> <strong class="unit"></strong>*@
+                        <input type="hidden" class="hidAvailableStock" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].RatePerKg" class="rate" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty1" class="qty qty1" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Amount1" class="amount amount1" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty2" class="qty qty2" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Amount2" class="amount amount2" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty3" class="qty qty3" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Amount3" class="amount amount3" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Remarks" class="remarks" />
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="remove">Remove</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total :</strong></td>
+                    <td></td>
+                    <td>@*<strong class="totalQty1"></strong> <strong class="unit"></strong>*@</td>
+                    <td><strong class="totalAmount1">0</strong></td>
+                    <td>@*<strong class="totalQty2"></strong> <strong class="unit"></strong>*@</td>
+                    <td><strong class="totalAmount2">0</strong></td>
+                    <td>@*<strong class="totalQty3"></strong> <strong class="unit"></strong>*@</td>
+                    <td><strong class="totalAmount3">0</strong></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <input type="button" value="Add New Item" id="AddItemInput" />
+    <input type="submit" value="Submit" id="btnSubmit"/>
+}
+<table>
+    <tbody id="temp" style="display: none">
+        <tr class="inputItems">
+            <td>
+                @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { @class = "itemSelect" })
+
+                <input type="hidden" class="hidAvailableStock" />
+            </td>
+            <td>
+                <input type="text" name="[0].RatePerKg" class="rate" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty1" class="qty qty1" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <input type="text" name="[0].Amount1" class="amount amount1" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty2" class="qty qty2" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <input type="text" name="[0].Amount2" class="amount amount2" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty3" class="qty qty3" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <input type="text" name="[0].Amount3" class="amount amount3" />
+            </td>
+            <td>
+                <input type="text" name="[0].Remarks" class="remarks" />
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="remove">Remove</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddItemInput').click(function () {
+            var last = $($('#container').find('tr').last()).remove();
+            debugger;
+            $('#container').append($('#temp').html());
+            $('#container').append('<tr>' + last.html() + '</tr>');
+            ReOrder();
+        });
+        $('#btnSubmit').click(function(e){
+            var selects = $('#container').find('.itemSelect');
+            var flag = true;
+            for (var i = 0 ; i < selects.length; i++) {
+                if ($(selects[i]).val() == '') {
+                    flag = false;
+                    break;
+                }
+            }
+            if (!flag) {
+                e.preventDefault();
+                Alert('Please select all the items.', 'error');
+            }
+        });
+        $(document).on('click', '.remove', function () {
+            $(this).parent().parent().remove();
+            ReOrder();
+            CalcTotal();
+        });
+        $(document).on('change', '.itemSelect', function (e) {
+            var itemId = $(this).val();
+            itemRow = $(this).parent().parent();
+            if (itemId == '') {
+                itemRow.find('.unit').text('');
+            }
+            $.get("/api/Service/GetCurrentStock", { ItemId: itemId }, function (data) {
+                if (data.Success) {
+                    itemRow.find('.unit').text(data.Data[0].Item.Unit);
+                }
+                else {
+                    Alert(data.Messege);
+                }
+            }, "json");
+        });
+        $(document).on('keydown', '.amount, .qty, .rate', function (e) {
+            if (e.keyCode != 8) e.preventDefault();
+            item = $(this);
+            setTimeout(function () {
+                if (!isNaN(parseInt(e.key)) || e.keyCode == 8) {
+                    if (!isNaN(parseInt(e.key))) $(item).val($(item).val() + e.key);
+                    if(item.hasClass('amount')) CalcTotal();
+                }
+            }, 0);
+        });
+    });
+    function ReOrder() {
+        var InputItems = $('#container').find('.inputItems');
+        var i = 0;
+        $(InputItems).each(function () {
+            $(this).find('.itemSelect').attr('name', '[' + i + '].Items.Id');
+            $(this).find('.amount1').attr('name', '[' + i + '].Amount1');
+            $(this).find('.amount2').attr('name', '[' + i + '].Amount2');
+            $(this).find('.amount3').attr('name', '[' + i + '].Amount3');
+            $(this).find('.qty1').attr('name', '[' + i + '].Qty1');
+            $(this).find('.qty2').attr('name', '[' + i + '].Qty2');
+            $(this).find('.qty3').attr('name', '[' + i + '].Qty3');
+            $(this).find('.rate').attr('name', '[' + i + '].RatePerKg');
+            $(this).find('.remarks').attr('name', '[' + i + '].Remarks');
+            i++;
+        });
+    }
+    function CalcTotal() {
+        debugger;
+        var amt1 = $('.amount1');
+        var amt2 = $('.amount2');
+        var amt3 = $('.amount3');
+        var totAmt1 = 0, totAmt2 = 0, totAmt3 = 0;
+        amt1.each(function () {
+            if (!isNaN(parseInt($(this).val()))) totAmt1 += parseInt($(this).val());
+        });
+        amt2.each(function () {
+            if (!isNaN(parseInt($(this).val()))) totAmt2 += parseInt($(this).val());
+        });
+        amt3.each(function () {
+            if (!isNaN(parseInt($(this).val()))) totAmt3 += parseInt($(this).val());
+        });
+        $('.totalAmount1').text(totAmt1);
+        $('.totalAmount2').text(totAmt2);
+        $('.totalAmount3').text(totAmt3);
+    }
+</script>

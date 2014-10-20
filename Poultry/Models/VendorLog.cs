@@ -12,7 +12,7 @@ namespace Poultry.Models
         public int Id { get; set; }
         public Vendor Vendor { get; set; }
         public DateTime Date { get; set; }
-        public Item Item { get; set; }
-        public int Quantity { get; set; }
+        public List<ItemTransaction> Items { get; set; }
+        public int Payment { get; set; }
     }
 }

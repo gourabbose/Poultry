@@ -1,0 +1,73 @@
+﻿@model Tuple<Poultry.Models.Vendor, List<Poultry.Models.ViewModels.VendorHistory>>
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>Vendor History</h2>
+<br />
+<br />
+<div><strong>Vendor : @Model.Item1.Name</strong></div>
+<div><strong>Contact No : @Model.Item1.ContactNo</strong></div>
+<div><strong>Current Due : Rs. @Model.Item1.Due</strong></div>
+
+<br />
+<br />
+<table>
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Tran.Type
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var t in Model.Item2)
+    {
+        <tr>
+            <td>
+                @t.Date.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                Rs. @t.Amount
+            </td>
+            <td>
+                @t.Type
+            </td>
+            <td>
+                @if(t.Type=="Cr")
+                {
+                <a href="javascript:void(0)" class="details" data-log-id="@t.LogId">Details</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+@section Scripts {    
+
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '.details', function () {
+            var logid = $(this).data('log-id');
+            $.get('/Admin/GetVendorLogById?id=' + logid, '', function (data) {
+                $('#modal').empty().append(data);
+                $('#modal').dialog({
+                    height: 400,
+                    width: 800,
+                    modal: true,
+                });
+            });
+        });
+    });
+</script>
+
+
+<div id="modal" title="Transaction Detail" style="width: 80%; min-height: 0px; height: 50%;">
+
+</div>

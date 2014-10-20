@@ -16,5 +16,6 @@ namespace Poultry.Models
         public Item For { get; set; }
         public Item Item { get; set; }
         public int Quantity { get; set; }
+        public int Ratio { get; set; }
     }
 }

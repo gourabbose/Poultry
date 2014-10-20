@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Poultry.Models.ViewModels.FarmerActivity>
+
+@{
+    ViewBag.Title = "ActiveFarmers";
+}
+
+<h2>Active Farmers</h2>
+
+<p>
+</p>
+<table>
+    <tr>
+        <th>
+            Delivery Date
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Contact No.
+        </th>
+        <th>
+            No. of Chicks
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.ActivityDate.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Farmer.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Farmer.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Farmer.ContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfChicks)
+        </td>
+        <td>
+            @Html.ActionLink("Add Report", "AddReport", new { id=item.Farmer.Id })
+        </td>
+    </tr>
+}
+
+</table>

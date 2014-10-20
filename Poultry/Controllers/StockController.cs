@@ -22,20 +22,20 @@ namespace Poultry.Controllers
         #region Current Stock Info
         public ActionResult InStockVendorItems()
         {
-            var stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.VendorItem).ToList();
+            var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.VendorItem).ToList();
             //return View(stock);
-            var chick_stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.Chicken).ToList();
+            var chick_stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).ToList();
             var result = new Tuple<IEnumerable<Stock>, IEnumerable<Stock>>(stock, chick_stock);
             return View(result);
         }
         public ActionResult InStockFoodItems()
         {
-            var stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.FoodItem).ToList();
+            var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem).ToList();
             return View(stock);
         }
         public ActionResult InStockChicken()
         {
-            var stock = _dbContext.Stock.Include("Item").Where(t => t.Type == StockType.Chicken).ToList();
+            var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).ToList();
             return View(stock);
         }
         #endregion
@@ -61,10 +61,11 @@ namespace Poultry.Controllers
         {
             if (ModelState.IsValid)
             {
-                var stock = new Stock { Item = item, Quantity = 0, Type = item.Type };
+                var stock = new Stock { Item = item, Quantity = 0 };
                 _dbContext.Item.Add(item);
                 _dbContext.Stock.Add(stock);
                 _dbContext.SaveChanges();
+                TempData["Messege"] = "Item Added Successfully";
                 return RedirectToAction(item.Type == StockType.VendorItem ? "VendorItemTypes" : "FoodItemTypes");
             }
             else
@@ -83,8 +84,6 @@ namespace Poultry.Controllers
             {
                 _dbContext.Entry(item).State = EntityState.Modified;
                 var stock = _dbContext.Stock.Where(t=>t.Item.Id==item.Id).First();
-                stock.Type=item.Type;
-                _dbContext.Entry(stock).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return RedirectToAction(item.Type == StockType.VendorItem ? "VendorItemTypes" : "FoodItemTypes");
             }
@@ -117,18 +116,65 @@ namespace Poultry.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Withdraw(IEnumerable<Consumption> withdrawal)
+        public ActionResult Withdraw(IEnumerable<Consumption> withdrawal, DateTime Date)
         {
-            foreach (var item in withdrawal)
+            try
             {
-                var stock = _dbContext.Stock.Where(t => t.Item.Id == item.Items.Id).First();
-                stock.Quantity -= item.Qty;
-                _dbContext.Entry(stock).State = EntityState.Modified;
-                var log = new ConsumptionLog { Date = DateTime.Now, Item = _dbContext.Item.Find(item.Items.Id), Quantity = item.Qty, For=_dbContext.Item.Find(item.FoodItems.Id) };
-                _dbContext.ConsumptionLogs.Add(log);
+                var forItems = _dbContext.Item.Where(t => t.Type == StockType.FoodItem).ToList();
+                foreach (var item in withdrawal)
+                {
+                    var wItem = _dbContext.Item.Find(item.Items.Id);
+                    if (item.Qty1 > 0)
+                    {
+                        var log = new ConsumptionLog();
+                        log.Date = Date;
+                        log.For = (from f in forItems
+                                   where f.Name == "B/PS"
+                                   select f).First();
+                        log.Item = wItem;
+                        log.Quantity = item.Qty1;
+                        log.Ratio = item.Ratio1;
+                        _dbContext.ConsumptionLogs.Add(log);
+                    }
+                    if (item.Qty2 > 0)
+                    {
+                        var log = new ConsumptionLog();
+                        log.Date = Date;
+                        log.For = (from f in forItems
+                                   where f.Name == "B/S"
+                                   select f).First();
+                        log.Item = wItem;
+                        log.Quantity = item.Qty2;
+                        log.Ratio = item.Ratio2;
+                        _dbContext.ConsumptionLogs.Add(log);
+                    }
+                    if (item.Qty3 > 0)
+                    {
+                        var log = new ConsumptionLog();
+                        log.Date = Date;
+                        log.For = (from f in forItems
+                                   where f.Name == "B/F"
+                                   select f).First();
+                        log.Item = wItem;
+                        log.Quantity = item.Qty3;
+                        log.Ratio = item.Ratio3;
+                        _dbContext.ConsumptionLogs.Add(log);
+                    }
+                    var totalQty = (item.Qty1 + item.Qty2 + item.Qty3);
+                    if (totalQty > 0)
+                    {
+                        var stock = _dbContext.Stock.Where(t => t.Item.Id == item.Items.Id).First();
+                        stock.Quantity -= totalQty;
+                        _dbContext.Entry(stock).State = EntityState.Modified;
+                    }
+                }
+                _dbContext.SaveChanges();
+                TempData["Messege"] = "Withdrawal Successful";
             }
-            _dbContext.SaveChanges();
-            TempData["Messege"] = "Withdraw Successful.";
+            catch (Exception ex)
+            {
+                TempData["Messege"] = "Withdrawal Failed";
+            }
             return RedirectToAction("Withdraw");
         }
         #endregion

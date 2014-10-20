@@ -6,7 +6,8 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -37,8 +38,8 @@
         </div>
 
         @Html.HiddenFor(model => model.Id)
-
-        <div style="display:none">
+        @Html.HiddenFor(model => model.Due)
+        <div style="display: none">
             <div class="editor-label">
                 @Html.LabelFor(model => model.IsDeleted)
             </div>

@@ -5,16 +5,17 @@
     var _availableChicks = (int)ViewBag.AvailableChicken;
 }
 
-<h2>Delivery</h2>
 
-
-<p>
-    <input type="button" id="AddItemInput" value="Add More Item" />
-    <input type="button" id="AddChicken" value="Add Chickens" />
-</p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "VendorSupplyForm" }))
 {
+    <h2 style="float:left">Delivery on :</h2>
+    <input type="text" class="datepicker" name="Date" value="@DateTime.Now.ToString("dd-MMM-yyyy")" style="margin-top: 23px; margin-left: 5px; width:20%" />
+
+    <p>
+        <input type="button" id="AddItemInput" value="Add More Item" />
+        <input type="button" id="AddChicken" value="Add Chickens" />
+    </p>
     <strong>Select Farmer : </strong>
     @Html.DropDownList("FarmerId", _farmerList, "Select farmer", new { data_val_required = "Please Select a Farmer first.", data_val = "true" })
     <br />
@@ -27,16 +28,33 @@
     <div id="ChickenContainer">
     </div>
     <div>
-        <div id="container" style="padding: 10px; padding-left: 15px;">
-            <div class="inputItems">
-                <strong>Item : </strong>
-                @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
-                <strong style="padding-left: 5px;">Quantity : </strong>
-                @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-                @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
-                <a href="javascript:void(0)" class="remove">Remove</a>
-            </div>
-        </div>
+        <table id="container" style="padding: 10px; padding-left: 15px;">
+            <tr>
+                <th>Item</th>
+                <th>Availablity</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th></th>
+            </tr>
+            <tr class="inputItems">
+                <td>
+                    @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true", @class = "itemSelect" })
+                </td>
+                <td>
+                    <strong class="availableStock">- -</strong> <strong class="unit"></strong>
+                    <input type="hidden" class="hidAvailableStock" />
+                </td>
+                <td>
+                    @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class = "qty " })
+                </td>
+                <td>
+                    <span class="unit"></span>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="remove">Remove</a>
+                </td>
+            </tr>
+        </table>
     </div>
     <div>
         <p>
@@ -44,19 +62,31 @@
         </p>
     </div>
 }
-<div style="display: none" id="temp">
-    <div class="inputItems">
-        <strong>Item : </strong>
-        @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
-        <strong style="padding-left: 5px;">Quantity : </strong>
-        @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-        <a href="javascript:void(0)" class="remove">Remove</a>
-    </div>
-</div>
+<table style="display: none" id="temp">
+    <tr class="inputItems">
+        <td>
+            @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true", @class = "itemSelect" })
+        </td>
+        <td>
+            <strong class="availableStock">- -</strong> <strong class="unit"></strong>
+            <input type="hidden" class="hidAvailableStock" />
+        </td>
+        <td>
+            @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class = "qty " })
+        </td>
+        <td>
+            <span class="unit"></span>
+        </td>
+        <td>
+            <a href="javascript:void(0)" class="remove">Remove</a>
+        </td>
+    </tr>
+</table>
 <div id="tempChicken" style="display: none">
     <div>
         <strong style="padding-left: 5px; padding-right: 5px;">Chickens : </strong>
         @Html.TextBox("ChickCount", "", new { data_val_required = "Please enter the count of chicken.", data_val = "true" })
+        <strong>Available : </strong><strong id="chickCount">@ViewBag.AvailableChicken</strong>
         <a href="javascript:void(0)" class="remove Chicken">Remove</a>
     </div>
 </div>
@@ -64,6 +94,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script type="text/javascript">
+    var item;
     $(document).ready(function () {
         var availableChicks = @_availableChicks
         $('#AddItemInput').click(function () {
@@ -76,28 +107,58 @@
                 ReOrder();
             }
         });
+        $(document).on('change', '.itemSelect', function (e) {
+            var itemId = $(this).val();
+            itemRow = $(this).parent().parent();
+            if (itemId == '') {
+                itemRow.find('.unit').text('');
+                itemRow.find('.availableStock').text('- -');
+                itemRow.find('.hidAvailableStock').val('');
+            }
+            $.get("/api/Service/GetCurrentStock", { ItemId: itemId }, function (data) {
+                if (data.Success) {
+                    itemRow.find('.unit').text(data.Data[0].Item.Unit);
+                    if (!isNaN(parseInt(itemRow.find('input:text').val())))
+                        itemRow.find('.availableStock').text(data.Data[0].Quantity - parseInt(itemRow.find('input:text').val()));
+                    else
+                        itemRow.find('.availableStock').text(data.Data[0].Quantity);
+                    itemRow.find('.hidAvailableStock').val(data.Data[0].Quantity);
+                }
+                else {
+                    Alert(data.Messege);
+                }
+            }, "json");
+        });
         $(document).on('click', '.remove', function () {
-            $(this).parent().remove();
+            $(this).parent().parent().remove();
             if (!$(this).hasClass('Chicken')) {
-                CurrentItemNo--;
                 ReOrder();
             }
         });
     });
-
+    $(document).on('keydown', '.qty', function (e) {
+        if (e.keyCode != 8) e.preventDefault();
+        item = $(this);
+        setTimeout(function () {
+            if (!isNaN(parseInt(e.key)) || e.keyCode == 8) {
+                if (!isNaN(parseInt(e.key))) $(item).val($(item).val() + e.key);
+                var qtyInputs = $(item).parent().parent().find('.qty');
+                var stockShow = $(item).parent().parent().find('.availableStock');
+                if (!isNaN(parseInt(stockShow.text()))) {
+                    var current = $(item).parent().parent().find('.hidAvailableStock').val() - parseInt($(qtyInputs[0]).val() == '' ? 0 : $(qtyInputs[0]).val());
+                    stockShow.text(current);
+                }
+            }
+        }, 0);
+    });
     function ReOrder() {
         var InputItems = $('#container').find('.inputItems');
         var i = 0;
         $(InputItems).each(function () {
-            $(this).find('select').attr('name', '[' + i + '].Item.Id');
-            $(this).find('input').attr('name', '[' + i + '].Quantity');
+            $(this).find('.itemSelect').attr('name', '[' + i + '].Item.Id');
+            $(this).find('.qty').attr('name', '[' + i + '].Quantity');
             i++;
         });
-        var form = $('form#VendorSupplyForm')
-                    .removeData("validator") /* added by the raw jquery.validate plugin */
-                    .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin */
-
-        $.validator.unobtrusive.parse('form#VendorSupplyForm');
     }
 </script>
 

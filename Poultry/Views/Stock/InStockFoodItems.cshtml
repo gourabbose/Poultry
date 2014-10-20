@@ -24,7 +24,7 @@
                     @Html.DisplayName(m.Item.Name)
                 </td>
                 <td class="display-field">
-                    @Html.DisplayName(m.Quantity.ToString()) @Html.DisplayName(m.Item.Unit)
+                    @Html.DisplayName(m.Quantity.ToString()) @m.Item.Unit
                 </td>
             </tr>
         }
@@ -35,7 +35,3 @@
      <strong>Empty.<br /> Please Add Items from Vendor Menu.</strong>   
     }
 </fieldset>
-@*<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@

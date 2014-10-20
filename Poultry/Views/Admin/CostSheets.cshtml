@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Poultry.Models.CostSheet>
+
+@{
+    ViewBag.Title = "Cost Sheets";
+}
+
+<h2>Cost Sheets</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddCostSheet")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatePerKg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BPS_Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BPS_Amt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BS_Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BS_Amt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BF_Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BF_Amt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @{
+    var unit = item.Item != null ? item.Item.Unit : "";   
+        }
+        <td>
+            @item.Date.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatePerKg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BPS_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BPS_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BF_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BF_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+    </tr>
+}
+
+</table>

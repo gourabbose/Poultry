@@ -5,97 +5,216 @@
     var _vendorList = (SelectList)ViewBag.VendorList;
     var _foodList = (SelectList)ViewBag.FoodList;
 }
+@section scripts{
+    <style>
+        input, textarea {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #e2e2e2;
+            color: #333;
+            font-size: 1.2em;
+            margin: 5px 0 6px;
+            padding: 5px;
+            width: 50px;
+        }
 
-<h2>Withdraw for Daily Consumptions</h2>
+        td {
+            min-width: 10%;
+        }
 
-<p>
-    <input type="button" id="AddItemInput" value="Add More Item" />
-</p>
+        .qty {
+            width: 50%;
+        }
+    </style>
+}
+
+
+
 
 @using (Html.BeginForm("Withdraw", "Stock", FormMethod.Post, new { id = "WithdrawForm" }))
 {
+    <h2 style="float: left">Withdraw for Daily Consumptions on :</h2>
+    
+    <input type="text" style="margin-top: 23px; margin-left: 5px; width:20%" name="Date" class="datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+
     <div data-valmsg-summary="true" class="validation-summary-valid" id="validationSummary">
         <ul>
             <li style="display: none"></li>
         </ul>
     </div>
     <div>
-        <div id="container" style="padding: 10px; padding-left: 15px;">
-            <div class="inputItems">
-                <strong>Item : </strong>
-                @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
-                <strong style="padding-left: 5px;">Quantity : </strong>
-                @Html.TextBox("[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-                @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
-                <strong style="padding-left: 5px;">For Food Type : </strong>
-                @Html.DropDownList("[0].FoodItems.Id", _foodList, "Select Food type", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
-                <a href="javascript:void(0)" class="remove">Remove</a>
-            </div>
-        </div>
+        <table>
+            <tbody id="container">
+                <tr>
+                    <th></th>
+                    <th colspan="2">B/PS</th>
+                    <th colspan="2">B/S</th>
+                    <th colspan="2">B/F</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td><strong>Items</strong></td>
+                    <td><strong>Ratio</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Ratio</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Ratio</strong></td>
+                    <td><strong>Quantity</strong></td>
+                    <td><strong>Total</strong></td>
+                    <td></td>
+                </tr>
+                <tr class="inputItems">
+                    <td>
+                        @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { @class = "itemSelect" })
+                        Available : <strong class="availableStock">- -</strong> <strong class="unit"></strong>
+                        <input type="hidden" class="hidAvailableStock" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Ratio1" class="ratio1" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty1" class="qty qty1" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Ratio2" class="ratio2" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty2" class="qty qty2" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Ratio3" class="ratio3" />
+                    </td>
+                    <td>
+                        <input type="text" name="[0].Qty3" class="qty qty3" /><strong class="unit"></strong>
+                    </td>
+                    <td>
+                        <strong class="total">0</strong> <strong class="unit"></strong>
+                        <input type="hidden" class="hidTotal" name="[0].TotalQty" />
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="remove">Remove</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div>
+    <div style="float: left">
+        <p>
+            <input type="button" id="AddItemInput" value="Add More Item" />
+        </p>
+    </div>
+    <div style="float: left">
         <p>
             <input type="submit" value="Withdraw Stock" />
         </p>
     </div>
+
 }
-<div style="display: none" id="temp">
-    <div class="inputItems">
-        <strong>Item : </strong>
-        @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true",@class="items" })
-        <strong style="padding-left: 5px;">Quantity : </strong>
-        @Html.TextBox("[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-        <strong style="padding-left: 5px;">For Food Type : </strong>
-        @Html.DropDownList("[0].FoodItems.Id", _foodList, "Select Food type", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true",@class="foods" })
-        <a href="javascript:void(0)" class="remove">Remove</a>
-    </div>
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<table>
+    <tbody style="display: none" id="temp">
+        <tr class="inputItems">
+            <td>
+                @Html.DropDownList("[0].Items.Id", _itemList, "Select Item", new { @class = "itemSelect" })
+                Available : <strong class="availableStock">- -</strong> <strong class="unit"></strong>
+                <input type="hidden" class="hidAvailableStock" />
+            </td>
+            <td>
+                <input type="text" name="[0].Ratio1" class="ratio1" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty1" class="qty qty1" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <input type="text" name="[0].Ratio2" class="ratio2" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty2" class="qty qty2" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <input type="text" name="[0].Ratio3" class="ratio3" />
+            </td>
+            <td>
+                <input type="text" name="[0].Qty3" class="qty qty3" /><strong class="unit"></strong>
+            </td>
+            <td>
+                <strong class="total">0</strong> <strong class="unit"></strong>
+                <input type="hidden" class="hidTotal" name="[0].TotalQty" />
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="remove">Remove</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <script type="text/javascript">
+    var itemRow;
+    var item;
     $(document).ready(function () {
         $('#AddItemInput').click(function () {
             $('#container').append($('#temp').html());
             ReOrder();
         });
         $(document).on('click', '.remove', function () {
-            $(this).parent().remove();
-            if (!$(this).hasClass('Chicken')) {
-                CurrentItemNo--;
-                ReOrder();
+            $(this).parent().parent().remove();
+            ReOrder();
+        });
+        $(document).on('keydown', '.qty', function (e) {
+            if (e.keyCode != 8) e.preventDefault();
+            item = $(this);
+            setTimeout(function () {
+                if (!isNaN(parseInt(e.key)) || e.keyCode == 8) {
+                    if (!isNaN(parseInt(e.key))) $(item).val($(item).val() + e.key);
+                    var qtyInputs = $(item).parent().parent().find('.qty');
+                    var total = 0;
+                    qtyInputs.each(function (e) {
+                        if (!isNaN(parseInt($(this).val())))
+                            total += parseInt($(this).val());
+                    });
+                    $($(item).parent().parent().find('.total')[0]).text(total);
+                    $($(item).parent().parent().find('.hidTotal')[0]).val(total)
+                    var stockShow = $(item).parent().parent().find('.availableStock');
+                    if (!isNaN(parseInt(stockShow.text()))) {
+                        var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
+                        stockShow.text(current);
+                    }
+                }
+            }, 0);
+        });
+        $(document).on('change', '.itemSelect', function (e) {
+            var itemId = $(this).val();
+            itemRow = $(this).parent().parent();
+            if (itemId == '') {
+                itemRow.find('.unit').text('');
+                itemRow.find('.availableStock').text('- -');
+                itemRow.find('.hidAvailableStock').val('');
             }
+            $.get("/api/Service/GetCurrentStock", { ItemId: itemId }, function (data) {
+                if (data.Success) {
+                    itemRow.find('.unit').text(data.Data[0].Item.Unit);
+                    itemRow.find('.availableStock').text(data.Data[0].Quantity - parseInt(itemRow.find('.total').text()));
+                    itemRow.find('.hidAvailableStock').val(data.Data[0].Quantity);
+                }
+                else {
+                    Alert(data.Messege);
+                }
+            }, "json");
         });
     });
-    //$('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
-    function getUniqueValidations() {
-        var list = $('#validationSummary').find('li');
-        var html = '';
-        list.each(function () {
-            var count = 0;
-            var currentVal = $(this).text();
-            if (html.indexOf(currentVal)<0) {
-                html += '<li>' + currentVal + '</li>';
-            }
-        });
-        $('#validationSummary').unbind('DOMSubtreeModified');
-        Alert(html);
-        $('#validationSummary').html(html);
-        $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
-    }
+
     function ReOrder() {
         var InputItems = $('#container').find('.inputItems');
         var i = 0;
         $(InputItems).each(function () {
-            $(this).find('items').attr('name', '[' + i + '].Items.Id');
-            $(this).find('input').attr('name', '[' + i + '].Qty');
-            $(this).find('input').attr('name', '[' + i + '].FoodItems.Id');
+            debugger;
+            $(this).find('.itemSelect').attr('name', '[' + i + '].Items.Id');
+            $(this).find('.ratio1').attr('name', '[' + i + '].Ratio1');
+            $(this).find('.ratio2').attr('name', '[' + i + '].Ratio2');
+            $(this).find('.ratio3').attr('name', '[' + i + '].Ratio3');
+            $(this).find('.qty1').attr('name', '[' + i + '].Qty1');
+            $(this).find('.qty2').attr('name', '[' + i + '].Qty2');
+            $(this).find('.qty3').attr('name', '[' + i + '].Qty3');
+            $(this).find('.hidTotal').attr('name', '[' + i + '].TotalQty');
             i++;
         });
-        var form = $('form#WithdrawForm')
-                    .removeData("validator") /* added by the raw jquery.validate plugin */
-                    .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin */
-
-        $.validator.unobtrusive.parse('form#WithdrawForm');
     }
 </script>

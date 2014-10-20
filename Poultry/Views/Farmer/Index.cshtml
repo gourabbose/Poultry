@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<Poultry.Models.Farmer>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Farmers</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -22,6 +18,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ContactNo)
         </th>
+        <th>
+            Active?
+        </th>
         <th>Operations</th>
     </tr>
 
@@ -37,8 +36,17 @@
             @Html.DisplayFor(modelItem => item.ContactNo)
         </td>
         <td>
+            @if (item.IsActive)
+            {
+                <span>Yes</span>
+            }
+            else
+            {
+                <span>No</span>
+            }
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>

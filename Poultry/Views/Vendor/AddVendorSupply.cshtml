@@ -1,5 +1,5 @@
 ﻿@using Poultry.Models;
-@model Stock
+@model VendorLog
 
 @{
     ViewBag.Title = "Add Vendor Supply";
@@ -7,16 +7,29 @@
     var _vendorList = (SelectList)ViewBag.VendorList;
 }
 
-<h2>Add Vendor Supply</h2>
-<p>
-    <input type="button" id="AddItemInput" value="Add More Item" />
-    <input type="button" id="AddChicken" value="Add Chickens" />
-</p>
-
+    <style>
+    .Qty, .Price {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #e2e2e2;
+            color: #333;
+            font-size: 1.2em;
+            margin: 5px 0 6px;
+            padding: 5px;
+            width: 75px;
+        }
+    </style>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "VendorSupplyForm" }))
 {
+    
+    <h2 style="float:left">Add Vendor Supply on :</h2>
+    <input type="text" class="datepicker" name="Date" value="@DateTime.Now.ToString("dd-MMM-yyyy")" style="margin-top: 23px; margin-left: 5px; width:20%" />
+    <p>
+        <input type="button" id="AddItemInput" value="Add More Item" />
+        <input type="button" id="AddChicken" value="Add Chickens" />
+    </p>
     <strong>Select Vendor : </strong>
-    @Html.DropDownList("VendorId", _vendorList, "Select vendor", new { data_val_required = "Please Select a Vendor first.", data_val = "true" })
+    @Html.DropDownListFor(model=>model.Vendor.Id,_vendorList,"Select Vendor")
+    @*@Html.DropDownList("Vendor.Id", _vendorList, "Select vendor", new { data_val_required = "Please Select a Vendor first.", data_val = "true" })*@
     <br />
     <br />
     <div data-valmsg-summary="true" class="validation-summary-valid" id="validationSummary">
@@ -30,13 +43,19 @@
         <div id="container" style="padding: 10px; padding-left: 15px;">
             <div class="inputItems">
                 <strong>Item : </strong>
-                @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+                @Html.DropDownList("Items[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
                 <strong style="padding-left: 5px;">Quantity : </strong>
-                @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-                @*<span data-valmsg-replace="true" data-valmsg-for="[0].Quantity" class="field-validation-valid"></span>*@
+                @Html.TextBox("Items[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class="Qty" })
+                <strong style="padding-left: 5px;">Price : </strong>
+                @Html.TextBox("Items[0].Price", "", new { data_val_required = "Please ensure you have filled all the prices.", data_val = "true", @class="Price" })
                 <a href="javascript:void(0)" class="remove">Remove</a>
             </div>
         </div>
+    </div>
+    <div>
+        <p>
+            <strong style="padding-left: 5px;">Payment paid : </strong> <input type="text" name="Payment" />
+        </p>
     </div>
     <div>
         <p>
@@ -46,12 +65,14 @@
 }
 <div style="display: none" id="temp">
     <div class="inputItems">
-        <strong>Item : </strong>
-        @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
-        <strong style="padding-left: 5px;">Quantity : </strong>
-        @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true" })
-        <a href="javascript:void(0)" class="remove">Remove</a>
-    </div>
+                <strong>Item : </strong>
+                @Html.DropDownList("Items[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true" })
+                <strong style="padding-left: 5px;">Quantity : </strong>
+                @Html.TextBox("Items[0].Qty", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class="Qty" })
+                <strong style="padding-left: 5px;">Price : </strong>
+                @Html.TextBox("Items[0].Price", "", new { data_val_required = "Please ensure you have filled all the prices.", data_val = "true", @class="Price" })
+                <a href="javascript:void(0)" class="remove">Remove</a>
+            </div>
 </div>
 <div id="tempChicken" style="display:none">
     <div>
@@ -60,7 +81,8 @@
         <a href="javascript:void(0)" class="remove Chicken">Remove</a>
     </div>
 </div>
-@section Scripts {
+@section Scripts {    
+
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script type="text/javascript">
@@ -82,6 +104,10 @@
                 ReOrder();
             }
         });
+        //$('#AddItemInput').trigger('click');
+        //$('#AddItemInput').trigger('click');
+        //$('#AddItemInput').trigger('click');
+        //$('#AddItemInput').trigger('click');
     });
     //$('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
     function getUniqueValidations() {
@@ -103,8 +129,9 @@
         var InputItems = $('#container').find('.inputItems');
         var i = 0;
         $(InputItems).each(function () {
-            $(this).find('select').attr('name', '[' + i + '].Item.Id');
-            $(this).find('input').attr('name', '[' + i + '].Quantity');
+            $(this).find('select').attr('name', 'Items[' + i + '].Item.Id');
+            $(this).find('.Qty').attr('name', 'Items[' + i + '].Qty');
+            $(this).find('.Price').attr('name', 'Items[' + i + '].Price');
             i++;
         });
         var form = $('form#VendorSupplyForm')

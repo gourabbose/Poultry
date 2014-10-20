@@ -38,11 +38,7 @@ namespace Poultry.Filters
                             // Create the SimpleMembership database without Entity Framework migration schema
                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                             WebSecurity.InitializeDatabaseConnection("DbConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                            Roles.CreateRole("Admin");
-                            Roles.CreateRole("Supervisor");
-                            Roles.CreateRole("DEO");
-                            WebSecurity.CreateUserAndAccount("admin", "password");
-                            Roles.AddUserToRole("admin", "Admin");
+
                         }
                         else
                         {

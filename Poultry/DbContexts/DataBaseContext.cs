@@ -25,5 +25,7 @@ namespace Poultry.DbContexts
 
         public DbSet<Trader> Traders { get; set; }
         public DbSet<ConsumptionLog> ConsumptionLogs { get; set; }
+        public DbSet<CostSheet> CostSheets { get; set; }
+        public DbSet<VendorPaymentLog> VendorPayments { get; set; }
     }
 }

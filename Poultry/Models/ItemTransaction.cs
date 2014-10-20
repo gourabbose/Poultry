@@ -6,14 +6,12 @@ using System.Web;
 
 namespace Poultry.Models
 {
-    public class FarmerLog
+    public class ItemTransaction
     {
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Farmer Farmer { get; set; }
-        public DateTime Date { get; set; }
         public Item Item { get; set; }
-        public int Quantity { get; set; }
-        public bool ActivityFlag { get; set; }
+        public int Qty { get; set; }
+        public int Price { get; set; }
     }
 }

@@ -9,24 +9,13 @@ using System.Web;
 
 namespace Poultry.Models
 {
-    public class Stock 
+    public class Stock
     {
         [Required]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [ForeignKey("Item")]
-        public int ItemId { get; set; }
         public Item Item { get; set; }
         [DisplayName("Quantity")]
         public int Quantity { get; set; }
-        public StockType Type { get; set; } 
     }
-
-    //public enum StockType
-    //{
-    //    Undefined,
-    //    FoodItem,
-    //    VendorItem,
-    //    Chicken
-    //}
 }

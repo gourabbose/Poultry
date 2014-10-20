@@ -11,7 +11,7 @@ namespace Poultry.Models
 {
     public class Vendor
     {
-        [Required]
+        [Required(ErrorMessage="Please Select a Vendor.")]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -22,5 +22,7 @@ namespace Poultry.Models
         [DisplayName("Contact No")]
         public string ContactNo { get; set; }
         public bool IsDeleted { get; set; }
+        [Display(Name="Amount Due")]
+        public int Due { get; set; }
     }
 }

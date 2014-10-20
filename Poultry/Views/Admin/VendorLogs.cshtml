@@ -11,16 +11,17 @@
         .datepicker {
             width: 15%;
         }
+
         .searchCriteria {
-            padding-top:10px;
-            padding-bottom:10px;
-            display:none;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: none;
         }
     </style>
 }
-<h2>Vendor Logs</h2>
+<h2>Vendor Log</h2>
 <br />
-<div style="display:none">
+<div style="display: none">
     <strong>Search By : </strong>
     <select id="SearchSelecter">
         <option value="">--- select ---</option>
@@ -34,55 +35,26 @@
     <input type="text" id="fromDate" class="datepicker" />
     <strong>To :</strong>
     <input type="text" id="toDate" class="datepicker" />
-    <input type="button" id="search" value="Search"/>
+    <input type="button" id="search" value="Search" />
 </div>
 <div id="VendorSelecter" class="searchCriteria">
     <strong>Select Vendor :</strong>
     <select id="selectVendor">
-
     </select>
 </div>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayName("Vendor")
-        </th>
-        <th>
-            @Html.DisplayName("Item")
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Date.ToString("dd-MMM-yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vendor.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity) @Html.DisplayFor(modelItem=>item.Item.Unit)
-            </td>
-            @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>*@
-        </tr>
-    }
-
-</table>
-
+@if (Model.Count() > 0)
+{
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+        @foreach (var trans in Model)
+        {
+            Html.RenderPartial("VendorLogPages", trans);
+        }
+    </div>
+}
+else
+{
+    <strong>No Data Found.</strong>   
+}
 <script type="text/javascript">
     $(document).ready(function () {
         $(".datepicker").datepicker({

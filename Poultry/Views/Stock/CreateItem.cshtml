@@ -21,13 +21,14 @@
             @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
         </div>
-        <div class="editor-label">
+        <input id="Type" type="text" value="VendorItem" name="Type" style="display:none"/>
+        @*<div class="editor-label">
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
             @Html.DropDownList("Type", _typeList, "Select Type",new { data_val_required = "Please select a type for this item.", data_val = "true" })
             @Html.ValidationMessageFor(model => model.Type)
-        </div>
+        </div>*@
         <div class="editor-label">
             @Html.LabelFor(model => model.Unit)
         </div>

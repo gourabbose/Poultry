@@ -17,7 +17,18 @@ namespace Poultry.Controllers
         #region CRUD
         public ActionResult Index()
         {
+            ViewBag.Title = "Farmers";
             return View(_dbContext.Farmer.Where(t => t.IsDeleted != true).ToList());
+        }
+        public ActionResult ActiveFarmers()
+        {
+            ViewBag.Title = "Active Farmers";
+            return View("Index", _dbContext.Farmer.Where(t => t.IsDeleted != true && t.IsActive).ToList());
+        }
+        public ActionResult InactiveFarmers()
+        {
+            ViewBag.Title = "Inactive Farmers";
+            return View("Index", _dbContext.Farmer.Where(t => t.IsDeleted != true && !t.IsActive).ToList());
         }
         public ActionResult Details(int id = 0)
         {
@@ -92,13 +103,13 @@ namespace Poultry.Controllers
         {
             var farmers = _dbContext.Farmer.Where(t => !t.IsActive).ToList();
             ViewBag.FarmerList = new SelectList(farmers, "Id", "Name", farmers.FirstOrDefault());
-            var items = _dbContext.Stock.Where(t => t.Type == StockType.VendorItem || t.Type == StockType.FoodItem).Include("Item").ToList();
+            var items = _dbContext.Stock.Where(t => t.Item.Type == StockType.VendorItem || t.Item.Type == StockType.FoodItem).Include("Item").ToList();
             ViewBag.ItemList = new SelectList(items, "Id", "Item.Name", items.FirstOrDefault());
-            ViewBag.AvailableChicken = _dbContext.Stock.Where(t => t.Type == StockType.Chicken).FirstOrDefault().Quantity;
+            ViewBag.AvailableChicken = _dbContext.Stock.Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault().Quantity;
             return View();
         }
         [HttpPost]
-        public ActionResult Delivery(int? ChickCount, IEnumerable<Stock> Stocks, int FarmerId)
+        public ActionResult Delivery(int? ChickCount, IEnumerable<Stock> Stocks, int FarmerId, DateTime Date)
         {
             var farmer = _dbContext.Farmer.Find(FarmerId);
             if (ChickCount.HasValue)
@@ -106,22 +117,23 @@ namespace Poultry.Controllers
                 farmer.IsActive = true;
                 _dbContext.Entry(farmer).State = EntityState.Modified;
                 var chickItem = _dbContext.Item.Where(t => t.Type == StockType.Chicken).First();
-                var farmerLog = new FarmerLog { Date = DateTime.Now, Farmer = farmer, Item = chickItem, Quantity = ChickCount.Value };
+                var farmerLog = new FarmerLog { Date = Date, Farmer = farmer, Item = chickItem, Quantity = ChickCount.Value, ActivityFlag = true };
                 _dbContext.FarmerLog.Add(farmerLog);
-                var chickenStock = _dbContext.Stock.Where(t => t.Type == StockType.Chicken).FirstOrDefault();
+                var chickenStock = _dbContext.Stock.Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault();
                 chickenStock.Quantity -= ChickCount.Value;
                 _dbContext.Entry(chickenStock).State = EntityState.Modified;
             }
             foreach (var s in Stocks)
             {
-                var log = new FarmerLog { Date = DateTime.Now, Farmer = farmer, Item = _dbContext.Item.Find(s.Item.Id), Quantity = s.Quantity };
+                var log = new FarmerLog { Date = Date, Farmer = farmer, Item = _dbContext.Item.Find(s.Item.Id), Quantity = s.Quantity, ActivityFlag = false };
                 _dbContext.FarmerLog.Add(log);
                 var stock = _dbContext.Stock.Where(t => t.Item.Id == s.Item.Id).First();
                 stock.Quantity -= s.Quantity;
                 _dbContext.Entry(stock).State = EntityState.Modified;
             }
             _dbContext.SaveChanges();
-            return View();
+            TempData["Messege"] = "Delivery to Farmer Successful";
+            return RedirectToAction("Delivery");
         }
         #endregion
 

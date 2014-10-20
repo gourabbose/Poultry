@@ -167,6 +167,7 @@
     <Compile Include="Controllers\FarmerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\SupervisionController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TraderController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
@@ -177,19 +178,34 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Helpers\ServiceResult.cs" />
+    <Compile Include="Migrations\201410091810265_m2.cs" />
+    <Compile Include="Migrations\201410091810265_m2.Designer.cs">
+      <DependentUpon>201410091810265_m2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410091856524_m3.cs" />
+    <Compile Include="Migrations\201410091856524_m3.Designer.cs">
+      <DependentUpon>201410091856524_m3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ConsumptionLog.cs" />
+    <Compile Include="Models\CostSheet.cs" />
     <Compile Include="Models\Farmer.cs" />
     <Compile Include="Models\FarmerLog.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemTransaction.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Trader.cs" />
     <Compile Include="Models\Vendor.cs" />
     <Compile Include="Models\VendorLog.cs" />
+    <Compile Include="Models\VendorPaymentLog.cs" />
     <Compile Include="Models\ViewModels\AddVenderSupply.cs" />
+    <Compile Include="Models\ViewModels\CostSheetViewModel.cs" />
     <Compile Include="Models\ViewModels\DailyConsumption.cs" />
+    <Compile Include="Models\ViewModels\FarmerActivity.cs" />
     <Compile Include="Models\ViewModels\UserList.cs" />
+    <Compile Include="Models\ViewModels\VendorHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -253,11 +269,13 @@
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\9-Chicken-Hut.jpg" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -344,12 +362,25 @@
     <Content Include="Views\Trader\Delete.cshtml" />
     <Content Include="Views\Stock\Withdraw.cshtml" />
     <Content Include="Views\Admin\DailyConsumptionLog.cshtml" />
+    <Content Include="Views\Admin\AddCostSheet.cshtml" />
+    <Content Include="Views\Admin\CostSheets.cshtml" />
+    <Content Include="Views\Supervision\ActiveFarmers.cshtml" />
+    <Content Include="Views\Admin\VendorLogPages.cshtml" />
+    <Content Include="Views\Vendor\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201410091810265_m2.resx">
+      <DependentUpon>201410091810265_m2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410091856524_m3.resx">
+      <DependentUpon>201410091856524_m3.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,73 @@
+﻿@model Poultry.Models.VendorLog
+@{
+    int _totalPrice = 0;
+}
+<table style="width:80%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayName("Vendor")
+        </th>
+        <th>
+            @Html.DisplayName("Item")
+        </th>
+        <th>
+            @Html.DisplayName("Quantity")
+        </th>
+        <th>
+            @Html.DisplayName("Price")
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Model.Date.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Vendor.Name)
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    @foreach (var item in Model.Items)
+    {
+        _totalPrice += item.Price;
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                @item.Item.Name
+            </td>
+            <td>
+                @item.Qty @item.Item.Unit
+            </td>
+            <td>Rs. @item.Price
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td><strong>Total Price :</strong></td>
+        <td></td>
+        <td><strong>Rs. @_totalPrice</strong></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><strong>Amount paid :</strong></td>
+        <td></td>
+        <td><strong>Rs. @Model.Payment</strong></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><strong>Amount due :</strong></td>
+        <td></td>
+        <td><strong>Rs. @(_totalPrice - Model.Payment)</strong></td>
+    </tr>
+    
+
+</table>
