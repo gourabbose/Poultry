@@ -153,7 +153,7 @@ footer {
 }
 
     #login a {
-        background-color: #d3dce0;
+        background-color: #83FF59;
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
@@ -161,7 +161,7 @@ footer {
     }
 
         #login a.username {
-            background: none;
+            background: #83FF59;
             margin: 0;
             padding: 0;
             text-decoration: underline;

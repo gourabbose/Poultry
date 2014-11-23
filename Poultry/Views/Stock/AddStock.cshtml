@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "AddStock";
+    var _itemList = (SelectList)ViewBag.ItemList;
+}
+
+<h2>Add Stock</h2>
+@section scripts{
+    <style>
+        input, textarea {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #e2e2e2;
+            color: #333;
+            font-size: 1.2em;
+            margin: 5px 0 6px;
+            padding: 5px;
+            width: 50px;
+        }
+
+        td {
+            min-width: 10%;
+        }
+
+        .qty {
+            width: 50%;
+        }
+    </style>
+}
+@using(Html.BeginForm())
+{
+    <h2 style="float: left">Add Production on :</h2>
+    
+    <input type="text" style="margin-top: 23px; margin-left: 5px; width:20%" name="Date" class="datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+
+    <div>
+        <table>
+            <tbody id="container">
+                <tr>
+                    <th>B/PS</th>
+                    <th>B/S</th>
+                    <th>B/F</th>
+                </tr>
+                <tr class="inputItems">
+                    <td>
+                        <input type="text" name="BPS" class="qty" /> Kgs.
+                    </td>
+                    <td>
+                        <input type="text" name="BS" class="qty" /><strong class="unit"></strong> Kgs.
+                    </td>
+                    <td>
+                        <input type="text" name="BF" class="qty" /> Kgs.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="submit" value="Enter Stock" />
+}

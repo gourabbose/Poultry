@@ -174,29 +174,35 @@
     <Compile Include="DbContexts\DataBaseContext.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\MessengerAttribute.cs" />
+    <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ServiceResult.cs" />
-    <Compile Include="Migrations\201410091810265_m2.cs" />
-    <Compile Include="Migrations\201410091810265_m2.Designer.cs">
-      <DependentUpon>201410091810265_m2.cs</DependentUpon>
+    <Compile Include="Migrations\201411230649574_new1.cs" />
+    <Compile Include="Migrations\201411230649574_new1.Designer.cs">
+      <DependentUpon>201411230649574_new1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201410091856524_m3.cs" />
-    <Compile Include="Migrations\201410091856524_m3.Designer.cs">
-      <DependentUpon>201410091856524_m3.cs</DependentUpon>
+    <Compile Include="Migrations\201411230722134_new2.cs" />
+    <Compile Include="Migrations\201411230722134_new2.Designer.cs">
+      <DependentUpon>201411230722134_new2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ConsumptionLog.cs" />
     <Compile Include="Models\CostSheet.cs" />
+    <Compile Include="Models\ExtraData.cs" />
     <Compile Include="Models\Farmer.cs" />
     <Compile Include="Models\FarmerLog.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemTransaction.cs" />
+    <Compile Include="Models\Lifting.cs" />
+    <Compile Include="Models\ProductionLog.cs" />
     <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\SupervisionReport.cs" />
     <Compile Include="Models\Trader.cs" />
+    <Compile Include="Models\TraderLog.cs" />
     <Compile Include="Models\Vendor.cs" />
     <Compile Include="Models\VendorLog.cs" />
     <Compile Include="Models\VendorPaymentLog.cs" />
@@ -206,6 +212,7 @@
     <Compile Include="Models\ViewModels\FarmerActivity.cs" />
     <Compile Include="Models\ViewModels\UserList.cs" />
     <Compile Include="Models\ViewModels\VendorHistory.cs" />
+    <Compile Include="Models\WeeklyReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +374,22 @@
     <Content Include="Views\Supervision\ActiveFarmers.cshtml" />
     <Content Include="Views\Admin\VendorLogPages.cshtml" />
     <Content Include="Views\Vendor\History.cshtml" />
+    <Content Include="Views\Stock\AddStock.cshtml" />
+    <Content Include="Views\Admin\DailyProductionLog.cshtml" />
+    <Content Include="Views\Admin\FarmerLogPages.cshtml" />
+    <Content Include="Views\Admin\FarmerLogs.cshtml" />
+    <Content Include="Views\Supervision\AddReport.cshtml" />
+    <Content Include="Views\Admin\VendorLogPagesContainer.cshtml" />
+    <Content Include="Views\Admin\FarmerLogPagesContainer.cshtml" />
+    <Content Include="Views\Supervision\MatureChicks.cshtml" />
+    <Content Include="Views\Supervision\Lifting.cshtml" />
+    <Content Include="Views\Admin\LiftingLogs.cshtml" />
+    <Content Include="Views\Admin\LiftingLogPagesContainer.cshtml" />
+    <Content Include="Views\Admin\LiftingLogPages.cshtml" />
+    <Content Include="Views\Admin\CostSheetPages.cshtml" />
+    <Content Include="Views\Supervision\PastReports.cshtml" />
+    <Content Include="Views\Supervision\ViewReport.cshtml" />
+    <Content Include="Views\Admin\ConsumptionLogPages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -375,11 +398,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410091810265_m2.resx">
-      <DependentUpon>201410091810265_m2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411230649574_new1.resx">
+      <DependentUpon>201411230649574_new1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410091856524_m3.resx">
-      <DependentUpon>201410091856524_m3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411230722134_new2.resx">
+      <DependentUpon>201411230722134_new2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

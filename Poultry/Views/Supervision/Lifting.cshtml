@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Lifting";
+    var _traderList = (SelectList)ViewBag.TraderList;
+    var _matureChicks = ((IEnumerable<Poultry.Models.FarmerLog>)ViewBag.MatureChicks).ToArray();
+}
+
+<style>
+    strong {
+        padding-right: 20px;
+    }
+</style>
+
+<h2 style="float: left">Lifting on :</h2>
+@using (Html.BeginForm())
+{
+    <input type="text" class="datepicker" name="Date" value="@DateTime.Now.ToString("dd-MMM-yyyy")" style="margin-top: 23px; margin-left: 5px; width:20%" />
+    <p></p>
+    <strong>Select Trader : </strong>
+    @Html.DropDownList("TraderId", _traderList, "Select Trader", new { data_val_required = "Please ensure you have selected a trader.", data_val = "true" })
+    <p></p>
+    <strong>Availability : </strong>
+    if (_matureChicks.Count() > 0)
+    {
+    <table>
+        <tr>
+            <th>Farmer</th>
+            <th>Chicken age</th>
+            <th>Count</th>
+            <th>Lift</th>
+        </tr>
+        @for (int i = 0; i < _matureChicks.Count(); i++)
+        {
+            var m = _matureChicks[i];
+            <tr>
+                <td>@m.Farmer.Name</td>
+                <td>@((DateTime.Now - m.Date).Days) Days</td>
+                <td>@(m.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - m.Lifted - m.TotalDeath) Nos.</td>
+                <td>
+                    <input type="hidden" name="[@i].Id" value="@m.Id" />
+                    <input type="text" name="[@i].Payment" style="width:40px"/>
+                </td>
+            </tr>
+        }
+    </table>
+    <p></p>
+    <strong>Total Price :  </strong>
+    <input type="text" name="TotalPrice" value="0" />
+    <p></p>
+    <strong>Payment Received :</strong>
+    <input type="text" name="Payment" value="0" />
+    <p></p>
+    <strong>Payment Mode :</strong>
+    <input type="text" name="PaymentMode" />
+    <p></p>
+    <input type="submit" value="Lift" />
+    }
+    else
+    {
+    <strong>No Chicks Available for Lifting !!!</strong>   
+    }
+}

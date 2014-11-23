@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Poultry.Models.ProductionLog>
+
+@{
+    ViewBag.Title = "Daily Production Log";
+}
+
+<h2>Daily Production Log</h2>
+
+<p>
+    @Html.ActionLink("Add Production", "AddStock", new { Controller = "Stock" })
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Name)
+        </th>
+        <th>
+            Quantity
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Date.ToString("dd-MMM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty) Kgs.
+            </td>
+        </tr>
+    }
+
+</table>

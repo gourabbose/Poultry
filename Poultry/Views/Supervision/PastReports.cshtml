@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<Poultry.Models.ViewModels.FarmerActivity>
-
 @{
-    ViewBag.Title = "ActiveFarmers";
+    ViewBag.Title = "PastReports";
 }
 
-<h2>Active Farmers</h2>
+<h2>Past Reports</h2>
+
 
 <p>
 </p>
+@if(Model.Count()>0)
+{
 <table>
     <tr>
         <th>
@@ -23,10 +25,7 @@
             Contact No.
         </th>
         <th>
-            No. of Chicks
-        </th>
-        <th>
-            Chicks Age
+            Chicks Deliverey Date
         </th>
         <th></th>
     </tr>
@@ -46,15 +45,17 @@
             @Html.DisplayFor(modelItem => item.Farmer.ContactNo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.NoOfChicks)
+            @item.ActivityDate.Date.ToString("dd-MMM-yyyy")
         </td>
         <td>
-            @((DateTime.Today-item.ActivityDate.Date).Days+1) Day(s)
-        </td>
-        <td>
-            @Html.ActionLink("Add Report", "AddReport", new { id=item.Farmer.Id })
+            @Html.ActionLink("View Report", "ViewReport", new { id=item.NoOfChicks })
         </td>
     </tr>
 }
 
 </table>
+}
+else
+{
+ <strong>Nothing to show</strong>   
+}

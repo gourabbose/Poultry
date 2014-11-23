@@ -22,6 +22,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ContactNo)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDue)
+        </th>
         <th>Operations</th>
     </tr>
 
@@ -35,6 +38,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentDue)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

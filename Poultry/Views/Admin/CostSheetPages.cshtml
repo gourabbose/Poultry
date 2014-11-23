@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Poultry.Models.CostSheet>
+@if (@Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+    <tr>
+        @{
+        var unit = item.Item != null ? item.Item.Unit : "";   
+        }
+        <td>
+            @item.Date.ToString("dd-MMM-yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatePerKg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BPS_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BPS_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BF_Qty) @unit
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BF_Amt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+    </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="10" style="text-align:center"><strong>No Data Found!!!</strong></td>
+    </tr>   
+}

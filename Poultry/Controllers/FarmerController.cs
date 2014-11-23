@@ -101,7 +101,7 @@ namespace Poultry.Controllers
         [HttpGet]
         public ActionResult Delivery()
         {
-            var farmers = _dbContext.Farmer.Where(t => !t.IsActive).ToList();
+            var farmers = _dbContext.Farmer.Where(t => !t.IsDeleted).ToList();
             ViewBag.FarmerList = new SelectList(farmers, "Id", "Name", farmers.FirstOrDefault());
             var items = _dbContext.Stock.Where(t => t.Item.Type == StockType.VendorItem || t.Item.Type == StockType.FoodItem).Include("Item").ToList();
             ViewBag.ItemList = new SelectList(items, "Id", "Item.Name", items.FirstOrDefault());
@@ -109,28 +109,46 @@ namespace Poultry.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Delivery(int? ChickCount, IEnumerable<Stock> Stocks, int FarmerId, DateTime Date)
+        public ActionResult Delivery(int? ChickCount, int AdvancePayment, string PaymentMode, IEnumerable<Stock> Stocks, int FarmerId, DateTime Date)
         {
             var farmer = _dbContext.Farmer.Find(FarmerId);
-            if (ChickCount.HasValue)
+            if (farmer.IsActive && ChickCount.HasValue)
             {
-                farmer.IsActive = true;
-                _dbContext.Entry(farmer).State = EntityState.Modified;
-                var chickItem = _dbContext.Item.Where(t => t.Type == StockType.Chicken).First();
-                var farmerLog = new FarmerLog { Date = Date, Farmer = farmer, Item = chickItem, Quantity = ChickCount.Value, ActivityFlag = true };
-                _dbContext.FarmerLog.Add(farmerLog);
-                var chickenStock = _dbContext.Stock.Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault();
-                chickenStock.Quantity -= ChickCount.Value;
-                _dbContext.Entry(chickenStock).State = EntityState.Modified;
+                TempData["Messege"] = "Farmer Already Have Chicks. Delivery of Chicks Not Allowed to Farmer Already Active. Transaction Cancelled";
+                TempData["MessegeType"] = "error";
+                return RedirectToAction("Delivery");
             }
+            var log = new FarmerLog { Date = Date, Farmer = farmer, Items = new List<ItemTransaction>(), Payment = AdvancePayment, PaymentMethod = PaymentMode };
             foreach (var s in Stocks)
             {
-                var log = new FarmerLog { Date = Date, Farmer = farmer, Item = _dbContext.Item.Find(s.Item.Id), Quantity = s.Quantity, ActivityFlag = false };
-                _dbContext.FarmerLog.Add(log);
-                var stock = _dbContext.Stock.Where(t => t.Item.Id == s.Item.Id).First();
+                var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Id == s.Item.Id).First();
+                log.Items.Add(new ItemTransaction { Item = stock.Item, Qty = s.Quantity });
                 stock.Quantity -= s.Quantity;
                 _dbContext.Entry(stock).State = EntityState.Modified;
             }
+            if (ChickCount.HasValue)
+            {
+                log.ActivityFlag = true;
+                farmer.IsActive = true;
+                _dbContext.Entry(farmer).State = EntityState.Modified;
+                var chickItem = _dbContext.Item.Where(t => t.Type == StockType.Chicken).FirstOrDefault();
+                log.Items.Add(new ItemTransaction { Item = chickItem, Qty = ChickCount.Value });
+                var chickenStock = _dbContext.Stock.Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault();
+                chickenStock.Quantity -= ChickCount.Value;
+                _dbContext.Entry(chickenStock).State = EntityState.Modified;
+
+                var report = new SupervisionReport { Log = log, Reports = new List<WeeklyReport>() };
+                report.Reports.Add(new WeeklyReport(1));
+                report.Reports.Add(new WeeklyReport(2));
+                report.Reports.Add(new WeeklyReport(3));
+                report.Reports.Add(new WeeklyReport(4));
+                report.Reports.Add(new WeeklyReport(5));
+                report.Reports.Add(new WeeklyReport(6));
+                report.Reports.Add(new WeeklyReport(7));
+                report.ExtraData = new ExtraData();
+                _dbContext.Reports.Add(report);
+            }
+            _dbContext.FarmerLog.Add(log);
             _dbContext.SaveChanges();
             TempData["Messege"] = "Delivery to Farmer Successful";
             return RedirectToAction("Delivery");

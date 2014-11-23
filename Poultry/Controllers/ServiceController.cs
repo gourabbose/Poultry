@@ -15,10 +15,16 @@ namespace Poultry.Controllers
         private DataBaseContext _dbContext = new DataBaseContext();
 
         [HttpGet]
-        public IEnumerable<Vendor> VendorList()
+        public IEnumerable<Vendor> VendorList(string list)
         {
-            var vendors = _dbContext.Vendor.ToList();
+            var vendors = _dbContext.Vendor.Where(t => t.IsDeleted != true).ToList();
             return vendors;
+        }
+        [HttpGet]
+        public IEnumerable<Farmer> FarmerList(string farmer)
+        {
+            var farmers = _dbContext.Farmer.Where(t => t.IsDeleted != true).ToList();
+            return farmers;
         }
 
         [HttpGet]
@@ -55,6 +61,12 @@ namespace Poultry.Controllers
             {
                 return new ServiceResult<Stock> { Success = false, Messege = ex.InnerException.ToString() };
             }
+        }
+
+        public IEnumerable<Item> ItemList(string item)
+        {
+            var items = _dbContext.Item.Where(t => t.IsDeleted != true).ToList();
+            return items;
         }
 
     }

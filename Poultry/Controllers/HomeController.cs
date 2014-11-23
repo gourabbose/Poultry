@@ -13,10 +13,12 @@ namespace Poultry.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
+        private DataBaseContext _dbContext = new DataBaseContext();
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
+            ViewBag.Stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem).ToList();
+            ViewBag.ChickStock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault().Quantity;
             return View();
         }
 

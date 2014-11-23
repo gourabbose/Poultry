@@ -21,11 +21,17 @@ namespace Poultry.DbContexts
         //public DbSet<VendorItems> VendorItems { get; set; }
         public DbSet<VendorLog> VendorLog { get; set; }
         public DbSet<FarmerLog> FarmerLog { get; set; }
+        public DbSet<TraderLog> TraderLog { get; set; }
         #endregion
 
         public DbSet<Trader> Traders { get; set; }
         public DbSet<ConsumptionLog> ConsumptionLogs { get; set; }
         public DbSet<CostSheet> CostSheets { get; set; }
         public DbSet<VendorPaymentLog> VendorPayments { get; set; }
+        public DbSet<ProductionLog> ProductionLogs { get; set; }
+        public DbSet<WeeklyReport> WeeklyReports { get; set; }
+        public DbSet<SupervisionReport> Reports { get; set; }
+        public DbSet<Lifting> Lifting { get; set; }
+        public DbSet<ExtraData> ExtraData { get; set; }
     }
 }

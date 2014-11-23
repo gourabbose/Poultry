@@ -12,6 +12,7 @@ namespace Poultry
             filters.Add(new MessengerAttribute());
             filters.Add(new InitializeSimpleMembershipAttribute());
             filters.Add(new AuthorizeAttribute());
+            filters.Add(new NoCacheAttribute());
         }
     }
 }

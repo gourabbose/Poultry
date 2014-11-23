@@ -82,23 +82,78 @@ namespace Poultry.Controllers
         #region Logs
         public ActionResult DailyConsumptionLog()
         {
-            var log = _dbContext.ConsumptionLogs.Include("Item").Include("For").OrderByDescending(t => t.Date).ToList();
-            return View(log);
+            //var log = _dbContext.ConsumptionLogs.Include("Item").Include("For").OrderByDescending(t => t.Date).ToList();
+            return View();
+        }
+        public ActionResult GetConsumptionLogByDate(DateTime start, DateTime end)
+        {
+            var log = _dbContext.ConsumptionLogs.Include("Item").Include("For").Where(t => t.Date >= start && t.Date <= end).OrderByDescending(t => t.Date).ToList();
+            return PartialView("ConsumptionLogPages", log);
         }
         public ActionResult VendorLogs()
         {
-            var log = _dbContext.VendorLog.Include("Vendor").Include("Items").Include("Items.Item").OrderByDescending(t => t.Date).ToList();
-            return View(log);
+            //var log = _dbContext.VendorLog.Include("Vendor").Include("Items").Include("Items.Item").Where(t => t.Vendor.IsDeleted != true).OrderByDescending(t => t.Date).ToList();
+            var vendors = _dbContext.Vendor.Where(t => t.IsDeleted != true).ToList();
+            ViewBag.VendorList = new SelectList(vendors, "Id", "Name", vendors.FirstOrDefault());
+            return View();
         }
         public ActionResult GetVendorLogById(int id)
         {
-            var log = _dbContext.VendorLog.Include("Items.Item").Where(t => t.Id == id).First();
-            return PartialView("VendorLogPages", log);
+            var log = _dbContext.VendorLog.Include("Vendor").Include("Items").Include("Items.Item").OrderByDescending(t => t.Date).Where(t => t.Vendor.Id == id).ToList();
+            return PartialView("VendorLogPagesContainer", log);
+        }
+        public ActionResult GetVendorLogByDateAndVendor(DateTime start, DateTime end, int? vendorId)
+        {
+            IEnumerable<VendorLog> log;
+            if (vendorId.HasValue)
+                log = _dbContext.VendorLog.Include("Vendor").Include("Items").Include("Items.Item").Where(t => t.Date >= start && t.Date <= end && !t.Vendor.IsDeleted && t.Vendor.Id == vendorId.Value).OrderByDescending(t => t.Date).ToList();
+            else
+                log = _dbContext.VendorLog.Include("Vendor").Include("Items").Include("Items.Item").Where(t => t.Date >= start && t.Date <= end && !t.Vendor.IsDeleted).OrderByDescending(t => t.Date).ToList();
+            return PartialView("VendorLogPagesContainer", log);
         }
         public ActionResult FarmerLogs()
         {
-            var log = _dbContext.FarmerLog.Include("Farmer").Include("Item").OrderByDescending(t => t.Date).ToList();
-            return View(log);
+            var farmers = _dbContext.Farmer.Where(t => !t.IsDeleted).ToList();
+            ViewBag.FarmerList = new SelectList(farmers, "Id", "Name", farmers.FirstOrDefault());
+            //var log = _dbContext.FarmerLog.Include("Farmer").Include("Items").Include("Items.Item").OrderByDescending(t => t.Date).ToList();
+            return View();
+        }
+        public ActionResult GetFarmerLogById(int id)
+        {
+            var log = _dbContext.FarmerLog.Include("Farmer").Include("Items").Include("Items.Item").OrderByDescending(t => t.Date).Where(t => t.Farmer.Id == id).ToList();
+            return PartialView("FarmerLogPagesContainer", log);
+        }
+        public ActionResult GetFarmerLogByDateAndFarmer(DateTime start, DateTime end, int? farmerId)
+        {
+            IEnumerable<FarmerLog> log;
+            if (farmerId.HasValue)
+                log = _dbContext.FarmerLog.Include("Farmer").Include("Items").Include("Items.Item").Where(t => t.Date >= start && t.Date <= end && !t.Farmer.IsDeleted && t.Farmer.Id == farmerId.Value).OrderByDescending(t => t.Date).ToList();
+            else
+                log = _dbContext.FarmerLog.Include("Farmer").Include("Items").Include("Items.Item").Where(t => t.Date >= start && t.Date <= end && !t.Farmer.IsDeleted).OrderByDescending(t => t.Date).ToList();
+            return PartialView("FarmerLogPagesContainer", log);
+        }
+        public ActionResult DailyProductionLog()
+        {
+            return View(_dbContext.ProductionLogs.Include("Item").OrderByDescending(t => t.Date).ToList());
+        }
+        public ActionResult LiftingLogs()
+        {
+            var _traders = _dbContext.Traders.Where(t => t.IsDeleted != true).ToList();
+            ViewBag.TraderList = new SelectList(_traders, "Id", "Name", _traders.FirstOrDefault());
+            return View();
+        }
+        public ActionResult GetLiftingLog(DateTime start, DateTime end, int? traderId)
+        {
+            IEnumerable<Lifting> log;
+            if (traderId.HasValue)
+                log = _dbContext.Lifting.Where(t => t.Date >= start && t.Date <= end && !t.TraderLog.Trader.IsDeleted && t.TraderLog.Trader.Id == traderId.Value).OrderByDescending(t => t.Date).ToList();
+            else
+                log = _dbContext.Lifting
+                    .Include("TraderLog.Trader")
+                    .Where(t => t.Date >= start && t.Date <= end && !t.TraderLog.Trader.IsDeleted)
+                    .OrderByDescending(t => t.Date)
+                    .ToList();
+            return PartialView("LiftingLogPagesContainer", log);
         }
         #endregion
 
@@ -149,8 +204,12 @@ namespace Poultry.Controllers
         }
         public ActionResult CostSheets()
         {
-            var list = _dbContext.CostSheets.Include("Item").ToList();
-            return View(list);
+            return View();
+        }
+        public ActionResult CostSheetByDate(DateTime start, DateTime end)
+        {
+            var sheets = _dbContext.CostSheets.Include("Item").Where(t => t.Date >= start && t.Date <= end).ToList();
+            return PartialView("CostSheetPages", sheets);
         }
         #endregion
     }

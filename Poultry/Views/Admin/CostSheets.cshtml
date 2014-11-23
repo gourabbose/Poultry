@@ -1,7 +1,20 @@
 ﻿@model IEnumerable<Poultry.Models.CostSheet>
-
 @{
     ViewBag.Title = "Cost Sheets";
+}
+@section scripts{
+    <style>
+        input {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #e2e2e2;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        td {
+            min-width: 10%;
+        }
+    </style>
 }
 
 <h2>Cost Sheets</h2>
@@ -9,7 +22,16 @@
 <p>
     @Html.ActionLink("Create New", "AddCostSheet")
 </p>
-<table>
+<div id="DateSelecter" class="searchCriteria">
+    <strong>From :</strong>
+    <input type="text" id="fromDate" class="datepicker"  value="@DateTime.Now.AddDays(-7).ToString("dd-MMM-yyyy")"/>
+    <strong>To :</strong>
+    <input type="text" id="toDate" class="datepicker"  value="@DateTime.Now.ToString("dd-MMM-yyyy")"/>
+    <input type="button" id="search" value="Search" style="margin-left: 10px" />
+</div>
+<strong id="messegeinfo">Please Select Search Criteria</strong>
+
+<table id="logContainer" style="display:none">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -42,43 +64,25 @@
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        @{
-    var unit = item.Item != null ? item.Item.Unit : "";   
-        }
-        <td>
-            @item.Date.ToString("dd-MMM-yyyy")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RatePerKg)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BPS_Qty) @unit
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BPS_Amt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BS_Qty) @unit
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BS_Amt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BF_Qty) @unit
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BF_Amt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-    </tr>
-}
-
 </table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(document).on("DOMSubtreeModified", '#logContainer', function () {
+        //    var tr = $(this).find('tr').length;
+        //    if (tr > 1) $(this).show();
+        //    else $(this).hide();
+        //});
+        $('#search').click(function () {
+            var start = $('#fromDate').val();
+            var end = $('#toDate').val();
+            var farmerId = $('#FarmerId').val();
+            $.get("/Admin/CostSheetByDate?start=" + start + "&end=" + end, function (data) {
+                var header = '<tr>' + $("#logContainer").find('tr').first().html() + '</tr>';
+                $("#logContainer").html(header + data);
+                $("#logContainer").show();
+                $('#messegeinfo').remove();
+            });
+        });
+    });
+</script>

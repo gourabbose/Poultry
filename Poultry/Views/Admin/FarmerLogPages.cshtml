@@ -1,4 +1,4 @@
-﻿@model Poultry.Models.VendorLog
+﻿@model Poultry.Models.FarmerLog
 @{
     int _totalPrice = 0;
 }
@@ -8,10 +8,7 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayName("Vendor")
-        </th>
-        <th>
-            Folio No.
+            @Html.DisplayName("Farmer")
         </th>
         <th>
             @Html.DisplayName("Item")
@@ -20,7 +17,10 @@
             @Html.DisplayName("Quantity")
         </th>
         <th>
-            @Html.DisplayName("Price")
+            Payment
+        </th>
+        <th>
+            Payment By
         </th>
     </tr>
     <tr>
@@ -28,12 +28,12 @@
             @Model.Date.ToString("dd-MMM-yyyy")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => Model.Vendor.Name)
+            @Html.DisplayFor(modelItem => Model.Farmer.Name)
         </td>
-        <td>@Html.DisplayFor(modelItem=>modelItem.FolioNo)</td>
         <td></td>
         <td></td>
-        <td></td>
+        <td>Rs. @Model.Payment</td>
+        <td>@Model.PaymentMethod</td>
     </tr>
     @foreach (var item in Model.Items)
     {
@@ -41,19 +41,17 @@
         <tr>
             <td></td>
             <td></td>
-            <td></td>
             <td>
                 @item.Item.Name
             </td>
             <td>
                 @item.Qty @item.Item.Unit
-            </td>
-            <td>Rs. @item.Price
-            </td>
+            </td>   
+            <td></td>
+            <td></td>
         </tr>
     }
-    <tr>
-        <td></td>
+@*    <tr>
         <td></td>
         <td></td>
         <td><strong>Total Price :</strong></td>
@@ -63,7 +61,6 @@
     <tr>
         <td></td>
         <td></td>
-        <td></td>
         <td><strong>Amount paid :</strong></td>
         <td></td>
         <td><strong>Rs. @Model.Payment</strong></td>
@@ -71,11 +68,10 @@
     <tr>
         <td></td>
         <td></td>
-        <td></td>
         <td><strong>Amount due :</strong></td>
         <td></td>
         <td><strong>Rs. @(_totalPrice - Model.Payment)</strong></td>
-    </tr>
+    </tr>*@
     
 
 </table>

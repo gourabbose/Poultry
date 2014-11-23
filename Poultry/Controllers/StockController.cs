@@ -179,5 +179,59 @@ namespace Poultry.Controllers
         }
         #endregion
 
+        #region Add Stock(Production)
+        public ActionResult AddStock()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddStock(DateTime Date, int? BPS, int? BS, int? BF)
+        {
+            var foodStocks = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem && t.Item.IsDeleted != true);
+            if (BPS.HasValue && BPS.Value > 0)
+            {
+                var _bps = foodStocks.Where(t => t.Item.Name == "B/PS").First();
+                _bps.Quantity += BPS.Value;
+                _dbContext.Entry(_bps).State = EntityState.Modified;
+                var prodLog = new ProductionLog
+                {
+                    Date = Date,
+                    Item = _bps.Item,
+                    Qty = BPS.Value
+                };
+                _dbContext.ProductionLogs.Add(prodLog);
+            }
+            if (BS.HasValue && BS.Value > 0)
+            {
+                var _bs = foodStocks.Where(t => t.Item.Name == "B/S").First();
+                _bs.Quantity += BS.Value;
+                _dbContext.Entry(_bs).State = EntityState.Modified;
+                var prodLog = new ProductionLog
+                {
+                    Date = Date,
+                    Item = _bs.Item,
+                    Qty = BS.Value
+                };
+                _dbContext.ProductionLogs.Add(prodLog);
+            }
+            if (BF.HasValue && BF.Value > 0)
+            {
+                var _bf = foodStocks.Where(t => t.Item.Name == "B/F").First();
+                _bf.Quantity += BF.Value;
+                _dbContext.Entry(_bf).State = EntityState.Modified;
+                var prodLog = new ProductionLog
+                {
+                    Date = Date,
+                    Item = _bf.Item,
+                    Qty = BF.Value
+                };
+                _dbContext.ProductionLogs.Add(prodLog);
+            }
+            _dbContext.SaveChanges();
+            TempData["Messege"] = "Stock Added Successfully";
+            return RedirectToAction("AddStock");
+        }
+        #endregion
+
     }
 }

@@ -5,13 +5,13 @@ namespace Poultry.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class m2 : IMigrationMetadata
+    public sealed partial class new2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(m2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(new2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201410091810265_m2"; }
+            get { return "201411230722134_new2"; }
         }
         
         string IMigrationMetadata.Source

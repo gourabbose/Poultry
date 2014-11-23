@@ -1,0 +1,418 @@
+﻿@model Poultry.Models.SupervisionReport
+@{
+    ViewBag.Title = "AddReport";
+    //var selectedWeek = Model.Reports.Where(t=>t.WeekNo==1).First();
+}
+@section scripts{
+    <style>
+        input {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #e2e2e2;
+            color: #333;
+            font-size: 1.2em;
+            width: 80%;
+        }
+
+        td {
+            min-width: 10%;
+        }
+    </style>
+}
+
+<h2>Add Supervision Report</h2>
+
+@using (Html.BeginForm())
+{
+    int i = 0;
+    <input type="hidden" value="@Model.Id" name="Id"/>
+    <br />
+    <a href="javascript:void(0)" id="showExtraData">Show Chick Lot Details</a>
+    <br />
+    <a href="javascript:void(0)" id="hideExtraData" style="display:none">Hide Chick Lot Details</a>
+    <br />
+    <div id="extraModal" style="display:none">
+        <table>
+            <tbody>
+                <tr>
+                    <th colspan="4">Chicken Batch Description</th>
+                </tr>
+                <tr>
+                    <th>Area</th>
+                    <th>
+                        <input type="hidden" name="ExtraData.Id" value="@Model.ExtraData.Id" />
+                        <input name="ExtraData.Data1" type="text"  value="@Model.ExtraData.Data1" /></th>
+                    <th>Farmer</th>
+                    <th>
+                        <input name="ExtraData.Data2" type="text"  value="@Model.ExtraData.Data2" /></th>
+                </tr>
+                <tr>
+                    <th>Supervisor</th>
+                    <th><input name="ExtraData.Data3" type="text"  value="@Model.ExtraData.Data3" /></th>
+                    <th>Address</th>
+                    <th><input name="ExtraData.Data4"  type="text"  value="@Model.ExtraData.Data4" /></th>
+                </tr>
+                <tr>
+                    <td colspan="4" style="border-bottom-style:double;height:3px;"></td>
+                </tr>
+                <tr>
+                    <td>Total Chick Delivered</td>
+                    <td><input name="ExtraData.Data5"  type="text"  value="@Model.ExtraData.Data5" /></td>
+                    <td>Date of Delivery</td>
+                    <td><input name="ExtraData.Data6"  type="text"  value="@Model.ExtraData.Data6" /></td>
+                </tr>
+                <tr>
+                    <td>Total Chicken Sold</td>
+                    <td><input name="ExtraData.Data7"  type="text"  value="@Model.ExtraData.Data7" /></td>
+                    <td>Lifting Date</td>
+                    <td><input name="ExtraData.Data8"  type="text"  value="@Model.ExtraData.Data8" /></td>
+                </tr>
+                <tr>
+                    <td>Weight of Chickens Lifted</td>
+                    <td><input name="ExtraData.Data9"  type="text"  value="@Model.ExtraData.Data9" /></td>
+                    <td>No. of Chicks Dead</td>
+                    <td><input name="ExtraData.Data10"  type="text"  value="@Model.ExtraData.Data10" /></td>
+                </tr>
+                <tr>
+                    <td>Avg. Weight</td>
+                    <td><input name="ExtraData.Data11"  type="text"  value="@Model.ExtraData.Data11" /></td>
+                    <td>Percentage</td>
+                    <td><input name="ExtraData.Data12"  type="text"  value="@Model.ExtraData.Data12" /></td>
+                </tr>
+                <tr>
+                    <td>Total Feed Consumed(Kg)</td>
+                    <td><input name="ExtraData.Data13"  type="text"  value="@Model.ExtraData.Data13" /></td>
+                    <td>Age on Lift Day</td>
+                    <td><input name="ExtraData.Data14"  type="text"  value="@Model.ExtraData.Data14" /></td>
+                </tr>
+                <tr>
+                    <td>Avg. Feed Consumption(Kg)</td>
+                    <td><input name="ExtraData.Data15"  type="text"  value="@Model.ExtraData.Data15" /></td>
+                    <td>Percentage of Chicks Alive</td>
+                    <td><input  name="ExtraData.Data16" type="text"  value="@Model.ExtraData.Data16" /></td>
+                </tr>
+                <tr>
+                    <td>F.C.R</td>
+                    <td><input  name="ExtraData.Data17" type="text"  value="@Model.ExtraData.Data17" /></td>
+                    <td>Cancelled Chicks Count</td>
+                    <td><input  name="ExtraData.Data18" type="text"  value="@Model.ExtraData.Data18" /></td>
+                </tr>
+                <tr>
+                    <td>P.E.F</td>
+                    <td><input name="ExtraData.Data19"  type="text"  value="@Model.ExtraData.Data19" /></td>
+                    <td>Deficit of Chicks Count</td>
+                    <td><input  name="ExtraData.Data20" type="text"  value="@Model.ExtraData.Data20" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Chicks Taken on Requirement</td>
+                    <td><input name="ExtraData.Data21"  type="text"  value="@Model.ExtraData.Data21" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+
+        @foreach (var week in Model.Reports)
+        {
+            <div class="page" id="@(i + 1)" style="@(i > 0 ? "display:none" : "");">
+                <table>
+                    <tbody id="container">
+                        <tr>
+                            <th>
+                                <strong>Week @week.WeekNo</strong>
+                            </th>
+                            <th>Chicks Count</th>
+                            <th>Daily Death Count</th>
+                            <th>Reason for Death</th>
+                            <th>Total Death</th>
+                            <th>Total Food Consumption</th>
+                            <th>Avg. Food Consumption</th>
+                            <th>Remarks</th>
+                            <th>Food in Stock</th>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 1)</td>
+                            <td>
+                                <input type="hidden" value="@week.WeekNo" name="Reports[@i].WeekNo" />
+                                <input type="hidden" value="@week.Id" name="Reports[@i].Id" />
+                                <input type="text" value="@week.Day1_ChickCount" name="Reports[@i].Day1_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_DeathCountPerDay" name="Reports[@i].Day1_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_DeathRemarks" name="Reports[@i].Day1_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_TotalDeathCount" name="Reports[@i].Day1_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_FoodConsumption" name="Reports[@i].Day1_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_AvgConsumption" name="Reports[@i].Day1_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_Remarks" name="Reports[@i].Day1_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_InStock" name="Reports[@i].Day1_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 2)</td>
+                            <td>
+                                <input type="text" value="@week.Day2_ChickCount" name="Reports[@i].Day2_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_DeathCountPerDay" name="Reports[@i].Day2_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_DeathRemarks" name="Reports[@i].Day2_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_TotalDeathCount" name="Reports[@i].Day2_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_FoodConsumption" name="Reports[@i].Day2_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_AvgConsumption" name="Reports[@i].Day2_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_Remarks" name="Reports[@i].Day2_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_InStock" name="Reports[@i].Day2_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 3)</td>
+                            <td>
+                                <input type="text" value="@week.Day3_ChickCount" name="Reports[@i].Day3_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_DeathCountPerDay" name="Reports[@i].Day3_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_DeathRemarks" name="Reports[@i].Day3_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_TotalDeathCount" name="Reports[@i].Day3_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_FoodConsumption" name="Reports[@i].Day3_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_AvgConsumption" name="Reports[@i].Day3_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_Remarks" name="Reports[@i].Day3_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_InStock" name="Reports[@i].Day3_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 4)</td>
+                            <td>
+                                <input type="text" value="@week.Day4_ChickCount" name="Reports[@i].Day4_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_DeathCountPerDay" name="Reports[@i].Day4_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_DeathRemarks" name="Reports[@i].Day4_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_TotalDeathCount" name="Reports[@i].Day4_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_FoodConsumption" name="Reports[@i].Day4_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_AvgConsumption" name="Reports[@i].Day4_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_Remarks" name="Reports[@i].Day4_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_InStock" name="Reports[@i].Day4_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 5)</td>
+                            <td>
+                                <input type="text" value="@week.Day5_ChickCount" name="Reports[@i].Day5_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_DeathCountPerDay" name="Reports[@i].Day5_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_DeathRemarks" name="Reports[@i].Day5_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_TotalDeathCount" name="Reports[@i].Day5_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_FoodConsumption" name="Reports[@i].Day5_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_AvgConsumption" name="Reports[@i].Day5_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_Remarks" name="Reports[@i].Day5_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_InStock" name="Reports[@i].Day5_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 6)</td>
+                            <td>
+                                <input type="text" value="@week.Day6_ChickCount" name="Reports[@i].Day6_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_DeathCountPerDay" name="Reports[@i].Day6_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_DeathRemarks" name="Reports[@i].Day6_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_TotalDeathCount" name="Reports[@i].Day6_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_FoodConsumption" name="Reports[@i].Day6_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_AvgConsumption" name="Reports[@i].Day6_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_Remarks" name="Reports[@i].Day6_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_InStock" name="Reports[@i].Day6_InStock" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Day @(i * 7 + 7)</td>
+                            <td>
+                                <input type="text" value="@week.Day7_ChickCount" name="Reports[@i].Day7_ChickCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_DeathCountPerDay" name="Reports[@i].Day7_DeathCountPerDay" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_DeathRemarks" name="Reports[@i].Day7_DeathRemarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_TotalDeathCount" name="Reports[@i].Day7_TotalDeathCount" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_FoodConsumption" name="Reports[@i].Day7_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_AvgConsumption" name="Reports[@i].Day7_AvgConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_Remarks" name="Reports[@i].Day7_Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_InStock" name="Reports[@i].Day7_InStock" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <div style="float: left">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th colspan="2">Avg. weight for Each bird (Gram)</th>
+                                </tr>
+                                <tr>
+                                    <th>Ideal Wt.</th>
+                                    <th>Actual Wt.</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @week.ExpectedWt
+                                    </td>
+                                    <td>
+                                        <input type="text" value="@week.AvgWt" name="Reports[@i].AvgWt"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Daily Ideal Food Intake
+                                    </th>
+                                    <th>Remarks
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @week.ExpFoodIntake
+                                    </td>
+                                    <td>
+                                        <input type="text" value="@week.Remarks" name="Reports[@i].Remarks"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="float: right">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th colspan="2">F. C. R.</th>
+                                </tr>
+                                <tr>
+                                    <th>Expected</th>
+                                    <th>Actual</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @week.ExpFCR
+                                    </td>
+                                    <td>
+                                        <input type="text" value="@week.FCR" name="Reports[@i].FCR" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+    <span style="display: inline-block; margin-top: 250px">
+        <input type="button" value="<<" style="float: left" class="prev" />
+        <input type="submit" value="Save" />
+        <input type="button" value=">>" style="float: right" class="next" />
+    </span>
+}
+<script type="text/javascript">
+    $(".prev").click(function () {
+        var currentWeek = $(".page:visible").attr('id');
+        if (currentWeek == 1) return;
+        $('.page:visible').slideUp();
+        $('#' + (parseInt(currentWeek) - 1)).slideDown();
+    });
+    $(".next").click(function () {
+        var currentWeek = $(".page:visible").attr('id');
+        if (currentWeek == 7) return;
+        $('.page:visible').slideUp();
+        $('#' + (parseInt(currentWeek) + 1)).slideDown();
+    });
+    $("#showExtraData").click(function () {
+        $(this).slideUp();
+        $("#extraModal").slideDown();
+        $("#hideExtraData").slideDown();
+    });
+    $("#hideExtraData").click(function () {
+        $(this).slideUp();
+        $("#extraModal").slideUp();
+        $("#showExtraData").slideDown()
+    });
+</script>

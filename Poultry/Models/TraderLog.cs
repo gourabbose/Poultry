@@ -6,14 +6,15 @@ using System.Web;
 
 namespace Poultry.Models
 {
-    public class VendorLog
+    public class TraderLog
     {
+
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Vendor Vendor { get; set; }
-        public DateTime Date { get; set; }
-        public List<ItemTransaction> Items { get; set; }
+        public Trader Trader { get; set; }
+        public int ChickenCount { get; set; }
+        public int Price { get; set; }
         public int Payment { get; set; }
-        public string FolioNo { get; set; }
+        public string PaymentMethod { get; set; }
     }
 }

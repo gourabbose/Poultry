@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Trader Lifting Logs";
+}
+@{
+    ViewBag.Title = "Vendor Delivery Reports";
+    var _traderList = (SelectList)ViewBag.TraderList;
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <style>
+        .datepicker {
+            width: 15%;
+        }
+
+        .searchCriteria {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+}
+<h2>Trader Lifting Logs</h2>
+<div id="DateSelecter" class="searchCriteria">
+    <strong>From :</strong>
+    <input type="text" id="fromDate" class="datepicker" value="@DateTime.Now.AddDays(-7).ToString("dd-MMM-yyyy")"/>
+    <strong>To :</strong>
+    <input type="text" id="toDate" class="datepicker"  value="@DateTime.Now.ToString("dd-MMM-yyyy")"/>
+    <strong>Lifted by (Trader) :</strong>
+    @Html.DropDownList("TraderId", _traderList, "---Any---")
+    <input type="button" id="search" value="Search" style="margin-left: 10px" />
+</div>
+<div id="logContainer" style="margin-top: 20px; margin-bottom: 20px;">
+    <strong>Please Select Search Criteria.</strong>
+</div>
+<script type="text/javascript">
+    $('#search').click(function () {
+        var start = $('#fromDate').val();
+        var end = $('#toDate').val();
+        var vendorId = $('#VendorId').val();
+        $.get("/Admin/GetLiftingLog?start=" + start + "&end=" + end + "&traderId=" + vendorId, "", function (data) {
+            $("#logContainer").empty().append(data);
+        });
+    });
+</script>

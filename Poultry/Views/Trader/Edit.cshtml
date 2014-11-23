@@ -38,6 +38,7 @@
             @Html.ValidationMessageFor(model => model.ContactNo)
         </div>
         <p>
+            @Html.HiddenFor(model=>model.PaymentDue)
             <input type="submit" value="Save" />
         </p>
     </fieldset>

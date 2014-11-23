@@ -1,55 +1,55 @@
 ﻿@model IEnumerable<Poultry.Models.ConsumptionLog>
 
 @{
-    ViewBag.Title = "DailyConsumptionLog";
+    ViewBag.Title = "Daily Consumption Reports";
 }
 
-<h2>Consumption Log</h2>
+<h2>Daily Consumption Reports</h2>
 
-@if(Model.Count()>0)
-{
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            Item
-        </th>
-        <th>
-            Quantity
-        </th>
-        <th>
-            Ratio
-        </th>
-        <th>
-            For
-        </th>
-    </tr>
+<div id="DateSelecter" class="searchCriteria">
+    <strong>From :</strong>
+    <input type="text" id="fromDate" class="datepicker"  value="@DateTime.Now.AddDays(-7).ToString("dd-MMM-yyyy")"/>
+    <strong>To :</strong>
+    <input type="text" id="toDate" class="datepicker"  value="@DateTime.Now.ToString("dd-MMM-yyyy")"/>
+    <input type="button" id="search" value="Search" style="margin-left: 10px" />
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.Date.ToString("dd-MMM-yyyy")
-        </td>
-        <td>
-            @item.Item.Name
-        </td>
-        <td>
-            @item.Quantity @item.For.Unit
-        </td>
-        <td>
-            @item.Ratio %
-        </td>
-        <td>
-            @item.For.Name
-        </td>
-    </tr>
-}
+<strong id="messegeinfo">Please Select Search Criteria</strong>
+<div id="logContainer"  style="display:none">
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>Item
+            </th>
+            <th>Quantity
+            </th>
+            <th>Ratio
+            </th>
+            <th>For
+            </th>
+        </tr>
+    </table>
+</div>
 
-</table>
-}
-else
-{
- <strong>No Data Found.</strong>   
-}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(document).on("DOMSubtreeModified", '#logContainer', function () {
+        //    var tr = $(this).find('tr').length;
+        //    if (tr > 1) $(this).show();
+        //    else $(this).hide();
+        //});
+        $('#search').click(function () {
+            var start = $('#fromDate').val();
+            var end = $('#toDate').val();
+            var farmerId = $('#FarmerId').val();
+            $.get("/Admin/GetConsumptionLogByDate?start=" + start + "&end=" + end, function (data) {
+                var header = '<tr>' + $("#logContainer").find('tr').first().html() + '</tr>';
+                $("#logContainer").html(header + data);
+                $("#logContainer").show();
+                $('#messegeinfo').remove();
+            });
+        });
+    });
+</script>

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Poultry.Models.FarmerLog>
+
+@{
+    ViewBag.Title = "Farmer Delivery Reports";
+    var _farmerList = (SelectList)ViewBag.FarmerList;
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <style>
+        .datepicker {
+            width: 15%;
+        }
+
+        .searchCriteria {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+}
+<h2>Farmer Delivery Reports</h2>
+<br />
+@*<div>
+    <strong>Search By : </strong>
+    <select id="SearchSelecter">
+        <option value="">--- select ---</option>
+        <option value="Date">Date</option>
+        <option value="Farmer">Farmer</option>
+    </select>
+</div>*@
+<div id="DateSelecter" class="searchCriteria">
+    <strong>From :</strong>
+    <input type="text" id="fromDate" class="datepicker"  value="@DateTime.Now.AddDays(-7).ToString("dd-MMM-yyyy")"/>
+    <strong>To :</strong>
+    <input type="text" id="toDate" class="datepicker"  value="@DateTime.Now.ToString("dd-MMM-yyyy")"/>
+    <strong>Delivered To (Farmer):</strong>
+    @Html.DropDownList("FarmerId", _farmerList, "---Any---")
+    <input type="button" id="search" value="Search" style="margin-left: 10px" />
+</div>
+<div id="logContainer" style="margin-top: 20px; margin-bottom: 20px;">
+    @if (Model!= null && Model.Count() > 0)
+    {
+        foreach (var trans in Model)
+        {
+            Html.RenderPartial("FarmerLogPages", trans);
+        }
+    }
+    else
+    {
+        <strong>Please Select Search Criteria.</strong>   
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy"
+        });
+        $('#SearchSelecter').change(function () {
+            $('.searchCriteria').hide();
+            $(this).find('option[value=""]').remove();
+            var selectedValue = $(this).val();
+            switch (selectedValue) {
+                case "Date":
+                    $('#DateSelecter').show();
+                    break;
+                case "Farmer":
+                    $('#selectFarmer').empty().append($('<option>').val('').html('--- select ---'));
+                    $.get("/api/Service/FarmerList?farmer=", "", function (data) {
+                        $(data).each(function () {
+                            $('<option>').attr('value', this.Id).html(this.Name).appendTo('#selectFarmer');
+                        });
+                    });
+                    $('#FarmerSelecter').show();
+                    break;
+            }
+        });
+        //$('#selectFarmer').change(function () {
+        //    var selectedValue = $(this).val();
+        //    $(this).find('option[value=""]').remove();
+        //    $.get("/Admin/GetFarmerLogById?Id=" + selectedValue, "", function (data) {
+        //        $("#logContainer").empty().append(data);
+        //    });
+        //});
+        $('#search').click(function () {
+            var start = $('#fromDate').val();
+            var end = $('#toDate').val();
+            var farmerId = $('#FarmerId').val();
+            $.get("/Admin/GetFarmerLogByDateAndFarmer?start=" + start + "&end=" + end+"&farmerId="+farmerId, "", function (data) {
+                $("#logContainer").empty().append(data);
+            });
+        });
+    });
+</script>

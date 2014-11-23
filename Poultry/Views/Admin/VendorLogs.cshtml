@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Poultry.Models.VendorLog>
 
 @{
-    ViewBag.Title = "VendorLogs";
+    ViewBag.Title = "Vendor Delivery Reports";
+    var _vendorList = (SelectList)ViewBag.VendorList;
 }
 
 @section scripts{
@@ -15,46 +16,43 @@
         .searchCriteria {
             padding-top: 10px;
             padding-bottom: 10px;
-            display: none;
         }
     </style>
 }
-<h2>Vendor Log</h2>
+<h2>Vendor Delivery Report</h2>
 <br />
-<div style="display: none">
+@*<div>
     <strong>Search By : </strong>
     <select id="SearchSelecter">
         <option value="">--- select ---</option>
         <option value="Date">Date</option>
         <option value="Vendor">Vendor</option>
-        <option value="Item">Item</option>
     </select>
-</div>
+</div>*@
 <div id="DateSelecter" class="searchCriteria">
     <strong>From :</strong>
-    <input type="text" id="fromDate" class="datepicker" />
+    <input type="text" id="fromDate" class="datepicker" value="@DateTime.Now.AddDays(-7).ToString("dd-MMM-yyyy")"/>
     <strong>To :</strong>
-    <input type="text" id="toDate" class="datepicker" />
-    <input type="button" id="search" value="Search" />
+    <input type="text" id="toDate" class="datepicker"  value="@DateTime.Now.ToString("dd-MMM-yyyy")"/>
+    <strong>Delivered by (Vendor) :</strong>
+    @Html.DropDownList("VendorId", _vendorList, "---Any---")
+    <input type="button" id="search" value="Search" style="margin-left:10px"/>
 </div>
 <div id="VendorSelecter" class="searchCriteria">
-    <strong>Select Vendor :</strong>
-    <select id="selectVendor">
-    </select>
 </div>
-@if (Model.Count() > 0)
-{
-    <div style="margin-top: 20px; margin-bottom: 20px;">
-        @foreach (var trans in Model)
+<div id="logContainer" style="margin-top: 20px; margin-bottom: 20px;">
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var trans in Model)
         {
             Html.RenderPartial("VendorLogPages", trans);
         }
-    </div>
-}
-else
-{
-    <strong>No Data Found.</strong>   
-}
+    }
+    else
+    {
+        <strong>Please Select Search Criteria.</strong>   
+    }
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         $(".datepicker").datepicker({
@@ -64,6 +62,7 @@ else
         });
         $('#SearchSelecter').change(function () {
             $('.searchCriteria').hide();
+            $(this).find('option[value=""]').remove();
             var selectedValue = $(this).val();
             switch (selectedValue) {
                 case "Date":
@@ -71,18 +70,37 @@ else
                     break;
                 case "Vendor":
                     $('#selectVendor').empty().append($('<option>').html('--- select ---'));
-                    $.get("/api/Service/VendorList", "", function (data) {
+                    $.get("/api/Service/VendorList?list=", "", function (data) {
                         $(data).each(function () {
                             $('<option>').attr('value', this.Id).html(this.Name).appendTo('#selectVendor');
                         });
                     });
                     $('#VendorSelecter').show();
                     break;
-                case "Item": break;
+                case "Item":
+                    $('#selectItem').empty().append($('<option>').html('--- select ---'));
+                    $.get("/api/Service/ItemList?item=", "", function (data) {
+                        $(data).each(function () {
+                            $('<option>').attr('value', this.Id).html(this.Name).appendTo('#selectVendor');
+                        });
+                    });
+                    break;
             }
         });
         $('#selectVendor').change(function () {
-
+            var selectedValue = $(this).val();
+            $(this).find('option[value=""]').remove();
+            $.get("/Admin/GetVendorLogById?Id=" + selectedValue, "", function (data) {
+                $("#logContainer").empty().append(data);
+            });
+        });
+        $('#search').click(function () {
+            var start = $('#fromDate').val();
+            var end = $('#toDate').val();
+            var vendorId = $('#VendorId').val();
+            $.get("/Admin/GetVendorLogByDateAndVendor?start=" + start + "&end=" + end + "&vendorId=" + vendorId, "", function (data) {
+                $("#logContainer").empty().append(data);
+            });
         });
     });
 </script>
