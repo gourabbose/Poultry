@@ -6,7 +6,7 @@
 
 body {
     background-color: #fff;
-    border-top: solid 10px #000;
+    /*border-top: solid 10px #000;*/
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -63,6 +63,7 @@ h4, h5, h6 {
     color: #000;
     margin-bottom: 0;
     padding-bottom: 0;
+	font-family: "Times New Roman",Times,serif;
 }
 
 h1 {
@@ -95,11 +96,11 @@ h5, h6 {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 1200px; /*960px;*/
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #f4f4f4 /*#efeeef*/;
     clear: both;
     padding-bottom: 35px;
 }
@@ -150,10 +151,11 @@ footer {
     font-size: .85em;
     margin: 0 0 10px;
     text-align: right;
+	font-family: "PT Sans",sans-serif;
 }
 
     #login a {
-        background-color: #83FF59;
+       /* background-color: #83FF59;*/
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
@@ -161,10 +163,12 @@ footer {
     }
 
         #login a.username {
-            background: #83FF59;
+           /* background: #83FF59;*/
+		   color: #56da50;
             margin: 0;
             padding: 0;
             text-decoration: underline;
+			 text-transform: capitalize;
         }
 
     #login ul {
@@ -176,7 +180,9 @@ footer {
         list-style: none;
     }
 
-
+	#login a:hover	{
+		background:none;
+	}
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
@@ -219,7 +225,8 @@ ul#menu {
         background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
         background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
         background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
+        /*color: #3e5667;*/
+		color: #fefefe;
         padding: 20px 40px 30px 40px;
     }
 
@@ -431,7 +438,8 @@ input, textarea {
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    width: 300px;
+    width: 40% /*300px*/;
+	border-radius: 5px;
 }
 
 textarea {
@@ -439,6 +447,10 @@ textarea {
     width: 500px;
 }
 
+select {
+    font-size: 16px;
+    width: 30%;
+}
     input:focus, textarea:focus {
         border: 1px solid #7ac0da;
     }
@@ -452,14 +464,16 @@ input[type="checkbox"] {
 input[type="submit"],
 input[type="button"],
 button {
-    background-color: #d3dce0;
-    border: 1px solid #787878;
+    background-color: #52baea;/* #d3dce0;*/
+    /*border: 1px solid #787878;*/
     cursor: pointer;
     font-size: 1.2em;
-    font-weight: 600;
+    font-weight: 500;
     padding: 7px;
     margin-right: 8px;
     width: auto;
+	border-radius:10px;
+	color:#f4f4f4;
 }
 
 td input[type="submit"],
@@ -532,13 +546,16 @@ table {
     border-spacing: 0;
     margin-top: 0.75em;
     border: 0 none;
+	width:100%;
+	text-align:center;
 }
 
 th {
     font-size: 1.2em;
-    text-align: left;
-    border: solid 2px;
+    /*text-align: left;*/
     padding: 5px;
+	/*border: 2px solid #62c5e6;*/
+    color: #157fc9;
 }
 
     th a {
@@ -589,6 +606,34 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
+/* new added*/
+.content-wrapper.main-content.clear-fix a {
+    background-color: #24acd9;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 600;
+    padding: 3px;
+    text-decoration: none;
+    
+}
+
+.content-wrapper.main-content.clear-fix a:hover {
+    background: none repeat scroll 0 0 #09de31;
+}
+
+.inputItems select {
+    width: 100%;
+}
+
+.contact a {
+    background: none repeat scroll 0 center rgba(0, 0, 0, 0) !important;
+    color: #000 !important;
+}
+
+#logoutForm > a {
+    color: #d92d2d;
+}
+/******end*****/
 
 /********************
 *   Mobile Styles   *
