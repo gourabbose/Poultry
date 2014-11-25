@@ -2,7 +2,7 @@
 @{
     int _totalPrice = 0;
 }
-<table style="width:80%">
+<table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -48,7 +48,7 @@
             <td>
                 @item.Qty @item.Item.Unit
             </td>
-            <td>Rs. @item.Price
+            <td><img src ="/images/rupees.png" height="16px" width="16px"/> @item.Price
             </td>
         </tr>
     }
@@ -56,25 +56,25 @@
         <td></td>
         <td></td>
         <td></td>
-        <td><strong>Total Price :</strong></td>
+        <td class="total">Total Price :</td>
         <td></td>
-        <td><strong>Rs. @_totalPrice</strong></td>
+        <td class="total"><img src ="/images/rupees.png" height="16px" width="16px"/> @_totalPrice</td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td></td>
-        <td><strong>Amount paid :</strong></td>
+        <td class="paid">Amount paid :</td>
         <td></td>
-        <td><strong>Rs. @Model.Payment</strong></td>
+        <td class="paid"><img src ="/images/rupees.png" height="16px" width="16px"/> @Model.Payment</td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td></td>
-        <td><strong>Amount due :</strong></td>
+        <td class="due">Amount due :</td>
         <td></td>
-        <td><strong>Rs. @(_totalPrice - Model.Payment)</strong></td>
+        <td class="due"><img src ="/images/rupees.png" height="16px" width="16px"/> @(_totalPrice - Model.Payment)</td>
     </tr>
     
 

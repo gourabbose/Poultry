@@ -5,8 +5,9 @@
 }
 
 body {
-    background-color: #fff;
-    /*border-top: solid 10px #000;*/
+    /*background-color: #fff;
+    border-top: solid 10px #000;*/
+	background-color: #2581ab;
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -100,9 +101,10 @@ h5, h6 {
 }
 
 #body {
-    background-color: #f4f4f4 /*#efeeef*/;
+    background-color: #fffefe; /*#efeeef*/;
     clear: both;
     padding-bottom: 35px;
+	min-height: 400px;
 }
 
 .main-content {
@@ -121,9 +123,9 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
-    font-size: .8em;
-    height: 100px;
+    color: #356598;
+    font-size: 1em;
+    /*height: 100px;*/
 }
 
 
@@ -164,7 +166,7 @@ footer {
 
         #login a.username {
            /* background: #83FF59;*/
-		   color: #56da50;
+		   color: #92fb34;
             margin: 0;
             padding: 0;
             text-decoration: underline;
@@ -473,7 +475,7 @@ button {
     margin-right: 8px;
     width: auto;
 	border-radius:10px;
-	color:#f4f4f4;
+	color:#fff;
 }
 
 td input[type="submit"],
@@ -600,6 +602,7 @@ td {
     border-top: solid 1px;
     border-right: solid 1px;
     border-left: solid 1px;
+	border-color: #bcbaba;
 }
 
 tr.pager td {
@@ -632,6 +635,42 @@ tr.pager td {
 
 #logoutForm > a {
     color: #d92d2d;
+}
+
+#login h2 {
+    color: #fff;
+}
+
+.editor-label {
+    float: left;
+    width: 20%;
+}
+
+.delete{
+	background-color: #ee1345;
+}
+
+.delete:hover{
+	background-color: #94a096
+}
+
+.due {
+    color: #e13131;
+    font-size: 15px;
+    font-weight: 600;
+	text-align: left;
+}
+.paid {
+    color: #14b833;
+    font-size: 15px;
+    font-weight: 600;
+	text-align: left;
+}
+.total{
+	color: #15586a;
+    font-size: 15px;
+    font-weight: 600;
+	text-align: left;
 }
 /******end*****/
 
