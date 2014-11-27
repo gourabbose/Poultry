@@ -7,7 +7,7 @@
 body {
     /*background-color: #fff;
     border-top: solid 10px #000;*/
-	background-color: #2581ab;
+	background-color: #393636 /*#2581a*/;
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -162,6 +162,7 @@ footer {
         margin-right: 3px;
         padding: 2px 3px;
         text-decoration: none;
+		color: #ea5c00;
     }
 
         #login a.username {
@@ -455,6 +456,7 @@ select {
 }
     input:focus, textarea:focus {
         border: 1px solid #7ac0da;
+		box-shadow: 0 0 3px #8cbee1;
     }
 
 input[type="checkbox"] {
@@ -671,6 +673,16 @@ tr.pager td {
     font-size: 15px;
     font-weight: 600;
 	text-align: left;
+}
+
+.qty {
+            width: 50%;
+            text-align:center;
+        }
+
+.col-4 > img {
+    width: 43%;
+	box-shadow: 2px 0 5px #262222;
 }
 /******end*****/
 

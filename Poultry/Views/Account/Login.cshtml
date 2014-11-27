@@ -8,6 +8,7 @@
     <h1>@ViewBag.Title</h1>
 </hgroup>
 
+<div class="col-4">
 <section id="loginForm">
 <h2>Use a local account to log in.</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
@@ -39,6 +40,12 @@
     </p>
 }
 </section>
+ </div>
+
+<div class="col-4">
+
+    <img src="/Images/DSCF3242.JPG" alt="not available" />
+</div>
 
 @*<section class="social" id="socialLoginForm">
     <h2>Use another service to log in.</h2>
