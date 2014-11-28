@@ -19,6 +19,22 @@ namespace Poultry.Controllers
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             ViewBag.Stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem).ToList();
             ViewBag.ChickStock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault().Quantity;
+            var farmers = _dbContext.Farmer.Where(t => t.IsDeleted != true && t.IsActive).ToList();
+            var matureChicks = 0;
+            foreach (var farmer in farmers)
+            {
+                var log = _dbContext.FarmerLog
+                                    .Include("Items")
+                                    .Include("Items.Item")
+                                    .Where(t => t.Farmer.Id == farmer.Id && t.ActivityFlag)
+                                    .OrderByDescending(t => t.Date)
+                                    .ToList()
+                                    .Where(t => (DateTime.Now - t.Date).Days > 40)
+                                    .FirstOrDefault();
+                if (log == null) continue;
+                else matureChicks += log.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - (log.Lifted + log.TotalDeath);
+            }
+            ViewBag.MatureChicks = matureChicks;
             return View();
         }
 
