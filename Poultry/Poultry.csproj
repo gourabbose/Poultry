@@ -295,7 +295,9 @@
     <Content Include="Scripts\noty\jquery.noty.packaged.js" />
     <Content Include="Scripts\noty\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\validate.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

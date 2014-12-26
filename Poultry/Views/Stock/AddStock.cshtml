@@ -3,7 +3,6 @@
     var _itemList = (SelectList)ViewBag.ItemList;
 }
 
-<h2>Add Stock</h2>
 @section scripts{
     <style>
         input, textarea {
@@ -23,7 +22,7 @@
 }
 @using(Html.BeginForm())
 {
-    <h2 style="float: left">Add Production on :</h2>
+    <h2 style="float: left">Stock >> Add >> Daily Production on :</h2>
     
     <input type="text" style="margin-top: 23px; margin-left: 5px; width:20%" name="Date" class="datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
 

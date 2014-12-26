@@ -6,7 +6,6 @@
     var _itemList = (SelectList)ViewBag.ItemList;
     var _vendorList = (SelectList)ViewBag.VendorList;
 }
-
     <style>
     .Qty, .Price {
             background: none repeat scroll 0 0 #fff;
@@ -21,7 +20,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "VendorSupplyForm" }))
 {
     
-    <h2 style="float:left">Add Vendor Supply on :</h2>
+    <h2 style="float:left">Stock >> Add >> Vendor Supply on :</h2>
     <input type="text" class="datepicker" name="Date" value="@DateTime.Now.ToString("dd-MMM-yyyy")" style="margin-top: 23px; margin-left: 5px; width:20%" />
     <p>
         <input type="button" id="AddItemInput" value="Add More Item" />

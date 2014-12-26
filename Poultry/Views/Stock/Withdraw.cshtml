@@ -32,7 +32,7 @@
 
 @using (Html.BeginForm("Withdraw", "Stock", FormMethod.Post, new { id = "WithdrawForm" }))
 {
-    <h2 style="float: left">Withdraw for Daily Consumptions on :</h2>
+    <h2 style="float: left">Stock >> Withdraw >> Daily Consumptions on :</h2>
     
     <input type="text" style="margin-top: 23px; margin-left: 5px; width:20%" name="Date" class="datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
 

@@ -109,7 +109,7 @@ namespace Poultry.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Delivery(int? ChickCount, int AdvancePayment, string PaymentMode, IEnumerable<Stock> Stocks, int FarmerId, DateTime Date)
+        public ActionResult Delivery(int? ChickCount, int? AdvancePayment, string PaymentMode, IEnumerable<Stock> Stocks, int FarmerId, DateTime Date)
         {
             var farmer = _dbContext.Farmer.Find(FarmerId);
             if (farmer.IsActive && ChickCount.HasValue)
@@ -118,7 +118,7 @@ namespace Poultry.Controllers
                 TempData["MessegeType"] = "error";
                 return RedirectToAction("Delivery");
             }
-            var log = new FarmerLog { Date = Date, Farmer = farmer, Items = new List<ItemTransaction>(), Payment = AdvancePayment, PaymentMethod = PaymentMode };
+            var log = new FarmerLog { Date = Date, Farmer = farmer, Items = new List<ItemTransaction>(), Payment = AdvancePayment.HasValue?AdvancePayment.Value:0, PaymentMethod = PaymentMode };
             foreach (var s in Stocks)
             {
                 var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Id == s.Item.Id).First();
