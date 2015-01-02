@@ -14,6 +14,7 @@ namespace Poultry.Models
         public DateTime Date { get; set; }
         public List<ItemTransaction> Items { get; set; }
         public int Payment { get; set; }
+        public string PaymentMode { get; set; }
         public string FolioNo { get; set; }
     }
 }

@@ -180,13 +180,9 @@
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ServiceResult.cs" />
-    <Compile Include="Migrations\201411230649574_new1.cs" />
-    <Compile Include="Migrations\201411230649574_new1.Designer.cs">
-      <DependentUpon>201411230649574_new1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411230722134_new2.cs" />
-    <Compile Include="Migrations\201411230722134_new2.Designer.cs">
-      <DependentUpon>201411230722134_new2.cs</DependentUpon>
+    <Compile Include="Migrations\201501011619554_m.cs" />
+    <Compile Include="Migrations\201501011619554_m.Designer.cs">
+      <DependentUpon>201501011619554_m.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -400,11 +396,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411230649574_new1.resx">
-      <DependentUpon>201411230649574_new1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411230722134_new2.resx">
-      <DependentUpon>201411230722134_new2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201501011619554_m.resx">
+      <DependentUpon>201501011619554_m.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

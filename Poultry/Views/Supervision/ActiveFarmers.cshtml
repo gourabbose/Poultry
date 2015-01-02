@@ -22,6 +22,8 @@
             </th>
             <th>No. of Chicks
             </th>
+            <th>No. of Chicks Alive
+            </th>
             <th>Chicks Age
             </th>
             <th></th>
@@ -43,6 +45,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NoOfChicks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChicksAlive)
                 </td>
                 <td>
                     @((DateTime.Today - item.ActivityDate.Date).Days + 1) Day(s)

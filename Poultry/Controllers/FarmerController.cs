@@ -119,13 +119,14 @@ namespace Poultry.Controllers
                 return RedirectToAction("Delivery");
             }
             var log = new FarmerLog { Date = Date, Farmer = farmer, Items = new List<ItemTransaction>(), Payment = AdvancePayment.HasValue?AdvancePayment.Value:0, PaymentMethod = PaymentMode };
-            foreach (var s in Stocks)
-            {
-                var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Id == s.Item.Id).First();
-                log.Items.Add(new ItemTransaction { Item = stock.Item, Qty = s.Quantity });
-                stock.Quantity -= s.Quantity;
-                _dbContext.Entry(stock).State = EntityState.Modified;
-            }
+            if(Stocks!=null)
+                foreach (var s in Stocks)
+                {
+                    var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Id == s.Item.Id).First();
+                    log.Items.Add(new ItemTransaction { Item = stock.Item, Qty = s.Quantity });
+                    stock.Quantity -= s.Quantity;
+                    _dbContext.Entry(stock).State = EntityState.Modified;
+                }
             if (ChickCount.HasValue)
             {
                 log.ActivityFlag = true;

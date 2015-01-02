@@ -100,7 +100,7 @@ namespace Poultry.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddVendorSupply(VendorLog supply, int? ChickCount, int? Payment)
+        public ActionResult AddVendorSupply(VendorLog supply, int? ChickCount, int? Payment, string PaymentMode)
         {
             try
             {
@@ -131,6 +131,8 @@ namespace Poultry.Controllers
                 {
                     var payment = new VendorPaymentLog { Date = supply.Date, Amount = Payment.Value, Vendor = vendor };
                     supply.Payment = Payment.Value;
+
+                    supply.PaymentMode = PaymentMode;
                     totalPrice -= Payment.Value;
                     _dbContext.VendorPayments.Add(payment);
                 }

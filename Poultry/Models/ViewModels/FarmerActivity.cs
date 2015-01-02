@@ -10,5 +10,6 @@ namespace Poultry.Models.ViewModels
         public Farmer Farmer { get; set; }
         public DateTime ActivityDate { get; set; }
         public int NoOfChicks { get; set; }
+        public int ChicksAlive { get; set; }
     }
 }

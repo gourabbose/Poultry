@@ -22,11 +22,13 @@ namespace Poultry.Controllers
             {
                 var log = _dbContext.FarmerLog.Include("Items").Include("Items.Item").Where(t => t.Farmer.Id == farmer.Id && t.ActivityFlag).OrderByDescending(t => t.Date).FirstOrDefault();
                 if (log == null) continue;
+                var report = _dbContext.Reports.Include("Reports").Where(t => t.Log.Id == log.Id).First();
                 var activity = new FarmerActivity
                 {
                     Farmer = farmer,
                     ActivityDate = log.Date,
-                    NoOfChicks = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted
+                    NoOfChicks = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted,
+                    ChicksAlive = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted - report.TotalDeath
                 };
                 activities.Add(activity);
             }
@@ -137,7 +139,7 @@ namespace Poultry.Controllers
             var farmers = _dbContext.Farmer.Where(t => t.IsDeleted != true).ToList();
             foreach (var farmer in farmers)
             {
-                var log = _dbContext.FarmerLog.Include("Items").Include("Items.Item").Where(t => t.Farmer.Id == farmer.Id && !t.ActivityFlag).OrderByDescending(t => t.Date).FirstOrDefault();
+                var log = _dbContext.FarmerLog.Include("Items").Include("Items.Item").Where(t => t.Farmer.Id == farmer.Id).OrderByDescending(t => t.Date).FirstOrDefault();
                 if (log == null) continue;
                 try
                 {

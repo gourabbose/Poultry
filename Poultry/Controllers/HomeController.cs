@@ -29,7 +29,7 @@ namespace Poultry.Controllers
                                     .Where(t => t.Farmer.Id == farmer.Id && t.ActivityFlag)
                                     .OrderByDescending(t => t.Date)
                                     .ToList()
-                                    .Where(t => (DateTime.Now - t.Date).Days > 40)
+                                    //.Where(t => (DateTime.Now - t.Date).Days > 40)
                                     .FirstOrDefault();
                 if (log == null) continue;
                 else matureChicks += log.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - (log.Lifted + log.TotalDeath);

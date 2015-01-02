@@ -62,7 +62,13 @@
     </div>
     <div>
         <strong>Payment Mode : </strong>
-        <input type="text" name="PaymentMode" />
+        @*<input type="text" name="PaymentMode" />*@
+
+         <select name="PaymentMode" >
+          <option value="By Cash">By Cash</option>
+          <option value="By Cheque">By Cheque</option>
+          <option value="Online Transfer">Online Transfer</option>
+        </select> 
     </div>
     <div>
         <p>
@@ -138,26 +144,51 @@
             }, "json");
         });
         $(document).on('click', '.remove', function () {
-            $(this).parent().parent().remove();
             if (!$(this).hasClass('Chicken')) {
+                $(this).parent().parent().remove();
                 ReOrder();
+            }
+            else {
+                $(this).parent().remove();
             }
         });
     });
     $(document).on('keydown', '.qty', function (e) {
-        if (e.keyCode != 8) e.preventDefault();
+        debugger;
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40) ||
+            (e.ctrlKey)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+    $(document).on('keyup', '.qty', function (e) {
         item = $(this);
-        setTimeout(function () {
-            if (!isNaN(parseInt(e.key)) || e.keyCode == 8) {
-                if (!isNaN(parseInt(e.key))) $(item).val($(item).val() + e.key);
-                var qtyInputs = $(item).parent().parent().find('.qty');
-                var stockShow = $(item).parent().parent().find('.availableStock');
-                if (!isNaN(parseInt(stockShow.text()))) {
-                    var current = $(item).parent().parent().find('.hidAvailableStock').val() - parseInt($(qtyInputs[0]).val() == '' ? 0 : $(qtyInputs[0]).val());
-                    stockShow.text(current);
-                }
+        if (!isNaN(parseInt(e.keyCode)) || e.keyCode == 8) {
+            //if (!isNaN(parseInt(e.keyCode))) $(item).val($(item).val() + e.keyCode);
+            var qtyInputs = $(item).parent().parent().find('.qty');
+            var total = 0;
+            qtyInputs.each(function (e) {
+                if (!isNaN(parseInt($(this).val())))
+                    total += parseInt($(this).val());
+            });
+            $($(item).parent().parent().find('.total')[0]).text(total);
+            $($(item).parent().parent().find('.hidTotal')[0]).val(total)
+            var stockShow = $(item).parent().parent().find('.availableStock');
+            if (!isNaN(parseInt(stockShow.text()))) {
+                var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
+                stockShow.text(current);
             }
-        }, 0);
+        }
+        //}, 0);
     });
     function ReOrder() {
         var InputItems = $('#container').find('.inputItems');
