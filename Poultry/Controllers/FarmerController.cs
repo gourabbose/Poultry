@@ -147,6 +147,7 @@ namespace Poultry.Controllers
                 report.Reports.Add(new WeeklyReport(6));
                 report.Reports.Add(new WeeklyReport(7));
                 report.ExtraData = new ExtraData();
+                report.FirstCount = ChickCount.Value;
                 _dbContext.Reports.Add(report);
             }
             _dbContext.FarmerLog.Add(log);

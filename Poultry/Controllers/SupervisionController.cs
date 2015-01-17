@@ -28,7 +28,8 @@ namespace Poultry.Controllers
                     Farmer = farmer,
                     ActivityDate = log.Date,
                     NoOfChicks = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted,
-                    ChicksAlive = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted - report.TotalDeath
+                    ChicksAlive = log.Items.Where(t => t.Item.Type == StockType.Chicken).First().Qty - log.Lifted - report.TotalDeath,
+                    CurrentWeight = report.CurrentWeight
                 };
                 activities.Add(activity);
             }
@@ -53,6 +54,7 @@ namespace Poultry.Controllers
             _dbContext.Entry(_report.ExtraData).State = EntityState.Detached;
             _report.Reports = report.Reports;
             _report.ExtraData = report.ExtraData;
+            _report.CurrentWeight = report.CurrentWeight;
             _dbContext.Entry(_report.ExtraData).State = EntityState.Modified;
             _dbContext.Entry(_report).State = EntityState.Modified;
             _dbContext.SaveChanges();
@@ -97,7 +99,7 @@ namespace Poultry.Controllers
                 if (log == null) continue;
                 else matureChicks.Add(log);
             }
-            ViewBag.MatureChicks = matureChicks.Where(t => (DateTime.Now - t.Date).Days > 40).OrderByDescending(t => t.Date);
+            ViewBag.MatureChicks = matureChicks.OrderByDescending(t => t.Date);
             return View();
         }
 

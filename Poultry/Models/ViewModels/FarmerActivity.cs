@@ -11,5 +11,6 @@ namespace Poultry.Models.ViewModels
         public DateTime ActivityDate { get; set; }
         public int NoOfChicks { get; set; }
         public int ChicksAlive { get; set; }
+        public int CurrentWeight { get; set; }
     }
 }

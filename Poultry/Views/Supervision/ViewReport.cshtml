@@ -125,6 +125,8 @@
                             <th>Daily Death Count</th>
                             <th>Reason for Death</th>
                             <th>Total Death</th>
+                            <th>Current Weight</th>
+                            <th>FCR</th>
                             <th>Total Food Consumption</th>
                             <th>Avg. Food Consumption</th>
                             <th>Remarks</th>
@@ -135,22 +137,28 @@
                             <td>
                                 <input type="hidden" value="@week.WeekNo" name="Reports[@i].WeekNo" />
                                 <input type="hidden" value="@week.Id" name="Reports[@i].Id" />
-                                <input type="text" value="@week.Day1_ChickCount" name="Reports[@i].Day1_ChickCount" />
+                                <input type="text" value="@week.Day1_ChickCount" readonly='true' name="Reports[@i].Day1_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day1_DeathCountPerDay" name="Reports[@i].Day1_DeathCountPerDay" />
+                                <input type="text" value="@week.Day1_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day1_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day1_DeathRemarks" name="Reports[@i].Day1_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day1_TotalDeathCount" name="Reports[@i].Day1_TotalDeathCount" />
+                                <input type="text" value="@week.Day1_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day1_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day1_FoodConsumption" name="Reports[@i].Day1_FoodConsumption" />
+                                <input type="text" value="@week.Day1_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day1_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day1_AvgConsumption" name="Reports[@i].Day1_AvgConsumption" />
+                                <input type="text" value="@week.Day1_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day1_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day1_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day1_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day1_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day1_Remarks" name="Reports[@i].Day1_Remarks" />
@@ -162,22 +170,28 @@
                         <tr>
                             <td>Day @(i * 7 + 2)</td>
                             <td>
-                                <input type="text" value="@week.Day2_ChickCount" name="Reports[@i].Day2_ChickCount" />
+                                <input type="text" value="@week.Day2_ChickCount" readonly='true' name="Reports[@i].Day2_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day2_DeathCountPerDay" name="Reports[@i].Day2_DeathCountPerDay" />
+                                <input type="text" value="@week.Day2_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day2_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day2_DeathRemarks" name="Reports[@i].Day2_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day2_TotalDeathCount" name="Reports[@i].Day2_TotalDeathCount" />
+                                <input type="text" value="@week.Day2_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day2_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day2_FoodConsumption" name="Reports[@i].Day2_FoodConsumption" />
+                                <input type="text" value="@week.Day2_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day2_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day2_AvgConsumption" name="Reports[@i].Day2_AvgConsumption" />
+                                <input type="text" value="@week.Day2_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day2_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day2_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day2_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day2_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day2_Remarks" name="Reports[@i].Day2_Remarks" />
@@ -189,22 +203,28 @@
                         <tr>
                             <td>Day @(i * 7 + 3)</td>
                             <td>
-                                <input type="text" value="@week.Day3_ChickCount" name="Reports[@i].Day3_ChickCount" />
+                                <input type="text" value="@week.Day3_ChickCount" readonly='true' name="Reports[@i].Day3_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day3_DeathCountPerDay" name="Reports[@i].Day3_DeathCountPerDay" />
+                                <input type="text" value="@week.Day3_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day3_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day3_DeathRemarks" name="Reports[@i].Day3_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day3_TotalDeathCount" name="Reports[@i].Day3_TotalDeathCount" />
+                                <input type="text" value="@week.Day3_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day3_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day3_FoodConsumption" name="Reports[@i].Day3_FoodConsumption" />
+                                <input type="text" value="@week.Day3_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day3_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day3_AvgConsumption" name="Reports[@i].Day3_AvgConsumption" />
+                                <input type="text" value="@week.Day3_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day3_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day3_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day3_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day3_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day3_Remarks" name="Reports[@i].Day3_Remarks" />
@@ -216,22 +236,28 @@
                         <tr>
                             <td>Day @(i * 7 + 4)</td>
                             <td>
-                                <input type="text" value="@week.Day4_ChickCount" name="Reports[@i].Day4_ChickCount" />
+                                <input type="text" value="@week.Day4_ChickCount" readonly='true' name="Reports[@i].Day4_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day4_DeathCountPerDay" name="Reports[@i].Day4_DeathCountPerDay" />
+                                <input type="text" value="@week.Day4_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day4_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day4_DeathRemarks" name="Reports[@i].Day4_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day4_TotalDeathCount" name="Reports[@i].Day4_TotalDeathCount" />
+                                <input type="text" value="@week.Day4_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day4_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day4_FoodConsumption" name="Reports[@i].Day4_FoodConsumption" />
+                                <input type="text" value="@week.Day4_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day4_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day4_AvgConsumption" name="Reports[@i].Day4_AvgConsumption" />
+                                <input type="text" value="@week.Day4_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day4_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day4_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day4_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day4_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day4_Remarks" name="Reports[@i].Day4_Remarks" />
@@ -243,22 +269,28 @@
                         <tr>
                             <td>Day @(i * 7 + 5)</td>
                             <td>
-                                <input type="text" value="@week.Day5_ChickCount" name="Reports[@i].Day5_ChickCount" />
+                                <input type="text" value="@week.Day5_ChickCount" readonly='true' name="Reports[@i].Day5_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day5_DeathCountPerDay" name="Reports[@i].Day5_DeathCountPerDay" />
+                                <input type="text" value="@week.Day5_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day5_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day5_DeathRemarks" name="Reports[@i].Day5_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day5_TotalDeathCount" name="Reports[@i].Day5_TotalDeathCount" />
+                                <input type="text" value="@week.Day5_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day5_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day5_FoodConsumption" name="Reports[@i].Day5_FoodConsumption" />
+                                <input type="text" value="@week.Day5_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day5_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day5_AvgConsumption" name="Reports[@i].Day5_AvgConsumption" />
+                                <input type="text" value="@week.Day5_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day5_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day5_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day5_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day5_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day5_Remarks" name="Reports[@i].Day5_Remarks" />
@@ -270,22 +302,28 @@
                         <tr>
                             <td>Day @(i * 7 + 6)</td>
                             <td>
-                                <input type="text" value="@week.Day6_ChickCount" name="Reports[@i].Day6_ChickCount" />
+                                <input type="text" value="@week.Day6_ChickCount" readonly='true' name="Reports[@i].Day6_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day6_DeathCountPerDay" name="Reports[@i].Day6_DeathCountPerDay" />
+                                <input type="text" value="@week.Day6_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day6_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day6_DeathRemarks" name="Reports[@i].Day6_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day6_TotalDeathCount" name="Reports[@i].Day6_TotalDeathCount" />
+                                <input type="text" value="@week.Day6_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day6_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day6_FoodConsumption" name="Reports[@i].Day6_FoodConsumption" />
+                                <input type="text" value="@week.Day6_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day6_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day6_AvgConsumption" name="Reports[@i].Day6_AvgConsumption" />
+                                <input type="text" value="@week.Day6_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day6_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day6_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day6_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day6_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day6_Remarks" name="Reports[@i].Day6_Remarks" />
@@ -297,22 +335,28 @@
                         <tr>
                             <td>Day @(i * 7 + 7)</td>
                             <td>
-                                <input type="text" value="@week.Day7_ChickCount" name="Reports[@i].Day7_ChickCount" />
+                                <input type="text" value="@week.Day7_ChickCount" readonly='true' name="Reports[@i].Day7_ChickCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day7_DeathCountPerDay" name="Reports[@i].Day7_DeathCountPerDay" />
+                                <input type="text" value="@week.Day7_DeathCountPerDay" class='chickDeath validate-numberonly' name="Reports[@i].Day7_DeathCountPerDay" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day7_DeathRemarks" name="Reports[@i].Day7_DeathRemarks" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day7_TotalDeathCount" name="Reports[@i].Day7_TotalDeathCount" />
+                                <input type="text" value="@week.Day7_TotalDeathCount" class='validate-numberonly' name="Reports[@i].Day7_TotalDeathCount" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day7_FoodConsumption" name="Reports[@i].Day7_FoodConsumption" />
+                                <input type="text" value="@week.Day7_CurrentWt" class='chickWt validate-numberonly' name="Reports[@i].Day7_CurrentWt" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day7_AvgConsumption" name="Reports[@i].Day7_AvgConsumption" />
+                                <input type="text" value="@week.Day7_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day7_FCR" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day7_FoodConsumption" />
+                            </td>
+                            <td>
+                                <input type="text" value="@week.Day7_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day7_AvgConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day7_Remarks" name="Reports[@i].Day7_Remarks" />

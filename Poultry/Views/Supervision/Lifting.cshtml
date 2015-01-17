@@ -50,7 +50,12 @@
     <input type="text" name="Payment" value="0" />
     <p></p>
     <strong>Payment Mode :</strong>
-    <input type="text" name="PaymentMode" />
+    @*<input type="text" name="PaymentMode" />*@
+    <select name="PaymentMode" >
+        <option value="By Cash">By Cash</option>
+        <option value="By Cheque">By Cheque</option>
+        <option value="Online Transfer">Online Transfer</option>
+    </select> 
     <p></p>
     <input type="submit" value="Lift" />
     }

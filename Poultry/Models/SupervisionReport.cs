@@ -13,7 +13,7 @@ namespace Poultry.Models
         public FarmerLog Log { get; set; }
         public List<WeeklyReport> Reports { get; set; }
         public ExtraData ExtraData { get; set; }
-        
+        public int CurrentWeight { get; set; }
 
         
 
@@ -33,6 +33,24 @@ namespace Poultry.Models
                                 + r.Day7_TotalDeathCount;
                 }
                 return count;
+            }
+        }
+
+        public int FirstCount
+        {
+            set
+            {
+                var v = value;
+                foreach (var r in Reports)
+                {
+                    r.Day1_ChickCount = value;
+                    r.Day2_ChickCount = value;
+                    r.Day3_ChickCount = value;
+                    r.Day4_ChickCount = value;
+                    r.Day5_ChickCount = value;
+                    r.Day6_ChickCount = value;
+                    r.Day7_ChickCount = value;
+                }
             }
         }
     }

@@ -70,7 +70,7 @@
     </div>
     <div>
         <p>
-            <input type="submit" value="Add Supply" />
+            <input type="submit" value="Add Supply" id="btnSubmit"/>
         </p>
     </div>
 }
@@ -115,26 +115,29 @@
                 ReOrder();
             }
         });
-        //$('#AddItemInput').trigger('click');
-        //$('#AddItemInput').trigger('click');
-        //$('#AddItemInput').trigger('click');
-        //$('#AddItemInput').trigger('click');
     });
-    //$('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+    //$("#btnSubmit").click(function () {
+    //    var li = $('#validationSummary').find('li:visible');
+    //    $(li).remove();
+    //});
     function getUniqueValidations() {
-        var list = $('#validationSummary').find('li');
-        var html = '';
-        list.each(function () {
-            var count = 0;
-            var currentVal = $(this).text();
-            if (html.indexOf(currentVal)<0) {
-                html += '<li>' + currentVal + '</li>';
-            }
-        });
-        $('#validationSummary').unbind('DOMSubtreeModified');
-        Alert(html);
-        $('#validationSummary').html(html);
-        $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+        setTimeout(function () {
+            var list = $('#validationSummary').find('li');
+            var html = '';
+            list.each(function () {
+                var count = 0;
+                var currentVal = $(this).text();
+                if (html.indexOf(currentVal) < 0) {
+                    html += '<li>' + currentVal + '</li>';
+                }
+            });
+            $('#validationSummary').unbind('DOMSubtreeModified');
+            $('#validationSummary').html(html);
+            setTimeout(function () {
+                $('#validationSummary').on('DOMSubtreeModified', getUniqueValidations);
+            }, 1000);
+        }, 0);
     }
     function ReOrder() {
         var InputItems = $('#container').find('.inputItems');

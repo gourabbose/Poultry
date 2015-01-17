@@ -31,6 +31,8 @@ namespace Poultry.Models
         public float Day1_AvgConsumption { get; set; }
         public string Day1_Remarks { get; set; }
         public string Day1_InStock { get; set; }
+        public float Day1_CurrentWt { get; set; }
+        public string Day1_FCR { get; set; }
 
         public int Day2_ChickCount { get; set; }
         public int Day2_DeathCountPerDay { get; set; }
@@ -40,6 +42,8 @@ namespace Poultry.Models
         public float Day2_AvgConsumption { get; set; }
         public string Day2_Remarks { get; set; }
         public string Day2_InStock { get; set; }
+        public float Day2_CurrentWt { get; set; }
+        public string Day2_FCR { get; set; }
 
         public int Day3_ChickCount { get; set; }
         public int Day3_DeathCountPerDay { get; set; }
@@ -49,6 +53,8 @@ namespace Poultry.Models
         public float Day3_AvgConsumption { get; set; }
         public string Day3_Remarks { get; set; }
         public string Day3_InStock { get; set; }
+        public float Day3_CurrentWt { get; set; }
+        public string Day3_FCR { get; set; }
 
         public int Day4_ChickCount { get; set; }
         public int Day4_DeathCountPerDay { get; set; }
@@ -58,6 +64,8 @@ namespace Poultry.Models
         public float Day4_AvgConsumption { get; set; }
         public string Day4_Remarks { get; set; }
         public string Day4_InStock { get; set; }
+        public float Day4_CurrentWt { get; set; }
+        public string Day4_FCR { get; set; }
 
         public int Day5_ChickCount { get; set; }
         public int Day5_DeathCountPerDay { get; set; }
@@ -67,6 +75,8 @@ namespace Poultry.Models
         public float Day5_AvgConsumption { get; set; }
         public string Day5_Remarks { get; set; }
         public string Day5_InStock { get; set; }
+        public float Day5_CurrentWt { get; set; }
+        public string Day5_FCR { get; set; }
 
         public int Day6_ChickCount { get; set; }
         public int Day6_DeathCountPerDay { get; set; }
@@ -76,6 +86,8 @@ namespace Poultry.Models
         public float Day6_AvgConsumption { get; set; }
         public string Day6_Remarks { get; set; }
         public string Day6_InStock { get; set; }
+        public float Day6_CurrentWt { get; set; }
+        public string Day6_FCR { get; set; }
 
         public int Day7_ChickCount { get; set; }
         public int Day7_DeathCountPerDay { get; set; }
@@ -85,6 +97,8 @@ namespace Poultry.Models
         public float Day7_AvgConsumption { get; set; }
         public string Day7_Remarks { get; set; }
         public string Day7_InStock { get; set; }
+        public float Day7_CurrentWt { get; set; }
+        public string Day7_FCR { get; set; }
 
         [NotMapped]
         public string ExpectedWt

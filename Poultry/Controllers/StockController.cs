@@ -61,6 +61,13 @@ namespace Poultry.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existing = _dbContext.Item.Where(t => t.Name == item.Name.ToUpper()).FirstOrDefault();
+                if (existing != null)
+                {
+                    TempData["Messege"] = "Item already exists !!!";
+                    return View(item);
+                }
+                item.Name = item.Name.ToUpperInvariant();
                 var stock = new Stock { Item = item, Quantity = 0 };
                 _dbContext.Item.Add(item);
                 _dbContext.Stock.Add(stock);
@@ -85,6 +92,7 @@ namespace Poultry.Controllers
                 _dbContext.Entry(item).State = EntityState.Modified;
                 var stock = _dbContext.Stock.Where(t=>t.Item.Id==item.Id).First();
                 _dbContext.SaveChanges();
+                TempData["Messege"] = "Item Edited Successfully";
                 return RedirectToAction(item.Type == StockType.VendorItem ? "VendorItemTypes" : "FoodItemTypes");
             }
             else

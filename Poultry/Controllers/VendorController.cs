@@ -104,6 +104,7 @@ namespace Poultry.Controllers
         {
             try
             {
+                if (supply.Items == null) supply.Items = new List<ItemTransaction>();
                 var vendor = _dbContext.Vendor.Find(supply.Vendor.Id);
                 int totalPrice = 0;
                 supply.Vendor = vendor;
@@ -147,7 +148,7 @@ namespace Poultry.Controllers
                 _dbContext.SaveChanges();
                 TempData["Messege"] = "Supply Added to Stock";
             }
-            catch
+            catch(Exception ex)
             {
                 TempData["Messege"] = "Some error occured. Please contact developer.";
             }

@@ -18,7 +18,14 @@ namespace Poultry.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             ViewBag.Stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem).ToList();
-            ViewBag.ChickStock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault().Quantity;
+            try
+            {
+                ViewBag.ChickStock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).FirstOrDefault().Quantity;
+            }
+            catch
+            {
+                return RedirectToAction("Init");
+            }
             var farmers = _dbContext.Farmer.Where(t => t.IsDeleted != true && t.IsActive).ToList();
             var matureChicks = 0;
             foreach (var farmer in farmers)
