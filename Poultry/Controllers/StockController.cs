@@ -4,6 +4,7 @@ using Poultry.Models;
 using Poultry.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -41,9 +42,14 @@ namespace Poultry.Controllers
         #endregion
 
         #region Item Types
-        public ActionResult VendorItemTypes()
+        public ActionResult VendorItemTypes(int page = 1)
         {
-            return View(_dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true));
+            ViewBag.Paging = Boolean.Parse(ConfigurationManager.AppSettings["Pagination"].ToString());
+            int pageSize = ViewBag.PazeSize = int.Parse(ConfigurationManager.AppSettings["Pagesize"].ToString());
+            ViewBag.Page = page-1;
+            ViewBag.Count = _dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true).Count();
+            return View(_dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true)
+                                        .OrderBy(t => t.Name).Skip((page - 1) * pageSize).Take(pageSize));
         }
         public ActionResult FoodItemTypes()
         {
@@ -90,7 +96,7 @@ namespace Poultry.Controllers
             if (ModelState.IsValid)
             {
                 _dbContext.Entry(item).State = EntityState.Modified;
-                var stock = _dbContext.Stock.Where(t=>t.Item.Id==item.Id).First();
+                var stock = _dbContext.Stock.Where(t => t.Item.Id == item.Id).First();
                 _dbContext.SaveChanges();
                 TempData["Messege"] = "Item Edited Successfully";
                 return RedirectToAction(item.Type == StockType.VendorItem ? "VendorItemTypes" : "FoodItemTypes");

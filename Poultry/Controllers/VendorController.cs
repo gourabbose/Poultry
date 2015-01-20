@@ -9,6 +9,7 @@ using Poultry.Models;
 using Poultry.DbContexts;
 using Poultry.Filters;
 using Poultry.Models.ViewModels;
+using System.Configuration;
 
 namespace Poultry.Controllers
 {
@@ -18,9 +19,14 @@ namespace Poultry.Controllers
         private DataBaseContext _dbContext = new DataBaseContext();
 
         #region CRUD
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(_dbContext.Vendor.Where(t => t.IsDeleted != true).ToList());
+            ViewBag.Paging = Boolean.Parse(ConfigurationManager.AppSettings["Pagination"].ToString());
+            int pageSize = ViewBag.PazeSize = int.Parse(ConfigurationManager.AppSettings["Pagesize"].ToString());
+            ViewBag.Page = page - 1;
+            ViewBag.Count = _dbContext.Vendor.Where(t => t.IsDeleted != true).Count();
+            return View(_dbContext.Vendor.Where(t => t.IsDeleted != true).ToList()
+                .OrderBy(t => t.Name).Skip((page - 1) * pageSize).Take(pageSize));
         }
         public ActionResult Details(int id = 0)
         {
@@ -148,7 +154,7 @@ namespace Poultry.Controllers
                 _dbContext.SaveChanges();
                 TempData["Messege"] = "Supply Added to Stock";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["Messege"] = "Some error occured. Please contact developer.";
             }

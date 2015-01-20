@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Poultry.Models;
 using Poultry.DbContexts;
+using System.Configuration;
 
 namespace Poultry.Controllers
 {
@@ -15,9 +16,14 @@ namespace Poultry.Controllers
         private DataBaseContext _dbContext = new DataBaseContext();
 
         #region CRUD
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(_dbContext.Traders.Where(t => t.IsDeleted != true).ToList());
+            ViewBag.Paging = Boolean.Parse(ConfigurationManager.AppSettings["Pagination"].ToString());
+            int pageSize = ViewBag.PazeSize = int.Parse(ConfigurationManager.AppSettings["Pagesize"].ToString());
+            ViewBag.Page = page - 1;
+            ViewBag.Count = _dbContext.Traders.Where(t => t.IsDeleted != true).Count();
+            return View(_dbContext.Traders.Where(t => t.IsDeleted != true).ToList()
+                .OrderBy(t => t.Name).Skip((page - 1) * pageSize).Take(pageSize));
         }
         public ActionResult Details(int id = 0)
         {
