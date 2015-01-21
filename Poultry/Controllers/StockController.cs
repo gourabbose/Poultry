@@ -49,7 +49,9 @@ namespace Poultry.Controllers
             ViewBag.Page = page-1;
             ViewBag.Count = _dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true).Count();
             return View(_dbContext.Item.Where(t => t.Type == StockType.VendorItem && t.IsDeleted != true)
-                                        .OrderBy(t => t.Name).Skip((page - 1) * pageSize).Take(pageSize));
+                                        .OrderBy(t => t.Name)
+                                        //.Skip((page - 1) * pageSize).Take(pageSize)
+                                        );
         }
         public ActionResult FoodItemTypes()
         {

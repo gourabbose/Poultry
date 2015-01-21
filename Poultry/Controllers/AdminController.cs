@@ -4,6 +4,7 @@ using Poultry.Models;
 using Poultry.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -85,9 +86,20 @@ namespace Poultry.Controllers
             //var log = _dbContext.ConsumptionLogs.Include("Item").Include("For").OrderByDescending(t => t.Date).ToList();
             return View();
         }
-        public ActionResult GetConsumptionLogByDate(DateTime start, DateTime end)
+        public ActionResult GetConsumptionLogByDate(DateTime start, DateTime end, int page=1)
         {
-            var log = _dbContext.ConsumptionLogs.Include("Item").Include("For").Where(t => t.Date >= start && t.Date <= end).OrderByDescending(t => t.Date).ToList();
+            int pageSize = ViewBag.PazeSize = int.Parse(ConfigurationManager.AppSettings["Pagesize"].ToString());
+            ViewBag.Page = page;
+            ViewBag.Count = _dbContext.ConsumptionLogs
+                                            .Include("Item").Include("For")
+                                            .Where(t => t.Date >= start && t.Date <= end).Count();
+            var log = _dbContext.ConsumptionLogs
+                                            .Include("Item").Include("For")
+                                            .Where(t => t.Date >= start && t.Date <= end)
+                                            .OrderByDescending(t => t.Date)
+                                            .Skip((page - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
             return PartialView("ConsumptionLogPages", log);
         }
         public ActionResult VendorLogs()
