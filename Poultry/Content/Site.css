@@ -648,12 +648,12 @@ tr.pager td {
     width: 20%;
 }
 
-.delete{
-	background-color: #ee1345;
+.delete {
+    background-color: #e00a3c !important;
 }
 
 .delete:hover{
-	background-color: #94a096
+	background-color: #94a096 !important;
 }
 
 .due {
@@ -684,6 +684,45 @@ tr.pager td {
     width: 43%;
 	box-shadow: 2px 0 5px #262222;
 }
+
+.mintab{
+	width:40%;
+}
+
+.historyBtn {
+    background-color: #a3ad0c !important;
+}
+
+.historyBtn:hover {
+    background-color: #715d5d !important;
+}
+/* pagination*/
+
+#PageList {
+    font-size: 16px;
+    padding-top: 10px;
+    text-align: right;
+    width: 100%;
+}
+
+
+#PageList a {
+    background-color: #067145;
+    border: 0 none;
+    border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#PageList a:hover {
+    background-color: #f7580a;
+}
+
+
+.pageSelect {
+    background-color: #f7580a !important;
+}
+/**/
 /******end*****/
 
 /********************

@@ -70,7 +70,7 @@
         }
 
     </table>
-    <div id="PageList" style="width: 100%; text-align: right; padding-top: 10px">
+    <div id="PageList">
         @if (ViewBag.Paging)
         {
             for (int i = 0; i * ViewBag.PazeSize < ViewBag.Count; i++)
@@ -79,13 +79,13 @@
                 {
                     if (i > 2 && i == ViewBag.Page - 1)
                     {
-            <span style="padding: 3px; font-size: xx-large;">.</span>
-            <span style="padding: 3px; font-size: xx-large;">.</span>
+            <span>.</span>
+            <span>.</span>
                     }
-            <span style="padding: 3px;">
+            <span>
                 @if (ViewBag.Page == i)
                 {
-                    <strong style="background-color: coral">@Html.DisplayName((i + 1).ToString())</strong>
+                    <a class="pageSelect">@Html.DisplayName((i + 1).ToString())</a>
                 }
                 else
                 {
@@ -94,15 +94,15 @@
             </span>
                 if (i * ViewBag.PazeSize < ViewBag.Count - (ViewBag.PazeSize * 3) && i == ViewBag.Page + 1)
                 {
-            <span style="padding: 3px; font-size: xx-large;">.</span>
-            <span style="padding: 3px; font-size: xx-large;">.</span>
+            <span>.</span>
+            <span>.</span>
                 }
                 }
                 else
                 {
                     if (i <= 1 || i * ViewBag.PazeSize >= ViewBag.Count - (ViewBag.PazeSize * 2))
                     {
-            <span style="padding: 3px;">
+            <span>
                 @Html.ActionLink((i + 1).ToString(), "Index", new { page = (i + 1).ToString() })
             </span>
                     }
