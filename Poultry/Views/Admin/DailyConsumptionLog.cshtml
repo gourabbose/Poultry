@@ -32,7 +32,50 @@
         </tr>
     </table>
 </div>
-
+<div id="PageList" style="width: 100%; text-align: right; padding-top:10px">
+    @if (ViewBag.Paging)
+    {
+        for (int i = 0; i * ViewBag.PazeSize < ViewBag.Count; i++)
+        {
+            if (i >= ViewBag.Page - 1 && i <= ViewBag.Page + 1)
+            {
+                if (i > 2 && i == ViewBag.Page - 1)
+                {
+            <span style="padding: 3px; font-size: xx-large;">.</span>
+            <span style="padding: 3px; font-size: xx-large;">.</span>
+                }
+            <span style="padding: 3px;">
+                @if (ViewBag.Page == i)
+                {
+                    <strong style="background-color:coral">@Html.DisplayName((i + 1).ToString())</strong>
+                }
+                else
+                {
+                    @Html.ActionLink((i + 1).ToString(), "VendorItemTypes", new { page = (i + 1).ToString() })
+                }
+            </span>
+                if (i * ViewBag.PazeSize < ViewBag.Count - (ViewBag.PazeSize * 3) && i == ViewBag.Page + 1)
+                {
+            <span style="padding: 3px; font-size: xx-large;">.</span>
+            <span style="padding: 3px; font-size: xx-large;">.</span>
+                }
+            }
+            else
+            {
+                if (i <= 1 || i * ViewBag.PazeSize >= ViewBag.Count - (ViewBag.PazeSize * 2))
+                {
+            <span style="padding: 3px;">
+                    @Html.ActionLink((i + 1).ToString(), "VendorItemTypes", new { page = (i + 1).ToString() })
+            </span>
+                }
+            }
+        }
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         //$(document).on("DOMSubtreeModified", '#logContainer', function () {

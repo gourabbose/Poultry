@@ -105,7 +105,7 @@
     </div>
     <div style="float: left">
         <p>
-            <input type="submit" value="Withdraw Stock" />
+            <input id="btnSubmit" type="submit" value="Withdraw Stock" />
         </p>
     </div>
 
@@ -150,6 +150,7 @@
     var itemRow;
     var item;
     $(document).ready(function () {
+        $(".qty").attr('disabled', 'disabled');
         $('#AddItemInput').click(function () {
             $('#container').append($('#temp').html());
             ReOrder();
@@ -178,20 +179,24 @@
             item = $(this);
             if (!isNaN(parseInt(e.keyCode)) || e.keyCode == 8) {
                 //if (!isNaN(parseInt(e.keyCode))) $(item).val($(item).val() + e.keyCode);
-                    var qtyInputs = $(item).parent().parent().find('.qty');
-                    var total = 0;
-                    qtyInputs.each(function (e) {
-                        if (!isNaN(parseInt($(this).val())))
-                            total += parseInt($(this).val());
-                    });
-                    $($(item).parent().parent().find('.total')[0]).text(total);
-                    $($(item).parent().parent().find('.hidTotal')[0]).val(total)
-                    var stockShow = $(item).parent().parent().find('.availableStock');
-                    if (!isNaN(parseInt(stockShow.text()))) {
-                        var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
-                        stockShow.text(current);
+                var qtyInputs = $(item).parent().parent().find('.qty');
+                var total = 0;
+                qtyInputs.each(function (e) {
+                    if (!isNaN(parseInt($(this).val())))
+                        total += parseInt($(this).val());
+                });
+                $($(item).parent().parent().find('.total')[0]).text(total);
+                $($(item).parent().parent().find('.hidTotal')[0]).val(total)
+                var stockShow = $(item).parent().parent().find('.availableStock');
+                if (!isNaN(parseInt(stockShow.text()))) {
+                    var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
+                    stockShow.text(current);
+                    if (current < 0) {
+                        Alert("You cannot withdraw stock more than you have in stock !!!", 'error');
                     }
+
                 }
+            }
             //}, 0);
         });
         $(document).on('change', '.itemSelect', function (e) {
@@ -207,11 +212,48 @@
                     itemRow.find('.unit').text(data.Data[0].Item.Unit);
                     itemRow.find('.availableStock').text(data.Data[0].Quantity - parseInt(itemRow.find('.total').text()));
                     itemRow.find('.hidAvailableStock').val(data.Data[0].Quantity);
+                    itemRow.find('.qty').removeAttr('disabled');
                 }
                 else {
                     Alert(data.Messege);
                 }
             }, "json");
+        });
+        $("#btnSubmit").click(function (e) {
+            var itemSelect = $('.itemSelect:visible');
+            if (itemSelect.length == 0) {
+                Alert("Please select items to withdraw !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+            for (var i = 0; i < itemSelect.length; i++) {
+                if ($(itemSelect[i]).val() == '') {
+                    Alert("Either select valid items or remove please remove it !!!", 'error');
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            var availableStock = $('.availableStock:visible');
+            for (var i = 0; i < availableStock.length; i++) {
+                try {
+                    if (parseInt($(availableStock[i]).text()) < 0)
+                        throw "ERROR";
+                }
+                catch (ex) {
+                    Alert("You cannot withdraw stock more than you have in stock !!!", 'error');
+                    e.preventDefault();
+                    return false;
+                }
+            }
+
+            var total = $('.total:visible');
+            for (var i = 0; i < total.length; i++) {
+                if (parseInt($(total[i]).text()) == 0) {
+                    Alert("Please remove items with no withdrawal quantity !!!", 'error');
+                    e.preventDefault();
+                    return false;
+                }
+            }
         });
     });
 

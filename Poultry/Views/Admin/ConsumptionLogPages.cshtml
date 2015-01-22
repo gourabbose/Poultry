@@ -28,3 +28,11 @@ else
         <td colspan="5" style="text-align: center"><strong>No Data Found</strong></td>
     </tr>   
 }
+<script type="text/javascript">
+    var PageNo = '@ViewBag.Page';
+    @if (ViewBag.Page == 1)
+    {
+        @:var PageSize = '@ViewBag.PazeSize';
+        @:var TotalCount = '@ViewBag.Count';
+    }
+</script>
