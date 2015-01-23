@@ -33,7 +33,8 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "EditItem", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "DeleteItem", new { id=item.Id })
+            <a class="delete" href="/Stock/DeleteItem/@item.Id">Delete</a>
+            @*@Html.ActionLink("Delete", "DeleteItem", new { id=item.Id,@class="delete" })*@
         </td>
     </tr>
 }
@@ -88,3 +89,35 @@ else
 {
  <strong>No Items Registered.<br /> Please Create New Items from Menu.</strong>   
 }
+<script type="text/javascript">
+    var deleteHref = "";
+    $(".delete").click(function (e) {
+        e.preventDefault();
+        deleteHref = $(this).attr('href');
+        //noty({
+        //    type: 'confirm',
+        //    dismissQueue: true,
+        //    text:'Are sure to delete?'
+        //});
+        noty({
+            text: 'Do you really want to delete this item?',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                        // this = button element
+                        // $noty = $noty element
+
+                        $noty.close();
+                        window.location.href = deleteHref;
+                    }
+                },
+                {
+                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                        $noty.close();
+                    }
+                }
+            ]
+        });
+    });
+</script>

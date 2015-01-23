@@ -34,20 +34,20 @@
             <tr>
                 <td>@m.Farmer.Name</td>
                 <td>@((DateTime.Now - m.Date).Days) Days</td>
-                <td>@(m.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - m.Lifted - m.TotalDeath) Nos.</td>
+                <td><span class="availableChicks">@(m.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - m.Lifted - m.TotalDeath)</span> Nos.</td>
                 <td>
                     <input type="hidden" name="[@i].Id" value="@m.Id" />
-                    <input type="text" name="[@i].Payment" style="width:40px"/>
+                    <input type="text" class="liftQty validate-numberonly" name="[@i].Payment" style="width:40px"/>
                 </td>
             </tr>
         }
     </table>
     <p></p>
     <strong>Total Price :  </strong>
-    <input type="text" name="TotalPrice" value="0" />
+    <input type="text" name="TotalPrice" value="0" class="validate-numberonly"/>
     <p></p>
     <strong>Payment Received :</strong>
-    <input type="text" name="Payment" value="0" />
+    <input type="text" name="Payment" value="0"  class="validate-numberonly"/>
     <p></p>
     <strong>Payment Mode :</strong>
     @*<input type="text" name="PaymentMode" />*@
@@ -57,10 +57,43 @@
         <option value="Online Transfer">Online Transfer</option>
     </select> 
     <p></p>
-    <input type="submit" value="Lift" />
+    <input id="btnSubmit" type="submit" value="Lift" />
     }
     else
     {
     <strong>No Chicks Available for Lifting !!!</strong>   
     }
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSubmit').click(function (e) {
+            if ($('#TraderId').val() == '') {
+                Alert("Please select a Trader!!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+            var liftQty = $('.liftQty');
+            var isAllEmpty = true;
+            for (var i = 0; i < liftQty.length; i++) {
+                if ($(liftQty[i]).val() != '' && !isNaN(parseInt($(liftQty[i]).val()))) {
+                    isAllEmpty = false;
+                    break;
+                }
+            }
+            if (isAllEmpty){
+                Alert("Please enter atleast one value to lift", 'error');
+                e.preventDefault();
+                return false;
+            }
+            var liftings = $('.availableChicks');
+            $(liftings).each(function () {
+                var liftQty = $(this).parent().next().find('input.liftQty').val();
+                if (liftQty != '' && parseInt(liftQty) > parseInt($(this).text())) {
+                    Alert("Lifting more than available quantity not possible !!!", 'error');
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+    });
+</script>

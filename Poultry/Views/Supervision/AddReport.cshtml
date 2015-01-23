@@ -175,7 +175,7 @@
                                 <input type="text" value="@week.Day1_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day1_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day1_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day1_FoodConsumption" />
+                                <input type="text" value="@week.Day1_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day1_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day1_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day1_AvgConsumption" />
@@ -208,7 +208,7 @@
                                 <input type="text" value="@week.Day2_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day2_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day2_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day2_FoodConsumption" />
+                                <input type="text" value="@week.Day2_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day2_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day2_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day2_AvgConsumption" />
@@ -241,7 +241,7 @@
                                 <input type="text" value="@week.Day3_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day3_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day3_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day3_FoodConsumption" />
+                                <input type="text" value="@week.Day3_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day3_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day3_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day3_AvgConsumption" />
@@ -274,7 +274,7 @@
                                 <input type="text" value="@week.Day4_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day4_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day4_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day4_FoodConsumption" />
+                                <input type="text" value="@week.Day4_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day4_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day4_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day4_AvgConsumption" />
@@ -307,7 +307,7 @@
                                 <input type="text" value="@week.Day5_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day5_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day5_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day5_FoodConsumption" />
+                                <input type="text" value="@week.Day5_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day5_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day5_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day5_AvgConsumption" />
@@ -340,7 +340,7 @@
                                 <input type="text" value="@week.Day6_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day6_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day6_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day6_FoodConsumption" />
+                                <input type="text" value="@week.Day6_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day6_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day6_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day6_AvgConsumption" />
@@ -373,7 +373,7 @@
                                 <input type="text" value="@week.Day7_FCR" class='fcr validate-numberonly' readonly='true'  name="Reports[@i].Day7_FCR" />
                             </td>
                             <td>
-                                <input type="text" value="@week.Day7_FoodConsumption" class='validate-numberonly' name="Reports[@i].Day7_FoodConsumption" />
+                                <input type="text" value="@week.Day7_FoodConsumption" class='foodConsumption validate-numberonly' name="Reports[@i].Day7_FoodConsumption" />
                             </td>
                             <td>
                                 <input type="text" value="@week.Day7_AvgConsumption" class='validate-numberonly' name="Reports[@i].Day7_AvgConsumption" />
@@ -495,11 +495,10 @@
             $(nextChickCount).attr('readonly', 'readonly');
         });
     });
-    $('.chickWt').keyup(function () {
-        var chickCount = parseInt($(this).parents('tr').find('input[readonly=true]').val());
-        var currentDeath = parseInt($(this).parents('tr').find('.chickDeath').val());
-        var currentWt = $(this).val();
-        var fcr = (chickCount - currentDeath) / currentWt;
+    $('.chickWt, .foodConsumption').keyup(function () {
+        var food = parseInt($(this).parents('tr').find('.foodConsumption').val());
+        var currentWt = parseInt($(this).parents('tr').find('.chickWt').val());
+        var fcr = food / currentWt;
         $(this).parents('tr').find('.fcr').val(fcr);
     });
     $(".prev").click(function () {
