@@ -120,6 +120,9 @@ namespace Poultry.Controllers
                 else
                     farmerlog.Lifted += v.Payment;
                 Qty += v.Payment;
+                var report = _dbContext.Reports.Include("Reports").Where(t => t.Log.Id == v.Id).First();
+                report.CurrentWeight -= v.TotalDeath;
+                _dbContext.Entry(report).State = EntityState.Modified;
                 _dbContext.Entry(farmerlog).State = EntityState.Modified;
                 hydratedLog.Add(farmerlog);
             }
@@ -167,6 +170,8 @@ namespace Poultry.Controllers
             var report = _dbContext.Reports.Include("Reports").Include("Log").Include("ExtraData").Where(t => t.Id == id).First();
             return View(report);
         }
+
+
 
     }
 }

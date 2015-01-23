@@ -28,6 +28,7 @@ namespace Poultry.Controllers
             }
             var farmers = _dbContext.Farmer.Where(t => t.IsDeleted != true && t.IsActive).ToList();
             var matureChicks = 0;
+            var currentWt = 0;
             foreach (var farmer in farmers)
             {
                 var log = _dbContext.FarmerLog
@@ -39,9 +40,15 @@ namespace Poultry.Controllers
                                     //.Where(t => (DateTime.Now - t.Date).Days > 40)
                                     .FirstOrDefault();
                 if (log == null) continue;
-                else matureChicks += log.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - (log.Lifted + log.TotalDeath);
+                else
+                {
+                    var report = _dbContext.Reports.Include("Reports").Where(t => t.Log.Id == log.Id).First();
+                    currentWt += report.CurrentWeight;
+                    matureChicks += log.Items.Where(t => t.Item.Type == Poultry.Models.StockType.Chicken).First().Qty - (log.Lifted + log.TotalDeath);
+                }
             }
             ViewBag.MatureChicks = matureChicks;
+            ViewBag.CurrentWeight = currentWt;
             return View();
         }
 

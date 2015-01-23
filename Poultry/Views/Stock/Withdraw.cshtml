@@ -192,7 +192,7 @@
                     var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
                     stockShow.text(current);
                     if (current < 0) {
-                        Alert("You cannot withdraw stock more than you have in stock !!!", 'error');
+                        Alert("Stock not available !!!", 'error');
                     }
 
                 }
@@ -236,11 +236,12 @@
             var availableStock = $('.availableStock:visible');
             for (var i = 0; i < availableStock.length; i++) {
                 try {
-                    if (parseInt($(availableStock[i]).text()) < 0)
+                    var stock = parseInt($(availableStock[i]).text());
+                    if (isNaN(stock) || stock < 0)
                         throw "ERROR";
                 }
                 catch (ex) {
-                    Alert("You cannot withdraw stock more than you have in stock !!!", 'error');
+                    Alert("Stock not available !!!", 'error');
                     e.preventDefault();
                     return false;
                 }
@@ -261,7 +262,6 @@
         var InputItems = $('#container').find('.inputItems');
         var i = 0;
         $(InputItems).each(function () {
-            debugger;
             $(this).find('.itemSelect').attr('name', '[' + i + '].Items.Id');
             $(this).find('.ratio1').attr('name', '[' + i + '].Ratio1');
             $(this).find('.ratio2').attr('name', '[' + i + '].Ratio2');

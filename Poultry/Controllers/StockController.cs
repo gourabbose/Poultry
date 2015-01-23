@@ -21,9 +21,18 @@ namespace Poultry.Controllers
 
 
         #region Current Stock Info
-        public ActionResult InStockVendorItems()
+        public ActionResult InStockVendorItems(int page=1)
         {
-            var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.VendorItem).ToList();
+            ViewBag.Paging = Boolean.Parse(ConfigurationManager.AppSettings["Pagination"].ToString());
+            int pageSize = ViewBag.PazeSize = int.Parse(ConfigurationManager.AppSettings["Pagesize"].ToString());
+            ViewBag.Page = page - 1;
+            ViewBag.Count = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.VendorItem).Count();
+            var stock = _dbContext.Stock
+                                    .Include("Item")
+                                    .Where(t => t.Item.Type == StockType.VendorItem)
+                                    .OrderBy(t => t.Item.Name)
+                                    .Skip((page - 1) * pageSize)
+                                    .Take(pageSize);
             //return View(stock);
             var chick_stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).ToList();
             var result = new Tuple<IEnumerable<Stock>, IEnumerable<Stock>>(stock, chick_stock);
@@ -34,6 +43,7 @@ namespace Poultry.Controllers
             var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.FoodItem).ToList();
             return View(stock);
         }
+        [OutputCache(Duration=1000)]
         public ActionResult InStockChicken()
         {
             var stock = _dbContext.Stock.Include("Item").Where(t => t.Item.Type == StockType.Chicken).ToList();

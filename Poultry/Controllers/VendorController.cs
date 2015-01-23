@@ -199,5 +199,23 @@ namespace Poultry.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public ActionResult VendorPayments(int id)
+        {
+            var v = _dbContext.Vendor.Find(id);
+            return View(v);
+        }
+        [HttpPost]
+        public ActionResult VendorPayments(int VendorId, int Amount)
+        {
+            var vendor = _dbContext.Vendor.Find(VendorId);
+            vendor.Due -= Amount;
+            _dbContext.Entry(vendor).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            TempData["Messege"] = "Payment Paid Successfully";
+            return RedirectToAction("Index");
+        }
+
     }
 }

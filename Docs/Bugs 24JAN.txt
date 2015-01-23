@@ -1,0 +1,14 @@
+1.total weight not available in home page														DONE
+2.fcr=total consumed food/weight																DONE
+3.need validation in lifting																	DONE
+4.crash in lifting if lift field left blank														DONE
+5.confirmation message in item delete															DONE
+6.Item list--> pagination is ok but shows more than 10 records in single page.					DONE
+7.crash in daily consumption log page															DONE	
+8.IN FARMER DELIVERY PAGE -VE STOCK AND CHICKS(WITHDRAW IS DONE FROM MORE 						DONE
+THAN AVAILABLE CHICKEN) IS INSERTING.STOP THIS THING.
+9.FARMER DELIVERY (PROCESS SUCCESSFULL)-->WITHOUT SELECTING CHIKEN AND 							DONE
+ITEM.(WHICH IS WRONG) AND THIS NEGETIVE STOCK IS SHOWING IN WITHDRAW PAGE .						
+10.ANOTHER THING VALIDATION TEXT CHANGE IS(STOCK NOT AVAILABLE)									DONE
+11.InStockVendorItems   PAGINATION IS NOT DONE .												DONE
+12.mail ref of 22/12/2014 ----> Due payment option is missing.									DONE

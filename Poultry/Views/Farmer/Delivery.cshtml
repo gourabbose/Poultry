@@ -38,14 +38,14 @@
             </tr>
             <tr class="inputItems">
                 <td>
-                    @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true", @class = "itemSelect" })
+                    @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new {  @class = "itemSelect" })
                 </td>
                 <td>
                     <strong class="availableStock">- -</strong> <strong class="unit"></strong>
                     <input type="hidden" class="hidAvailableStock" />
                 </td>
                 <td>
-                    @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class = "qty " })
+                    @Html.TextBox("[0].Quantity", "", new { @class = "qty validate-numberonly " })
                 </td>
                 <td>
                     <span class="unit"></span>
@@ -58,7 +58,7 @@
     </div>
     <div>
         <strong>Advance Payment : </strong>
-        <input type="text" name="AdvancePayment" />
+        <input type="text" name="AdvancePayment" class="validate-numberonly"/>
     </div>
     <div>
         <strong>Payment Mode : </strong>
@@ -72,21 +72,21 @@
     </div>
     <div>
         <p>
-            <input type="submit" value="Add Supply" />
+            <input type="submit" value="Add Supply" id="btnSubmit"/>
         </p>
     </div>
 }
 <table style="display: none" id="temp">
     <tr class="inputItems">
         <td>
-            @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new { data_val_required = "Please ensure you have selected all the items.", data_val = "true", @class = "itemSelect" })
+            @Html.DropDownList("[0].Item.Id", _itemList, "Select Item", new {  @class = "itemSelect" })
         </td>
         <td>
             <strong class="availableStock">- -</strong> <strong class="unit"></strong>
             <input type="hidden" class="hidAvailableStock" />
         </td>
         <td>
-            @Html.TextBox("[0].Quantity", "", new { data_val_required = "Please ensure you have filled all the quantities.", data_val = "true", @class = "qty " })
+            @Html.TextBox("[0].Quantity", "", new {  @class = "qty validate-numberonly" })
         </td>
         <td>
             <span class="unit"></span>
@@ -99,14 +99,11 @@
 <div id="tempChicken" style="display: none">
     <div>
         <strong style="padding-left: 5px; padding-right: 5px;">Chickens : </strong>
-        @Html.TextBox("ChickCount", "", new { data_val_required = "Please enter the count of chicken.", data_val = "true" })
+        @Html.TextBox("ChickCount", "", new { @class="validate-numberonly" })
         <strong>Available : </strong><strong id="chickCount">@ViewBag.AvailableChicken</strong>
         <a href="javascript:void(0)" class="remove Chicken">Remove</a>
     </div>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 <script type="text/javascript">
     var item;
     $(document).ready(function () {
@@ -153,9 +150,9 @@
             }
         });
     });
-    $(document).on('keydown', '.qty', function (e) {
+    $(document).on('keydown', '.validate-numberonly', function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A
             (e.keyCode == 65 && e.ctrlKey === true) ||
             // Allow: home, end, left, right, down, up
@@ -185,6 +182,9 @@
             if (!isNaN(parseInt(stockShow.text()))) {
                 var current = $(item).parent().parent().find('.hidAvailableStock').val() - total;
                 stockShow.text(current);
+                if (current < 0) {
+                    Alert("Stock not available !!!", 'error');
+                }
             }
         }
         //}, 0);
@@ -198,6 +198,63 @@
             i++;
         });
     }
+
+    $("#btnSubmit").click(function (e) {
+        if ($('#FarmerId').val()=='') {
+            Alert("Please select a farmer for delivery !!!", 'error');
+            e.preventDefault();
+            return false;   
+        }
+        if ($("#ChickCount").is(':visible')) {
+            if ($("#ChickCount").val() == '') {
+                Alert("Please fill chicken quantity for delivery !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+            var chickval = parseInt($("#chickCount").text());
+            if (chickval - parseInt($("#ChickCount").val()) < 0) {
+                Alert("Chicken not available !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+        }
+        var itemSelect = $('.itemSelect:visible');
+        if (itemSelect.length == 0 && !$("#ChickCount").is(':visible')) {
+            Alert("Please select items for delivery !!!", 'error');
+            e.preventDefault();
+            return false;
+        }
+        for (var i = 0; i < itemSelect.length; i++) {
+            if ($(itemSelect[i]).val() == '') {
+                Alert("Either select valid items or remove please remove it !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+        }
+        var availableStock = $('.availableStock:visible');
+        for (var i = 0; i < availableStock.length; i++) {
+            try {
+                var stock = parseInt($(availableStock[i]).text());
+                if (isNaN(stock) || stock < 0)
+                    throw "ERROR";
+            }
+            catch (ex) {
+                Alert("Stock not available !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        var qty = $(".qty:visible");
+        for (var i = 0; i < qty.length; i++) {
+            if ($(qty[i]).val() == '') {
+                Alert("Please fill item quantity for delivery !!!", 'error');
+                e.preventDefault();
+                return false;
+            }
+        }
+
+    });
 </script>
 
 

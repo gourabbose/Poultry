@@ -63,8 +63,9 @@
         </td>*@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("History", "History", new { id = item.Id })
+                    <a class="delete" href="/Vendor/Delete/@item.Id">Delete</a> |
+                    <a class="delete" href="/Vendor/History/@item.Id">History</a> |
+            @Html.ActionLink("Make Payment", "VendorPayments", new { id = item.Id })
                 </td>
             </tr>
         }

@@ -90,6 +90,22 @@ namespace Poultry.Controllers
             TempData["Messege"] = "Deleted Successfully";
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ActionResult TraderPayment(int id)
+        {
+            var t = _dbContext.Traders.Find(id);
+            return View(t);
+        }
+
+        public ActionResult TraderPayment(int TraderId, int Amount)
+        {
+            var Trader = _dbContext.Traders.Find(TraderId);
+            Trader.PaymentDue -= Amount;
+            _dbContext.Entry(Trader).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            TempData["Messege"] = "Payment Received Successfully";
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }

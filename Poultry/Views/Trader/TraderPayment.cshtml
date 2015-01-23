@@ -1,0 +1,18 @@
+﻿@model Poultry.Models.Trader
+@{
+    ViewBag.Title = "Trader Payments";
+}
+@using(Html.BeginForm())
+{
+<h2>Master >> Trader >> Receive Payments</h2>
+
+<h3>Vendor : @Model.Name</h3>
+
+<h4>Amount Due : Rs. @Model.PaymentDue</h4>
+<input type="hidden" value="@Model.Id" name="TraderId" />
+<span>Receive Payment :
+    <input type="text" name="Amount" class="validate-numberonly" />
+</span>
+
+<input type="submit" value="Receive Payment" />
+}

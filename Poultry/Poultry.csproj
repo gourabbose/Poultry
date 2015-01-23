@@ -391,6 +391,8 @@
     <Content Include="Views\Supervision\PastReports.cshtml" />
     <Content Include="Views\Supervision\ViewReport.cshtml" />
     <Content Include="Views\Admin\ConsumptionLogPages.cshtml" />
+    <Content Include="Views\Vendor\VendorPayments.cshtml" />
+    <Content Include="Views\Trader\TraderPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

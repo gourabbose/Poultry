@@ -1,0 +1,18 @@
+﻿@model Poultry.Models.Vendor
+@{
+    ViewBag.Title = "Vendor Payments";
+}
+@using(Html.BeginForm())
+{
+<h2>Master >> Vendor >> Payments</h2>
+
+<h3>Vendor : @Model.Name</h3>
+
+<h4>Amount Due : Rs. @Model.Due</h4>
+<input type="hidden" value="@Model.Id" name="VendorId" />
+<span>Make Payment :
+    <input type="text" name="Amount" class="validate-numberonly" />
+</span>
+
+<input type="submit" value="Make Payment" />
+}
